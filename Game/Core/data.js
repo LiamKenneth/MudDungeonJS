@@ -7,7 +7,7 @@
   };
 
   var dir = {
-    data: __dirname + '/../data/'
+    data: __dirname + '/../../Data/'
   }
 
   var data = {

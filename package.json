@@ -22,6 +22,9 @@
   "homepage": "https://github.com/LiamKenneth/MudDungeonJS",
   "dependencies": {
     "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-env": "^0.2.0",
+    "gulp-nodemon": "^2.0.4",
     "wez-telnet": "^0.1.1"
   }
 }

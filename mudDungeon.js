@@ -5,7 +5,7 @@
 var modules = {
   telnet: r('wez-telnet'),
   data: r('./Game/Core/data'),
-  playerSetup: r('./Game/Core/player-setup')
+playerSetup: r ('./Game/Core/player-setup').playerSetup
 };
 
 /*
@@ -16,17 +16,11 @@ var telnet = modules.telnet;
 var server;
   server = new telnet.Server(function (socket) {
 
-    /* node object # object has no method */
-    console.log(modules.playerSetup);
-    playerSetup.welcome(socket);
-    /* -dodgy export file? */
-
-    console.log("ready");
+    /* show motd */
+	socket.emit('welcome', modules.playerSetup.welcome(socket));
 
     socket.on('data', function (input) {
       console.log("data:", input.toString('ascii'));
-
-
 
       socket.write("you said " + input);
     });
