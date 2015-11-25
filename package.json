@@ -1,0 +1,27 @@
+{
+  "name": "muddungeonjs",
+  "version": "0.0.1",
+  "description": "A mud engine built on node. using telnet and web sockets",
+  "main": "mudDungeon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LiamKenneth/MudDungeonJS.git"
+  },
+  "keywords": [
+    "Mud",
+    "telnet"
+  ],
+  "author": "Liam Kenneth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LiamKenneth/MudDungeonJS/issues"
+  },
+  "homepage": "https://github.com/LiamKenneth/MudDungeonJS",
+  "dependencies": {
+    "express": "^4.13.3",
+    "wez-telnet": "^0.1.1"
+  }
+}
