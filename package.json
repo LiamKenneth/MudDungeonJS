@@ -26,5 +26,8 @@
     "gulp-env": "^0.2.0",
     "gulp-nodemon": "^2.0.4",
     "wez-telnet": "^0.1.1"
+  },
+  "devDependencies": {
+    "gulp-mocha": "^2.2.0"
   }
 }

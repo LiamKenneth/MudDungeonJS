@@ -4,6 +4,12 @@
     var gulp = r('gulp');
     var nodemon = r('gulp-nodemon');
     var env = r('gulp-env');
+    var mocha = r('gulp-mocha');
+
+    gulp.task('test', function () {
+       gulp.src('./Tests/**/*.js', {read:false})
+            .pipe(mocha({reporter: 'nyan'}));
+    });
 
     gulp.task('default', function () {
         nodemon({

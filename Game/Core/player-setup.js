@@ -80,6 +80,7 @@ var playerSetup = {
       weight:180,
       height: "5ft, 11",
       descripion: "You see nothing special about them",
+      location: "0,0,0"
 
     };
 
