@@ -7,5 +7,3 @@ before_script:
   - npm install -g gulp
   - npm install --save--dev chai
 script: gulp test
-after_success:
-  - codecov
