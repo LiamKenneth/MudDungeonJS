@@ -86,11 +86,7 @@ var playerSetup = {
 
     player.name = name.toString().trim();
 
-  modules.fs.writeFile('./Data/' + player.name + '.json', JSON.stringify(player), function (err) {
-    if (err) {
-      return console.log(err);
-    }
-  })
+    modules.data.savePlayer(player);
 
 
   }

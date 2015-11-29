@@ -15,4 +15,27 @@ var should = require('chai').should();
       expect(motd).should.exist;
     });
 });
+
+describe("savePlayer", function() {
+  it("Should save the player in JSON, using thier name", function() {
+     var dir = {
+       data: __dirname + '/../../Data/'
+     };
+
+     var player = {
+       name: "test"
+     }
+
+    modules.data.savePlayer(player);
+
+   var playerFile =  modules.fs.readFileSync('Data/test.json').toString('utf8');
+
+    expect(playerFile).should.exist;
+
+
+  });
+
+  //add test for error
+
+});
 });
