@@ -5,7 +5,7 @@
 var modules = {
   telnet: r('wez-telnet'),
   data: r('./Game/Core/data'),
-playerSetup: r ('./Game/Core/player-setup').playerSetup
+playerSetup: r('./Game/Core/player-setup').playerSetup
 };
 
 /*
@@ -13,8 +13,7 @@ playerSetup: r ('./Game/Core/player-setup').playerSetup
  */
 
 var telnet = modules.telnet;
-var server;
-  server = new telnet.Server(function (socket) {
+var server = new telnet.Server(function (socket) {
 
     /* show motd */
 
