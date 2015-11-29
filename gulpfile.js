@@ -5,10 +5,23 @@
     var nodemon = r('gulp-nodemon');
     var env = r('gulp-env');
     var mocha = r('gulp-mocha');
+    var istanbul = r('gulp-istanbul');
 
-    gulp.task('test', function () {
+    gulp.task('pre-test', function () {
+      return gulp.src(['./Game/**/*.js'])
+        // Covering files
+        .pipe(istanbul())
+        // Force `require` to return covered files
+        .pipe(istanbul.hookRequire());
+    });
+
+    gulp.task('test',['pre-test'], function () {
        gulp.src('./Tests/**/*.js', {read:false})
-            .pipe(mocha({reporter: 'nyan'}));
+            .pipe(mocha({reporter: 'nyan'}))
+            // Creating the reports after tests ran
+    .pipe(istanbul.writeReports())
+    // Enforce a coverage of at least 90%
+    .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
     });
 
     gulp.task('default', function () {

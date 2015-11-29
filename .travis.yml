@@ -1,7 +1,11 @@
 language: node_js
 node_js:
   - "4.1"
+before_install:
+  - pip install codecov
 before_script:
   - npm install -g gulp
   - npm install --save--dev chai
 script: gulp test
+after_success:
+  - codecov
