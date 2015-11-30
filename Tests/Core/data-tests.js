@@ -18,13 +18,8 @@ var should = require('chai').should();
 
 describe("savePlayer", function() {
   it("Should save the player in JSON, using thier name", function() {
-     var dir = {
-       data: __dirname + '/../../Data/'
-     };
 
-     var player = {
-       name: "test"
-     }
+     var player = {name: "test" }
 
     modules.data.savePlayer(player);
 
@@ -32,10 +27,15 @@ describe("savePlayer", function() {
 
     expect(playerFile).should.exist;
 
+  });
+  it("Should error if somthing goes wrong saving the player", function() {
+
+
+     var player = {name: ":" }
+
+expect(modules.data.savePlayer(player)).to.have.string('Unable to save file');
+
 
   });
-
-  //add test for error
-
 });
 });

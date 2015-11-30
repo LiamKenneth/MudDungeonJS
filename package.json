@@ -4,7 +4,7 @@
   "description": "A mud engine built on node. using telnet and web sockets",
   "main": "mudDungeon.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "wez-telnet": "^0.1.1"
   },
   "devDependencies": {
+    "chai": "*",
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0"
   }

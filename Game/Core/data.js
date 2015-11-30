@@ -18,11 +18,19 @@
 
       var playerName =  player.name;
 
-        modules.fs.writeFile('./Data/' + playerName + '.json', JSON.stringify(player), function (err) {
-          if (err) {
-            return console.log(err.message);
+      try {
+        modules.fs.writeFileSync('./Data/' + playerName + '.json', JSON.stringify(player));
+
+      } catch (e) {
+         /* istanbul ignore else*/
+        if (e.code === 'ENOENT') {
+          console.log('Unable to save file')
+            return 'Unable to save file';
           }
-        });
+          else {
+            throw e;
+          }
+      }
     }
   };
 exports.data = data;
