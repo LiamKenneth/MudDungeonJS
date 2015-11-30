@@ -22,12 +22,11 @@
         modules.fs.writeFileSync('./Data/' + playerName + '.json', JSON.stringify(player));
 
       } catch (e) {
-        /* istanbul ignore if */
+      /* istanbul ignore next */
         if (e.code === 'ENOENT') {
           console.log('Unable to save file');
             return 'Unable to save file';
           }
-
       }
     }
   };
