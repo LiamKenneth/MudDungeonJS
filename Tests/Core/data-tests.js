@@ -36,10 +36,8 @@ describe("savePlayer", function() {
 var shouldError = modules.data.savePlayer(player);
 done();
 
-setTimeout(function(){
 expect(shouldError).to.have.string('Unable to save file');
 
-}, 1000)
 
   });
 });
