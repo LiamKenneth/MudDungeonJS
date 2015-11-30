@@ -32,11 +32,14 @@ describe("savePlayer", function() {
 
 
      var player = {name: ":" }
-//should.equal(modules.data.savePlayer(player), undefined);
+
 var shouldError = modules.data.savePlayer(player);
-  done();
+done();
+
+setTimeout(function(){
 expect(shouldError).to.have.string('Unable to save file');
 
+}, 1000)
 
   });
 });
