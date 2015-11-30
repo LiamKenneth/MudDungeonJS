@@ -19,7 +19,7 @@
       var playerName =  player.name;
 
       try {
-        modules.fs.writeFile('./Data/' + playerName + '.json', JSON.stringify(player));
+        modules.fs.writeFileSync('./Data/' + playerName + '.json', JSON.stringify(player));
 
       } catch (e) {
          /* istanbul ignore else*/
