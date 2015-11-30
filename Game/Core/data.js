@@ -19,7 +19,7 @@
       var playerName =  player.name;
 
       try {
-        modules.fs.writeFileSync('./Data/' + playerName + '.json', JSON.stringify(player));
+        modules.fs.writeFile('./Data/' + playerName + '.json', JSON.stringify(player));
 
       } catch (e) {
          /* istanbul ignore else*/
@@ -28,7 +28,7 @@
             return 'Unable to save file';
           }
           else {
-            throw e;
+            throw e
           }
       }
     }
