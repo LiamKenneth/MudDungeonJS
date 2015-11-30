@@ -28,12 +28,13 @@ describe("savePlayer", function() {
     expect(playerFile).should.exist;
 
   });
-  it("Should error if somthing goes wrong saving the player", function() {
+  it("Should error if somthing goes wrong saving the player", function(done) {
 
 
      var player = {name: ":" }
-should.equal(modules.data.savePlayer(player), undefined);
-//expect(modules.data.savePlayer(player)).to.have.string('Unable to save file');
+//should.equal(modules.data.savePlayer(player), undefined);
+  done();
+expect(modules.data.savePlayer(player)).to.have.string('Unable to save file');
 
 
   });
