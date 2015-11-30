@@ -33,8 +33,9 @@ describe("savePlayer", function() {
 
      var player = {name: ":" }
 //should.equal(modules.data.savePlayer(player), undefined);
+var shouldError = modules.data.savePlayer(player);
   done();
-expect(modules.data.savePlayer(player)).to.have.string('Unable to save file');
+expect(shouldError).to.have.string('Unable to save file');
 
 
   });
