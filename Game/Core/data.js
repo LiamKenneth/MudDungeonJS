@@ -12,7 +12,8 @@
 
   var data = {
     loadMotd: function(motdLocation) {
-      return modules.fs.readFileSync(dir.data + motdLocation).toString('utf8');
+      var motd = modules.fs.readFileSync(dir.data + motdLocation).toString('utf8');
+      return motd;
     },
     savePlayer: function(player) {
 

@@ -3,7 +3,8 @@
 
   var modules = {
     data: r('./data').data,
-    fs: r('fs')
+    fs: r('fs'),
+    color: r('colors')
   };
 
 var playerSetup = {
@@ -29,9 +30,11 @@ var playerSetup = {
         if (name.length > 3) {
 
 
-            socket.write(name.toString().trim() + " You are new to this realm, would you like to create a Character? Y / N");
 
-              socket.on('data', function (input) {
+
+            socket.write(name.toString().trim() + " You are new to this realm, would you like to create a Character? [" + "Yes".yellow + "/".white + "No".yellow + "]".white );
+
+              socket.once('data', function (input) {
                   var input = input.toString().trim().toLowerCase();
 
                   console.log("data:", input);
@@ -47,7 +50,8 @@ var playerSetup = {
         }
         else
         {
-          socket.write('Sorry your name must be at least 3 characters long')
+          socket.write('Sorry your name must be at least 3 characters long\r\n');
+           playerSetup.login(socket);
         }
 
       });
@@ -75,7 +79,7 @@ var playerSetup = {
 
   socket.write("What race would you like to be?\r\n");
 
-  var motd = modules.data.loadMotd('RaceList');
+  var motd = modules.data.loadMotd('races').toString('utf-8');
 
   if (motd) {
     socket.write(motd);
@@ -84,11 +88,15 @@ var playerSetup = {
 
     socket.on('data', function (input) {
         var input = input.toString().trim().toLowerCase();
+        var selectedRace = playerSetup.races(input);
+    //    var selectedClass = playerSetup.classes(input);
 
-        console.log("data:", input);
-        // if (input === 2) {
-        //     playerSetup.createCharacter(name, socket)
-        // }
+      if (selectedRace != false) {
+        playerInfo.race = selectedRace;
+      }
+      else {
+        socket.write("Enter the name or number of the race you want. \r\n");
+      }
 
     });
 
@@ -127,7 +135,7 @@ var playerSetup = {
   },
   races: function(race) {
     switch (race) {
-      case 1:
+      case '1':
       case 'Human':
           return 'Human';
       case 2:
@@ -169,10 +177,40 @@ var playerSetup = {
       case 14:
       case 'Orc':
           return 'Orc';
+      case 15:
+      case 'Lemurian':
+          return 'Lemurian';
+      case 16:
+      case 'Felar':
+          return 'Felar';
+      case 17:
+      case 'Yinn':
+          return 'Yinn';
       default:
       return false;
 }
-  }
+},
+classes: function(playerClass) {
+  switch (playerClass) {
+    case 1:
+    case 'Warrior':
+        return 'Warrior';
+    case 2:
+    case 'Cleric':
+        return 'Cleric';
+    case 3:
+    case 'Bard':
+        return 'Bard';
+    case 4:
+    case 'Thief':
+        return 'Thief';
+    case 5:
+    case 'Mage':
+        return 'Mage';
+    default:
+    return false;
+}
+  },
 
 };
 exports.playerSetup = playerSetup;
