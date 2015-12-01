@@ -3,6 +3,8 @@
 
   var modules = {
     data: r('./data').data,
+    helper: r('./helpers').helpers,
+    commands: r('./commands').commands,
     fs: r('fs'),
     color: r('colors')
   };
@@ -77,28 +79,85 @@ var playerSetup = {
     luc: 0
   }
 
-  socket.write("What race would you like to be?\r\n");
+characterCreation("race");
 
-  var motd = modules.data.loadMotd('races').toString('utf-8');
+function characterCreation(stage) {
+    switch (stage) {
+      case "race":
+      socket.write("What race would you like to be?\r\n");
 
-  if (motd) {
-    socket.write(motd);
-  }
+      var motd = modules.data.loadMotd('races').toString('utf-8');
 
-
-    socket.on('data', function (input) {
-        var input = input.toString().trim().toLowerCase();
-        var selectedRace = playerSetup.races(input);
-    //    var selectedClass = playerSetup.classes(input);
-
-      if (selectedRace != false) {
-        playerInfo.race = selectedRace;
+      if (motd) {
+        socket.write(motd);
       }
-      else {
-        socket.write("Enter the name or number of the race you want. \r\n");
-      }
+/* really buggy both elses fire multiple times if you enter a wrong option
+show race choice
+if you enter random shit instead of a number or name it messes up.
+should select race
+confirm with yes go to class
+say no call create race function
 
-    });
+
+ */
+      socket.on('data', function (input) {
+          var input = input.toString().trim().toLowerCase();
+          var selectedRace = playerSetup.races(input);
+
+        if (selectedRace != false) {
+          socket.write("You selected " + selectedRace + " are you sure? [Y/N]\r\n");
+
+          socket.on('data', function (input) {
+            if (modules.commands.yes(input)) {
+              playerInfo.race = selectedRace;
+              characterCreation("class");
+            }
+            else if (modules.commands.no(input)) {
+              characterCreation("race");
+            }
+            else {
+              socket.write("Plese answer with yes or no \r\n");
+            }
+          });
+
+        }
+        else {
+          socket.write("Enter the name or number of the race you want. \r\n");
+        }
+
+      });
+        break;
+        case "class":
+        socket.write("What class would you like to be?\r\n");
+
+        var motd = modules.data.loadMotd('classes').toString('utf-8');
+
+        if (motd) {
+          socket.write(motd);
+        }
+
+        socket.on('data', function (input) {
+            var input = input.toString().trim().toLowerCase();
+            var selectedClass = playerSetup.classes(input);
+
+          if (selectedClass != false) {
+            playerInfo.class = selectedClass;
+          }
+          else {
+            socket.write("Enter the name or number of the class you want. \r\n");
+          }
+
+        });
+          break;
+      default:
+
+    }
+}
+
+
+
+
+
 
   // turning this off for now  modules.data.savePlayer(player);
 
