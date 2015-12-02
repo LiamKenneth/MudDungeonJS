@@ -39,7 +39,7 @@ var playerSetup = {
 
                   console.log("data:", input);
                   if (input === 'y') {
-                      playerSetup.createCharacter(name, socket)
+                      playerSetup.createCharacter(name, socket);
                   }
                   else if (input  === 'n') {
                    socket.write("Good bye");
@@ -75,7 +75,7 @@ var playerSetup = {
     wis: 0,
     cha: 0,
     luc: 0
-  }
+  };
 
 characterCreation("race");
 
@@ -94,20 +94,20 @@ function characterCreation(stage) {
           var input = input.toString().trim().toLowerCase();
           var selectedRace = playerSetup.races(input);
 
-        if (selectedRace != false) {
+        if (selectedRace !== false) {
 
         var selectRace = function(selected) {
           playerInfo.race = selected;
           //Remove listners to stop duplicate lines being sent
           socket.removeAllListeners('data');
           characterCreation("class");
-        }
+        };
 
         var pickRace = function() {
           //Remove listners to stop duplicate lines being sent
           socket.removeAllListeners('data');
            characterCreation("race");
-        }
+        };
 
        modules.helper.promptPlayer(socket, selectedRace, selectRace, pickRace);
 
@@ -133,20 +133,20 @@ function characterCreation(stage) {
             var input = input.toString().trim().toLowerCase();
             var selectedClass = playerSetup.classes(input);
 
-          if (selectedClass != false) {
+          if (selectedClass !== false) {
 
           var selectClass = function(selected) {
             playerInfo.class = selected;
             //Remove listners to stop duplicate lines being sent
             socket.removeAllListeners('data');
             characterCreation("sex");
-          }
+          };
 
           var pickClass = function() {
             //Remove listners to stop duplicate lines being sent
             socket.removeAllListeners('data');
              characterCreation("class");
-          }
+          };
 
          modules.helper.promptPlayer(socket, selectedClass, selectClass, pickClass);
 
@@ -171,14 +171,14 @@ function characterCreation(stage) {
               playerInfo.sex = selected;
               //Remove listners to stop duplicate lines being sent
               socket.removeAllListeners('data');
-              characterCreation("height");
-            }
+              playerSetup.createCharacterSheet(playerInfo);
+            };
 
             var pickSex = function() {
               //Remove listners to stop duplicate lines being sent
               socket.removeAllListeners('data');
                characterCreation("sex");
-            }
+            };
 
            modules.helper.promptPlayer(socket, selectedSex, selectSex, pickSex);
 
@@ -190,25 +190,21 @@ function characterCreation(stage) {
           });
             break;
 
-      default:
 
+      default:
+        console.log('if your here, something terrible happend making a character');
     }
 }
 
 
 
-
-
-
-  // turning this off for now  modules.data.savePlayer(player);
-
   },
   createCharacterSheet: function(characterData) {
     var player = {
-      name: name,
+      name: characterData.name,
       level: 1,
-      race: "Human",
-      class: "Mage",
+      race: characterData.race,
+      class: characterData.class,
       align: "neutral",
       inv: {
         gold: 0,
@@ -216,22 +212,24 @@ function characterCreation(stage) {
         copper: 10
       },
       wear: {
-        light: "Glowing ball",
-        head: "nothing",
-        neck: "nothing",
-        neck1: "nothing",
-        cloak: "nothing",
-        cloak1: "nothing",
-        AboutBody: "nothing",
-        body: "nothing"
+        light: "Nothing",
+        head: "Nothing",
+        neck: "Nothing",
+        neck1: "Nothing",
+        cloak: "Nothing",
+        cloak1: "Nothing",
+        AboutBody: "Nothing",
+        body: "Nothing"
       },
       age: 18,
-      weight:180,
-      height: "5ft, 11",
       descripion: "You see nothing special about them",
       location: "0,0,0"
 
     };
+
+    modules.data.savePlayer(player);
+
+console.log('player saved, the end.')
   },
   races: function(race) {
     switch (race) {
