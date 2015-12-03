@@ -13,5 +13,5 @@
       return string.toLowerCase().match(/^(n|no|never|nah|nay)$/)
     }
   };
-exports.commands = commands;
+  exports.commands = commands;
 })(require);

@@ -36,24 +36,22 @@
      */
     promptPlayer: function(socket, selected, yes, no) {
 
-        socket.write("You selected " + selected + " are you sure? [Y/N]\r\n");
+      socket.write("You selected " + selected + " are you sure? [Y/N]\r\n");
 
-              socket.on('data', function (input) {
+      socket.on('data', function(input) {
 
-                var input = helpers.cleanInput(input);
+        var input = helpers.cleanInput(input);
 
-                      if (modules.commands.yes(input)) {
-                        yes(selected);
-                      }
-                      else if (modules.commands.no(input)) {
-                        no();
-                      }
-                      else {
-                        socket.write("Plese answer with yes or no \r\n");
-                      }
-           });
+        if (modules.commands.yes(input)) {
+          yes(selected);
+        } else if (modules.commands.no(input)) {
+          no();
+        } else {
+          socket.write("Plese answer with yes or no \r\n");
+        }
+      });
 
-         }
+    }
   };
-exports.helpers = helpers;
+  exports.helpers = helpers;
 })(require);

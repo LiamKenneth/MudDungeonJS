@@ -2,8 +2,8 @@
   "use strict";
 
   var modules = {
-    fs:r('fs'),
-    path:r('path')
+    fs: r('fs'),
+    path: r('path')
   };
 
   var dir = {
@@ -17,19 +17,19 @@
     },
     savePlayer: function(player) {
 
-      var playerName =  player.name;
+      var playerName = player.name;
 
       try {
         modules.fs.writeFileSync('./Data/' + playerName + '.json', JSON.stringify(player));
 
       } catch (e) {
-      /* istanbul ignore next */
+        /* istanbul ignore next */
         if (e.code === 'ENOENT') {
           console.log('Unable to save file');
-            return 'Unable to save file';
-          }
+          return 'Unable to save file';
+        }
       }
     }
   };
-exports.data = data;
+  exports.data = data;
 })(require);
