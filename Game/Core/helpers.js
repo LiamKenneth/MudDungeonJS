@@ -26,7 +26,7 @@
       return helpers.cleanInput(string).charAt(0).toUpperCase() + helpers.cleanInput(string).slice(1).toLowerCase();
     },
     /**
-     * functionComment - Prompts the player with Yes or No and does an action based on the respo
+     * functionComment - Prompts the player with Yes or No and does an action based on the response
      *                 - remember to Remove the event listner in your yes/no function param
      *
      * @param  {string} selected - The selected item to confirm, example: race, class, item to buy
