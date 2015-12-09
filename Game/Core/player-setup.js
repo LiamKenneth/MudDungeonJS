@@ -10,6 +10,7 @@
         classes: r('./PlayerSetup/classes').classes,
         stats: r('./PlayerSetup/stats').stats
     },
+      loadPlayerLocation: r('./loadRoom').playerLocation,
     fs: r('fs'),
     color: r('colors')
   };
@@ -228,7 +229,7 @@
                             playerInfo.stats.wis = playerStats.wis;
                             playerInfo.stats.cha = playerStats.cha;
 
-                            playerSetup.createCharacterSheet(playerInfo);
+                            playerSetup.createCharacterSheet(socket, playerInfo);
 
                         }else {
                             //Remove listeners to stop duplicate lines being sent
@@ -251,7 +252,7 @@
 
 
     },
-    createCharacterSheet: function(characterData) {
+    createCharacterSheet: function(socket, characterData) {
         console.log(characterData)
       var player = {
         name: characterData.name,
@@ -291,6 +292,9 @@
       modules.data.savePlayer(player);
 
       console.log('player saved, the end.')
+
+        socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(socket, player));
+
     },
     sex: function(sex) {
       switch (sex) {

@@ -1,20 +1,23 @@
-(function(r) {
-
-
+(function() {
 
   /*not sure how to do this yet */
-  var tutorial = {
+  exports.tutorial = {
 
-    rooms: function() {
-      var prison = {
-        title: "A test Room",
-        description: "You are surrounded by 4 walls covered in grime made of large grey" +
+    rooms: {
+       prison: {
+
+        id: 0,
+        title: "A test Room\r\n",
+        description: "\r\nYou are surrounded by 4 walls covered in grime made of large grey" +
           "stone blocks. The stone floor is cold under your feet." +
           "The only possible way out seems to be the metal gate in" +
           "front of you. A small wooden stool is in" +
-          "the corner behind you."
-      };
+          "the corner behind you.\r\n",
+        terrain: "city",
+        exits: {"n": 1},
+        location: [0,0,0]
+      }
     }
-  }
+  };
 
 })(require);
