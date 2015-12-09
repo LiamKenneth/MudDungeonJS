@@ -7,7 +7,8 @@
     commands: r('./commands').commands,
     playerSetup: {
         races: r('./PlayerSetup/races').races,
-        classes: r('./PlayerSetup/classes').classes
+        classes: r('./PlayerSetup/classes').classes,
+        stats: r('./PlayerSetup/stats').stats
     },
     fs: r('fs'),
     color: r('colors')
@@ -168,7 +169,7 @@
                     playerInfo.sex = selected;
                     //Remove listeners to stop duplicate lines being sent
                     socket.removeAllListeners('data');
-                    playerSetup.createCharacterSheet(playerInfo);
+                    playerSetup.stats(socket);
                 };
 
                 var pickSex = function() {
@@ -202,6 +203,14 @@
         race: characterData.race,
         class: characterData.class,
         align: "neutral",
+        stats: {
+          str: 0,
+          dex: 0,
+          con: 0,
+          int: 0,
+          wis: 0,
+          cha: 0,
+        },
         inv: {
           gold: 0,
           silver: 0,
@@ -237,6 +246,38 @@
           return 'Female';
           return false;
       }
+    },
+    stats: function(socket) {
+     var playerStats  = modules.playerSetup.stats.playerStats();
+      var stats = "str: " + playerStats.str + " dex: " + playerStats.dex + " con: " + playerStats.con +
+                   " int: " + playerStats.int + " wis: " + playerStats.wis + " cha: " + playerStats.cha;
+     socket.write(stats);
+
+     socket.write("\r\nAre you happy with these stats? Y/N");
+
+     socket.once('data', function(input) {
+       var input = input.toString().trim().toLowerCase();
+
+
+         var selectStats = function(selected) {
+
+             //Remove listeners to stop duplicate lines being sent
+             socket.removeAllListeners('data');
+          //   playerSetup.createCharacterSheet(playerStats);
+         };
+
+         var reRoll = function() {
+             //Remove listeners to stop duplicate lines being sent
+             socket.removeAllListeners('data');
+          playerSetup.stats(socket);
+         };
+
+         modules.helper.promptPlayer(socket, stats, selectStats, reRoll);
+
+
+     });
+
+
     }
 
   };

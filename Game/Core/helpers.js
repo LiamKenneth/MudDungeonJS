@@ -51,6 +51,21 @@
         }
       });
 
+    },
+    /**
+     * functionComment - Simulates a dice throw
+     *
+     * @param  {int} number - The number of dice to throw
+     * @return {int} size   - The size of the dices
+     * @example if you want to roll 2d6, just call dice(2,6)
+     */
+    dice: function(number, size) {
+      var sum = 0;
+      for(var i = number; i--;) {
+       sum += Math.floor((Math.random() * size) + 1)
+      }
+
+      return sum;
     }
   };
   exports.helpers = helpers;
