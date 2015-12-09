@@ -6,30 +6,25 @@ var modules = {
 
 exports.stats = {
 /**
- * functionComment - Rolls stats for player abilities using the rule 4d6 -lowest
+ * functionComment - Rolls stats for player abilities using the rule 3d6 + 6
  *
- * @returns The sum of 3 dice rolls
+ * @returns number of the total of 3 dice rolls + 6
  * @example Just call rollStats() will return a sum of the dices
  */
     rollStats: function() {
 
         var roll = [];
-  			var totalRoll = 0;
+        var totalRoll = 0;
 
-        for(var i = 4; i--;) {
+        for(var i = 3; i--;) {
           roll.push(modules.helper.dice(1, 6))
         }
-
-  			var lowestValue = Math.min.apply(null, roll);
-        var lowestValueIndex = roll.indexOf(lowestValue);
-
-        roll.splice(lowestValueIndex, 1);
 
         for(var i = roll.length; i--;) {
           totalRoll += roll[i];
         }
 
-        return totalRoll
+        return totalRoll + 6
     },
     /**
      * functionComment - Sets stat for each player ability

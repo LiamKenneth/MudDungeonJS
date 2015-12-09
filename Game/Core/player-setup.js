@@ -66,24 +66,43 @@
       /* store player info */
       var playerInfo = {
         name: name.toString().trim(),
-        sex: "",
-        race: "",
-        class: "",
-        height: "",
-        weight: "",
-        str: 0,
-        dex: 0,
-        con: 0,
-        int: 0,
-        wis: 0,
-        cha: 0,
-        luc: 0
+          level: 1,
+          race: '',
+          class: '',
+          align: "neutral",
+          stats: {
+              str: 0,
+              dex: 0,
+              con: 0,
+              int: 0,
+              wis: 0,
+              cha: 0
+          },
+          inv: {
+              gold: 0,
+              silver: 0,
+              copper: 10
+          },
+          wear: {
+              light: "Nothing",
+              head: "Nothing",
+              neck: "Nothing",
+              neck1: "Nothing",
+              cloak: "Nothing",
+              cloak1: "Nothing",
+              AboutBody: "Nothing",
+              body: "Nothing"
+          },
+          age: 18,
+          description: "You see nothing special about them",
+          location: "0,0,0"
       };
 
       characterCreation("race");
 
       function characterCreation(stage) {
         switch (stage) {
+
           case "race":
             socket.write("What race would you like to be?\r\n");
 
@@ -169,7 +188,7 @@
                     playerInfo.sex = selected;
                     //Remove listeners to stop duplicate lines being sent
                     socket.removeAllListeners('data');
-                    playerSetup.stats(socket);
+                    characterCreation("stats");
                 };
 
                 var pickSex = function() {
@@ -187,6 +206,42 @@
             });
             break;
 
+            case "stats":
+
+                    var playerStats  = modules.playerSetup.stats.playerStats();
+                    var stats = "str: " + playerStats.str + " dex: " + playerStats.dex + " con: " + playerStats.con +
+                        " int: " + playerStats.int + " wis: " + playerStats.wis + " cha: " + playerStats.cha
+                        + " | Do you accept these stats? [Yes No]";
+                    socket.write(stats);
+
+
+                    socket.once('data', function(input) {
+                        var input = input.toString().trim().toLowerCase();
+
+
+                        if(modules.commands.yes(input)) {
+
+                            playerInfo.stats.str = playerStats.str;
+                            playerInfo.stats.dex = playerStats.dex;
+                            playerInfo.stats.con = playerStats.con;
+                            playerInfo.stats.int = playerStats.int;
+                            playerInfo.stats.wis = playerStats.wis;
+                            playerInfo.stats.cha = playerStats.cha;
+
+                            playerSetup.createCharacterSheet(playerInfo);
+
+                        }else {
+                            //Remove listeners to stop duplicate lines being sent
+                            socket.removeAllListeners('data');
+                            characterCreation("stats");
+                        }
+
+
+
+                    });
+
+                break;
+
 
           default:
             console.log('if you\'re here, something terrible happened making a character');
@@ -197,6 +252,7 @@
 
     },
     createCharacterSheet: function(characterData) {
+        console.log(characterData)
       var player = {
         name: characterData.name,
         level: 1,
@@ -204,12 +260,12 @@
         class: characterData.class,
         align: "neutral",
         stats: {
-          str: 0,
-          dex: 0,
-          con: 0,
-          int: 0,
-          wis: 0,
-          cha: 0,
+          str: characterData.stats.str,
+          dex: characterData.stats.dex,
+          con: characterData.stats.con,
+          int: characterData.stats.int,
+          wis: characterData.stats.wis,
+          cha: characterData.stats.cha
         },
         inv: {
           gold: 0,
@@ -246,38 +302,6 @@
           return 'Female';
           return false;
       }
-    },
-    stats: function(socket) {
-     var playerStats  = modules.playerSetup.stats.playerStats();
-      var stats = "str: " + playerStats.str + " dex: " + playerStats.dex + " con: " + playerStats.con +
-                   " int: " + playerStats.int + " wis: " + playerStats.wis + " cha: " + playerStats.cha;
-     socket.write(stats);
-
-     socket.write("\r\nAre you happy with these stats? Y/N");
-
-     socket.once('data', function(input) {
-       var input = input.toString().trim().toLowerCase();
-
-
-         var selectStats = function(selected) {
-
-             //Remove listeners to stop duplicate lines being sent
-             socket.removeAllListeners('data');
-          //   playerSetup.createCharacterSheet(playerStats);
-         };
-
-         var reRoll = function() {
-             //Remove listeners to stop duplicate lines being sent
-             socket.removeAllListeners('data');
-          playerSetup.stats(socket);
-         };
-
-         modules.helper.promptPlayer(socket, stats, selectStats, reRoll);
-
-
-     });
-
-
     }
 
   };
