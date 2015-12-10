@@ -8,7 +8,8 @@
     playerSetup: {
         races: r('./PlayerSetup/races').races,
         classes: r('./PlayerSetup/classes').classes,
-        stats: r('./PlayerSetup/stats').stats
+        stats: r('./PlayerSetup/stats').stats,
+        player: r('./playerSetup/player-manager').playerManager
     },
       loadPlayerLocation: r('./loadRoom').playerLocation,
     fs: r('fs'),
@@ -291,7 +292,9 @@
 
       modules.data.savePlayer(player);
 
-      console.log('player saved, the end.')
+      console.log('player saved, the end.');
+
+       modules.playerSetup.player.addPlayer(socket);
 
         socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(socket, player));
 
