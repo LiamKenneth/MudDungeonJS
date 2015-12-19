@@ -20,10 +20,14 @@
 
     welcome: function(socket) {
 
+        socket.write("hello")
+        socket.emit('data', { data: 'hello' });
+
       var motd = modules.data.loadMotd('motd');
 
       if (motd) {
         socket.write(motd);
+          socket.emit('data', { data: '<pre>' + motd + '</pre>' });
       }
 
       playerSetup.login(socket);
@@ -31,16 +35,26 @@
     },
     login: function(socket) {
       socket.write("What's your name?");
+        socket.emit('data', { data: "What's your name?" });
 
       //TODO:Check data if name does't exit create a new character
       socket.once('data', function(input) {
         var name = modules.helper.cleanInput(input);
+        var response = {
+            newChar: name.toString().trim() + " You are new to this realm, would you like to create a Character?" +
+            " [" + "Yes".yellow + "/".white + "No".yellow + "]".white,
+            newCharError: 'Sorry your name must be at least 3 characters long\r\n',
+            newCharEnd: 'Good bye'
 
+
+        }
 
         if (name.length > 3) {
 
-          socket.write(name.toString().trim() + " You are new to this realm, would you like to create a Character?" +
-              " [" + "Yes".yellow + "/".white + "No".yellow + "]".white);
+
+          socket.write(response.newChar);
+
+            socket.emit('data', { data: response.newChar });
 
           socket.once('data', function(input) {
             var input = input.toString().trim().toLowerCase();
@@ -49,13 +63,15 @@
             if (input === 'y') {
               playerSetup.createCharacter(name, socket);
             } else if (input === 'n') {
-              socket.write("Good bye");
+              socket.write(response.newCharEnd);
+                socket.emit('data', { data: response.newCharEnd });
               socket.end();
             }
           });
 
         } else {
-          socket.write('Sorry your name must be at least 3 characters long\r\n');
+          socket.write(response.newCharError);
+            socket.emit('data', { data: response.newCharError });
           playerSetup.login(socket);
         }
 
@@ -100,16 +116,22 @@
           location: "0,0,0"
       };
 
+        var response = {
+            raceChoice: 'What race would you like to be?\r\n',
+
+        }
+
       characterCreation("race");
 
       function characterCreation(stage) {
         switch (stage) {
 
           case "race":
-            socket.write("What race would you like to be?\r\n");
-
+            socket.write(response.raceChoice);
+              socket.emit('data', { data: response.raceChoice });
 
               socket.write("\r\n" + modules.playerSetup.races.showRace());
+              socket.emit('data', { data: "\r\n" + modules.playerSetup.races.showRace() });
 
 
             socket.once('data', function(input) {

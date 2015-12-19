@@ -26,7 +26,11 @@
     "gulp": "^3.9.0",
     "gulp-env": "^0.2.0",
     "gulp-nodemon": "^2.0.4",
-    "wez-telnet": "^0.1.1"
+    "socket.io": "^1.3.7",
+    "term.js": "0.0.7",
+    "websockify": "^0.7.1",
+    "wez-telnet": "^0.1.1",
+    "ws": "^0.8.1"
   },
   "devDependencies": {
     "chai": "*",

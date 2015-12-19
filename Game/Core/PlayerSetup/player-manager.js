@@ -2,7 +2,7 @@
   var  players = [];
 
   function removeByValue(arr, val) {
-    for(var i=0; i<arr.length; i++) {
+    for(var i=0; i < arr.length; i++) {
         if(arr[i] == val) {
             arr.splice(i, 1);
             break;
@@ -23,13 +23,22 @@
 
 	/**
 	 * Add player socket to players array
-   * @param player - player socket
+	 *  @param player - player socket
 	 */
   addPlayer: function (player)
 	{
 	 players.push(player);
-   console.log(players[0])
 	},
+
+	  /**
+	   * Add player socket to players array
+	   *  @param player - player socket
+	   */
+	  addPlayerToRoom: function (player, roomID)
+	  {
+		  players.push(player);
+		  console.log(players[0])
+	  },
 
   /**
   	 * Returns each player socket from players array

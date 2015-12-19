@@ -1,33 +1,64 @@
-(function(r) {
+(function (r) {
 
-"use strict";
+    "use strict";
 
-var modules = {
-    telnet: r('wez-telnet'),
-    data: r('./Game/Core/data'),
-    playerSetup: r('./Game/Core/player-setup').playerSetup,
-    player: r('./Game/Core/playerSetup/player-manager').playerManager
-};
+    var modules = {
+        telnet: r('wez-telnet'),
+        data: r('./Game/Core/data'),
+        playerSetup: r('./Game/Core/player-setup').playerSetup,
+        player: r('./Game/Core/playerSetup/player-manager').playerManager
+    };
 
-/*
-  Create the telnet server
- */
 
-var telnet = modules.telnet;
-var server = new telnet.Server(function (socket) {
+    /*
+     Create the telnet server
+     */
 
-	socket.emit('welcome', modules.playerSetup.welcome(socket));
+    var telnet = modules.telnet;
+    var server = new telnet.Server(function (socket) {
+        console.log('someone connected')
+        socket.emit('welcome', modules.playerSetup.welcome(socket));
 
-    socket.on('interrupt', function () {
-    socket.write("INTR!");
-      // disconnect on CTRL-C!
-      socket.end();
+
+        socket.on('interrupt', function () {
+            socket.write("INTR!");
+            // disconnect on CTRL-C!
+            socket.end();
+        });
+
+
     });
+    server.listen(4000);
 
-  
+    /*
+        Create the web Server
+        Temporary code
+     */
 
-});
-    server.listen(23);
+    var app = require('http').createServer(handler)
+    var io = require('socket.io')(app);
+    var fs = require('fs');
+
+    app.listen(4001);
+
+    function handler (req, res) {
+        fs.readFile(__dirname + '/Public/index.html',
+            function (err, data) {
+                if (err) {
+                    res.writeHead(500);
+                    return res.end('Error loading index.html');
+                }
+
+                res.writeHead(200);
+                res.end(data);
+            });
+    }
+
+    io.on('connection', function (socket) {
+        console.log('someone connected');
+
+        socket.emit('welcome', modules.playerSetup.welcome(socket));
+    });
 
 
 })(require);
