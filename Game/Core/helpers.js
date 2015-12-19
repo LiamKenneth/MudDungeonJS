@@ -37,7 +37,7 @@
     promptPlayer: function(socket, selected, yes, no) {
 
       socket.write("You selected " + selected + " are you sure? [Y/N]\r\n");
-
+      socket.emit('data', { data: "You selected " + selected + " are you sure? [Y/N]\r\n" });
       socket.on('data', function(input) {
 
         var input = helpers.cleanInput(input);
@@ -48,6 +48,7 @@
           no();
         } else {
           socket.write("Plese answer with yes or no \r\n");
+          socket.emit('data', { data: "Plese answer with yes or no \r\n" });
         }
       });
 
@@ -66,7 +67,23 @@
       }
 
       return sum;
-    }
+    },
+      /**
+       * functionComment - Sends text to the client telnet or browser (socket.io)
+       * @param  {string} text - The message to send to the client
+       * @example helpers.send(socket, 'hello');
+       */
+      send: function(socket, text) {
+
+          //A hack, not sure what nsp is. socket.io returns it though
+          if(!socket.nsp) {
+              socket.write(text + '\r\n');
+          }
+          else {
+              socket.emit('data', { data: text });
+          }
+
+      }
   };
   exports.helpers = helpers;
 })(require);

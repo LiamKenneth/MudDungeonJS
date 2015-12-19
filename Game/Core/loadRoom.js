@@ -27,6 +27,10 @@
             socket.write(tutorial.prison.description);
             socket.write("\r\nExits: []");
 
+            socket.emit('data', { data: tutorial.prison.title.green });
+            socket.emit('data', { data: tutorial.prison.description });
+            socket.emit('data', { data: 'Exits: []' });
+
             socket.on('close', function () {
               modules.playerSetup.player.removePlayer(socket);
 

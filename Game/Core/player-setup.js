@@ -20,22 +20,24 @@
 
     welcome: function(socket) {
 
-        socket.write("hello")
-        socket.emit('data', { data: 'hello' });
+        modules.helper.send(socket, 'hello');
+
+
 
       var motd = modules.data.loadMotd('motd');
 
       if (motd) {
-        socket.write(motd);
-          socket.emit('data', { data: '<pre>' + motd + '</pre>' });
+          modules.helper.send(socket, motd);
       }
 
       playerSetup.login(socket);
 
     },
     login: function(socket) {
-      socket.write("What's your name?");
-        socket.emit('data', { data: "What's your name?" });
+
+        console.log(socket)
+
+        modules.helper.send(socket,"What's your name?");
 
       //TODO:Check data if name does't exit create a new character
       socket.once('data', function(input) {
@@ -43,7 +45,7 @@
         var response = {
             newChar: name.toString().trim() + " You are new to this realm, would you like to create a Character?" +
             " [" + "Yes".yellow + "/".white + "No".yellow + "]".white,
-            newCharError: 'Sorry your name must be at least 3 characters long\r\n',
+            newCharError: 'Sorry your name must be at least 3 characters long',
             newCharEnd: 'Good bye'
 
 
@@ -51,10 +53,7 @@
 
         if (name.length > 3) {
 
-
-          socket.write(response.newChar);
-
-            socket.emit('data', { data: response.newChar });
+            modules.helper.send(socket, response.newChar );
 
           socket.once('data', function(input) {
             var input = input.toString().trim().toLowerCase();
@@ -136,8 +135,9 @@
 
             socket.once('data', function(input) {
               var input = input.toString().trim().toLowerCase();
+                console.log(input)
               var selectedRace = modules.playerSetup.races.chooseRace(input);
-
+console.log(selectedRace)
               if (selectedRace !== false) {
 
                 var selectRace = function(selected) {
@@ -157,6 +157,7 @@
 
               } else {
                 socket.write("Sorry that's not a race. \r\n");
+                  socket.emit('data', { data: "Sorry that's not a race. \r\n" });
                 characterCreation("race");
               }
 
@@ -165,8 +166,9 @@
             break;
           case "class":
               socket.write("What class would you like to be?\r\n");
-
+              socket.emit('data', { data: "What class would you like to be?\r\n" });
               socket.write("\r\n" + modules.playerSetup.classes.showClass());
+              socket.emit('data', { data: "\r\n" + modules.playerSetup.classes.showClass() });
 
               socket.once('data', function(input) {
 
@@ -194,13 +196,14 @@
 
                   } else {
                       socket.write("Sorry that's not a class. \r\n");
+                      socket.emit('data', { data: "Sorry that's not a class" });
                       characterCreation("class");
                   }
             });
             break;
           case "sex":
             socket.write("Are you a male or female?\r\n");
-
+              socket.emit('data', { data: "Are you a male or female" });
 
             socket.once('data', function(input) {
               var input = input.toString().trim().toLowerCase();
@@ -225,6 +228,8 @@
 
               } else {
                   socket.write("Enter the name or number of the race you want. \r\n");
+                  socket.emit('data', { data: "Enter the name or number of the race you want. \r\n" });
+
                   characterCreation("sex");
               }
             });
@@ -237,7 +242,7 @@
                         " int: " + playerStats.int + " wis: " + playerStats.wis + " cha: " + playerStats.cha
                         + " | Do you accept these stats? [Yes No]";
                     socket.write(stats);
-
+                socket.emit('data', { data: stats });
 
                     socket.once('data', function(input) {
                         var input = input.toString().trim().toLowerCase();

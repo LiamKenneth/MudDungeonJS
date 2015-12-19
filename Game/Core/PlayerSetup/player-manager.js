@@ -58,6 +58,7 @@
 		exports.playerManager.each(function (player)
 		{
 			player.write("\r\n" + message);
+			player.emit('data', { data: message });
 		});
 	}
 
