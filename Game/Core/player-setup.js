@@ -20,11 +20,7 @@
 
     welcome: function(socket) {
 
-        modules.helper.send(socket, 'hello');
-
-
-
-      var motd = modules.data.loadMotd('motd');
+      var motd = modules.data.loadFile('motd');
 
       if (motd) {
           modules.helper.send(socket, motd);
@@ -35,43 +31,70 @@
     },
     login: function(socket) {
 
-        console.log(socket)
-
         modules.helper.send(socket,"What's your name?");
 
       //TODO:Check data if name does't exit create a new character
       socket.once('data', function(input) {
         var name = modules.helper.cleanInput(input);
+
         var response = {
             newChar: name.toString().trim() + " You are new to this realm, would you like to create a Character?" +
             " [" + "Yes".yellow + "/".white + "No".yellow + "]".white,
             newCharError: 'Sorry your name must be at least 3 characters long',
-            newCharEnd: 'Good bye'
-
-
+            newCharEnd: 'Good bye',
+            charPassword: 'What is your password?',
+            charPasswordError: 'Password is incorrect'
         }
 
-        if (name.length > 3) {
+        if (name.length >= 3) {
 
-            modules.helper.send(socket, response.newChar );
+            //Check Player exists
+            var playerData = modules.data.loadFile(name + '.json');
 
-          socket.once('data', function(input) {
-            var input = input.toString().trim().toLowerCase();
+            if (playerData) {
+                modules.helper.send(socket, response.charPassword);
 
-            console.log("data:", input);
-            if (input === 'y') {
-              playerSetup.createCharacter(name, socket);
-            } else if (input === 'n') {
-              socket.write(response.newCharEnd);
-                socket.emit('data', { data: response.newCharEnd });
-              socket.end();
+                var loadPlayer = function (socket, playerData) {
+
+                    socket.once('data', function (input) {
+                        var input = input.toString().trim().toLowerCase();
+
+                        console.log("data:", input);
+                        if (input === JSON.parse(playerData).password) {
+                            playerSetup.createCharacter(name, socket);
+                        } else {
+                            modules.helper.send(response.charPasswordError)
+                            loadPlayer(socket, playerData);
+                        }
+                    });
+                };
+
+                loadPlayer(socket, playerData);
+            } else {
+
+                modules.helper.send(socket, response.newChar);
+
+                socket.once('data', function (input) {
+                    var input = input.toString().trim().toLowerCase();
+
+                    console.log("data:", input);
+                    if (input === 'y') {
+                        playerSetup.createCharacter(name, socket);
+                    } else if (input === 'n') {
+                        socket.write(response.newCharEnd);
+                        socket.emit('data', {data: response.newCharEnd});
+                        socket.end();
+                    }
+                });
+
             }
-          });
 
-        } else {
-          socket.write(response.newCharError);
-            socket.emit('data', { data: response.newCharError });
-          playerSetup.login(socket);
+        }
+        else
+        {
+            socket.write(response.newCharError);
+            socket.emit('data', {data: response.newCharError});
+            playerSetup.login(socket);
         }
 
       });
@@ -83,6 +106,7 @@
       /* store player info */
       var playerInfo = {
         name: name.toString().trim(),
+          password:'12345678',
           level: 1,
           race: '',
           class: '',
@@ -137,7 +161,7 @@
               var input = input.toString().trim().toLowerCase();
                 console.log(input)
               var selectedRace = modules.playerSetup.races.chooseRace(input);
-console.log(selectedRace)
+
               if (selectedRace !== false) {
 
                 var selectRace = function(selected) {
@@ -284,6 +308,7 @@ console.log(selectedRace)
         console.log(characterData)
       var player = {
         name: characterData.name,
+          password:'12345678',
         level: 1,
         race: characterData.race,
         class: characterData.class,

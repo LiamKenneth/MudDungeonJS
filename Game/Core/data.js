@@ -11,9 +11,15 @@
   }
 
   var data = {
-    loadMotd: function(motdLocation) {
-      var motd = modules.fs.readFileSync(dir.data + motdLocation).toString('utf8');
-      return motd;
+    loadFile: function(fileLocation) {
+      try {
+        var file = modules.fs.readFileSync(dir.data + fileLocation).toString('utf8');
+        return file;
+      }
+      catch (e) {
+        console.log(e.message )
+        return false;
+      }
     },
     savePlayer: function(player) {
 
