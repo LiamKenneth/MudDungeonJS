@@ -9,7 +9,7 @@
         races: r('./PlayerSetup/races').races,
         classes: r('./PlayerSetup/classes').classes,
         stats: r('./PlayerSetup/stats').stats,
-        player: r('./playerSetup/player-manager').playerManager
+        player: r('./playerSetup/player-manager').playerManager,
     },
       loadPlayerLocation: r('./loadRoom').playerLocation,
     fs: r('fs'),
@@ -52,24 +52,9 @@
             var playerData = modules.data.loadFile(name + '.json');
 
             if (playerData) {
-                modules.helper.send(socket, response.charPassword);
 
-                var loadPlayer = function (socket, playerData) {
+                    modules.playerSetup.player.loadPlayer(socket, playerData);
 
-                    socket.once('data', function (input) {
-                        var input = input.toString().trim().toLowerCase();
-
-                        console.log("data:", input);
-                        if (input === JSON.parse(playerData).password) {
-                            playerSetup.createCharacter(name, socket);
-                        } else {
-                            modules.helper.send(response.charPasswordError)
-                            loadPlayer(socket, playerData);
-                        }
-                    });
-                };
-
-                loadPlayer(socket, playerData);
             } else {
 
                 modules.helper.send(socket, response.newChar);

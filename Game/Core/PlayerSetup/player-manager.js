@@ -1,4 +1,10 @@
   "use strict";
+
+  var modules = {
+      helper: require('../helpers').helpers,
+      loadPlayerLocation: require('../loadRoom').playerLocation
+  };
+
   var  players = [];
 
   function removeByValue(arr, val) {
@@ -12,7 +18,30 @@
 
   exports.playerManager = {
 
- /**
+	  loadPlayer: function(socket, playerData) {
+
+          var playerData = JSON.parse(playerData);
+
+          modules.helper.send(socket,'Whats your password');
+
+          socket.once('data', function (input) {
+
+              var password = input.toString().trim().toLowerCase();
+
+              if (password === playerData.password) {
+
+                  players.push(socket);
+                  console.log('sock count =' + players.length)
+                  exports.playerManager.broadcast(' has returned');
+                  socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(socket, playerData));
+              } else {
+                  modules.helper.send(socket, 'Password is wrong');
+                  exports.playerManager.loadPlayer(socket, JSON.stringify(playerData));
+              }
+          });
+      },
+
+			  /**
   * Remove player socket from players array
   * @param player - player socket
   */
@@ -28,17 +57,8 @@
   addPlayer: function (player)
 	{
 	 players.push(player);
-	},
 
-	  /**
-	   * Add player socket to players array
-	   *  @param player - player socket
-	   */
-	  addPlayerToRoom: function (player, roomID)
-	  {
-		  players.push(player);
-		  console.log(players[0])
-	  },
+	},
 
   /**
   	 * Returns each player socket from players array
@@ -46,6 +66,7 @@
   	 */
    each: function (callback)
   	{
+        console.log("each" +callback)
   		players.forEach(callback);
   	},
 
@@ -55,10 +76,13 @@
 	 */
 	broadcast: function (message)
 	{
-		exports.playerManager.each(function (player)
+        console.log(message)
+
+        exports.playerManager.each(function (player)
 		{
-			player.write("\r\n" + message);
-			player.emit('data', { data: message });
+            console.log(player)
+
+            modules.helper.send(player, message);
 		});
 	}
 
