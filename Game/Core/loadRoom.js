@@ -6,7 +6,9 @@
         helper: r('./helpers').helpers,
         commands: r('./commands').commands,
         fs: r('fs'),
-        world: r('../World/tutorial').tutorial,
+        world: {
+          valston: r('../World/valston/prison')
+        },
         playerSetup: {
             player: r('./PlayerSetup/player-manager')
         },
@@ -20,16 +22,20 @@
 
             modules.playerSetup.player.playerManager.broadcast(playerInfo.name + ' has appeared');
 
+
             //load room based on player location
-            var tutorial = modules.world.rooms;
+            var region = playerInfo.location.region;
+            var area = playerInfo.location.area;
+            var areaId = playerInfo.location.areaId;
 
-            socket.write(tutorial.prison.title.green);
-            socket.write(tutorial.prison.description);
-            socket.write("\r\nExits: []");
+            var room = modules['world'][region][area][areaId];
 
-            socket.emit('data', { data: tutorial.prison.title.green });
-            socket.emit('data', { data: tutorial.prison.description });
-            socket.emit('data', { data: 'Exits: []' });
+            modules.playerSetup.player.playerManager.addPlayerToRoom(socket, playerInfo, region, area, areaId);
+              socket.emit('data', { data: room.players.length });
+  
+            socket.emit('data', { data: room.title.green });
+            socket.emit('data', { data: room.description });
+            socket.emit('data', { data: 'Exits: [' + room.exits.n + ']'});
 
             socket.on('close', function () {
               modules.playerSetup.player.playerManager.removePlayer(socket);

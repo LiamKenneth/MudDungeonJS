@@ -2,7 +2,10 @@
 
   var modules = {
       helper: require('../helpers').helpers,
-      loadPlayerLocation: require('../loadRoom').playerLocation
+      loadPlayerLocation: require('../loadRoom').playerLocation,
+      world: {
+        valston: require('../../World/valston/prison')
+      }
   };
 
   var  players = [];
@@ -30,8 +33,6 @@
 
               if (password === playerData.password) {
 
-
-
                   socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(socket, playerData));
               } else {
                   modules.helper.send(socket, 'Password is wrong');
@@ -58,7 +59,17 @@
 	 players.push(player);
 
 	},
+  /**
+	 * Add player socket to players array
+	 *  @param player - player socket
+	 */
+  addPlayerToRoom: function (player, playerInfo, region, area, areaId)
+	{
+  var room = modules['world'][region][area][areaId];
 
+	 room.players.push(player, playerInfo);
+
+	},
   /**
   	 * Returns each player socket from players array
   	 * @param callback returns player sockets from array
@@ -74,14 +85,25 @@
 	 */
 	broadcast: function (message)
 	{
-console.log("socket count " + players.length)
+
    exports.playerManager.each(function (player)
 		{
-            console.log(player)
-
             modules.helper.send(player, message);
 		});
-	}
+	},
+
+  /**
+   * Broadcast a message to every player
+   * @param string message to broadcast to everyone
+   */
+  broadcastToRoom: function (message)
+  {
+
+   exports.playerManager.each(function (player)
+    {
+            modules.helper.send(player, message);
+    });
+  }
 
 
 };

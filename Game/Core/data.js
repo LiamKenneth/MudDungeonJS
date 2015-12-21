@@ -6,14 +6,17 @@
     path: r('path')
   };
 
-  var dir = {
+  var dataDir = {
     data: __dirname + '/../../Data/'
   }
 
   var data = {
-    loadFile: function(fileLocation) {
+    loadFile: function(directory, fileLocation) {
+
+      var dir = directory || dataDir.data;
+
       try {
-        var file = modules.fs.readFileSync(dir.data + fileLocation).toString('utf8');
+        var file = modules.fs.readFileSync(dir + fileLocation).toString('utf8');
         return file;
       }
       catch (e) {

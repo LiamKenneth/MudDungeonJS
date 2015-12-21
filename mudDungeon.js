@@ -6,7 +6,7 @@
         telnet: r('wez-telnet'),
         data: r('./Game/Core/data'),
         playerSetup: r('./Game/Core/player-setup').playerSetup,
-        player: r('./Game/Core/playerSetup/player-manager').playerManager
+        player: r('./Game/Core/PlayerSetup/player-manager').playerManager
     };
 
 

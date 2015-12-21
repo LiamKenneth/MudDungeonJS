@@ -11,10 +11,12 @@
         stats: r('./PlayerSetup/stats').stats,
         player: r('./PlayerSetup/player-manager').playerManager,
     },
-      loadPlayerLocation: r('./loadRoom').playerLocation,
+    loadPlayerLocation: r('./loadRoom').playerLocation,
     fs: r('fs'),
     color: r('colors')
   };
+
+  var weapons = modules.data.loadFile('Game/Core/Items/Weapons/swords/', 'swords.json');
 
   var playerSetup = {
 
@@ -49,10 +51,10 @@
         if (name.length >= 3) {
 
             //Check Player exists
-            var playerData = modules.data.loadFile(name + '.json');
+              var playerData = modules.data.loadFile(null, name + '.json');
 
             if (playerData) {
-  modules.playerSetup.player.addPlayer(socket);
+                    modules.playerSetup.player.addPlayer(socket);
                     modules.playerSetup.player.loadPlayer(socket, playerData);
 
             } else {
@@ -307,9 +309,17 @@
           cha: characterData.stats.cha
         },
         inv: {
-          gold: 0,
-          silver: 0,
-          copper: 10
+            gold: 0,
+            silver: 0,
+            copper: 10,
+            items:
+            {
+                0:
+                 {
+                    id: JSON.parse(weapons)[0].id,
+                    name: JSON.parse(weapons)[0].name
+                },
+            }
         },
         wear: {
           light: "Nothing",
@@ -323,7 +333,13 @@
         },
         age: 18,
         description: "You see nothing special about them",
-        location: "0,0,0"
+        location: {
+          region: 'valston',
+          area: 'prison',
+          areaId: 0,
+          coordsY: 0,
+          coordsX:0
+        }
 
       };
 
