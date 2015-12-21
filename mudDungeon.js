@@ -17,6 +17,7 @@
     var telnet = modules.telnet;
     var server = new telnet.Server(function (socket) {
         console.log('someone connected')
+
         socket.emit('welcome', modules.playerSetup.welcome(socket));
 
 

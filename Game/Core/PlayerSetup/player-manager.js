@@ -30,9 +30,8 @@
 
               if (password === playerData.password) {
 
-                  players.push(socket);
-                  console.log('sock count =' + players.length)
-                  exports.playerManager.broadcast(' has returned');
+
+
                   socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(socket, playerData));
               } else {
                   modules.helper.send(socket, 'Password is wrong');
@@ -66,7 +65,6 @@
   	 */
    each: function (callback)
   	{
-        console.log("each" +callback)
   		players.forEach(callback);
   	},
 
@@ -76,9 +74,8 @@
 	 */
 	broadcast: function (message)
 	{
-        console.log(message)
-
-        exports.playerManager.each(function (player)
+console.log("socket count " + players.length)
+   exports.playerManager.each(function (player)
 		{
             console.log(player)
 

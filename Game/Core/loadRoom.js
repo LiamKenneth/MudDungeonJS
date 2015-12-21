@@ -8,7 +8,7 @@
         fs: r('fs'),
         world: r('../World/tutorial').tutorial,
         playerSetup: {
-            player: r('./PlayerSetup/player-manager').playerManager
+            player: r('./PlayerSetup/player-manager')
         },
         color: r('colors')
     };
@@ -18,8 +18,7 @@
             //need to broadcast this
           //  modules.helper.send(socket, 'load room');
 
-            modules.playerSetup.player.broadcast(' has appeared');
-
+            modules.playerSetup.player.playerManager.broadcast(playerInfo.name + ' has appeared');
 
             //load room based on player location
             var tutorial = modules.world.rooms;
@@ -32,10 +31,8 @@
             socket.emit('data', { data: tutorial.prison.description });
             socket.emit('data', { data: 'Exits: []' });
 
-            modules.playerSetup.player.broadcast('room loaded');
-
             socket.on('close', function () {
-              modules.playerSetup.player.removePlayer(socket);
+              modules.playerSetup.player.playerManager.removePlayer(socket);
 
               console.log("Player left");
             });

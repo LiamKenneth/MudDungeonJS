@@ -9,7 +9,7 @@
         races: r('./PlayerSetup/races').races,
         classes: r('./PlayerSetup/classes').classes,
         stats: r('./PlayerSetup/stats').stats,
-        player: r('./playerSetup/player-manager').playerManager,
+        player: r('./PlayerSetup/player-manager').playerManager,
     },
       loadPlayerLocation: r('./loadRoom').playerLocation,
     fs: r('fs'),
@@ -20,11 +20,11 @@
 
     welcome: function(socket) {
 
-      var motd = modules.data.loadFile('motd');
+    //  var motd = modules.data.loadFile('motd');
 
-      if (motd) {
-          modules.helper.send(socket, motd);
-      }
+    //  if (motd) {
+        //  modules.helper.send(socket, motd);
+      //}
 
       playerSetup.login(socket);
 
@@ -52,7 +52,7 @@
             var playerData = modules.data.loadFile(name + '.json');
 
             if (playerData) {
-
+  modules.playerSetup.player.addPlayer(socket);
                     modules.playerSetup.player.loadPlayer(socket, playerData);
 
             } else {
