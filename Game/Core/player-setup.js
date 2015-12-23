@@ -22,11 +22,11 @@
 
     welcome: function(socket) {
 
-    //  var motd = modules.data.loadFile('motd');
-
-    //  if (motd) {
-        //  modules.helper.send(socket, motd);
-      //}
+      //  var motd = modules.data.loadFile(null, 'motd');
+       //
+      //  if (motd) {
+      //      modules.helper.send(socket, motd);
+      //  }
 
       playerSetup.login(socket);
 
@@ -41,7 +41,7 @@
 
         var response = {
             newChar: name.toString().trim() + " You are new to this realm, would you like to create a Character?" +
-            " [" + "Yes".yellow + "/".white + "No".yellow + "]".white,
+            " [" + "Yes" + "/" + "No" + "]",
             newCharError: 'Sorry your name must be at least 3 characters long',
             newCharEnd: 'Good bye',
             charPassword: 'What is your password?',

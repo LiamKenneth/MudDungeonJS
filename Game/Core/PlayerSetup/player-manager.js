@@ -71,6 +71,17 @@
 
 	},
   /**
+	 * Add player socket to players array
+	 *  @param player - player socket
+	 */
+  removePlayerFromRoom: function (player, playerInfo, region, area, areaId)
+	{
+  var room = modules['world'][region][area][areaId];
+
+  removeByValue(room.players, player);
+
+	},
+  /**
   	 * Returns each player socket from players array
   	 * @param callback returns player sockets from array
   	 */

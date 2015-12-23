@@ -10,7 +10,10 @@
           "front of you. A small wooden stool is in" +
           "the corner behind you.\r\n",
         terrain: "city",
-        exits: {"n": 1},
+        exits: {"n": {
+          exit: "North",
+          roomId: 1
+        }},
         location: {
           region: 'valston',
           area: 'prison',
@@ -18,7 +21,20 @@
           coordsY: 0,
           coordsX:0
         },
-        players: []
+        players: [],
+        npcs: [],
+        items: [  {
+            "id":0,
+            "Eq": "wield",
+            "name": "a long sword",
+            "short description": "a long sword",
+            "long description": "A longer description for the long sword",
+            "keywords": "long, sword, long sword",
+            "weight": 4,
+            "damage": "1d8+4",
+            "flags": "flaming",
+            "value:": "10c"
+          }]
 
       },
       {

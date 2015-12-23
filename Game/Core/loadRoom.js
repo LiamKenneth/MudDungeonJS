@@ -32,13 +32,28 @@
 
             modules.playerSetup.player.playerManager.addPlayerToRoom(socket, playerInfo, region, area, areaId);
               socket.emit('data', { data: room.players.length });
-  
+
             socket.emit('data', { data: room.title.green });
             socket.emit('data', { data: room.description });
-            socket.emit('data', { data: 'Exits: [' + room.exits.n + ']'});
+            socket.emit('data', { data: 'Exits: [' + room.exits.n.name + ']'});
+
+            room.players.forEach(function(playersInRoom) {
+
+                  if(playersInRoom.hasOwnProperty('name'))
+                  {
+                    if (playerInfo.name !== playersInRoom.name) {
+                        socket.emit('data', { data: playersInRoom.name + " is here." });
+                    }
+                }
+
+
+            });
+
+
 
             socket.on('close', function () {
               modules.playerSetup.player.playerManager.removePlayer(socket);
+              modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, playerInfo, region, area, areaId);
 
               console.log("Player left");
             });

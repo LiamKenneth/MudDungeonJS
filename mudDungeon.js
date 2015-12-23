@@ -6,7 +6,8 @@
         telnet: r('wez-telnet'),
         data: r('./Game/Core/data'),
         playerSetup: r('./Game/Core/player-setup').playerSetup,
-        player: r('./Game/Core/PlayerSetup/player-manager').playerManager
+        player: r('./Game/Core/PlayerSetup/player-manager').playerManager,
+        events: r('./Game/Core/events').events,
     };
 
 
@@ -16,7 +17,8 @@
 
     var telnet = modules.telnet;
     var server = new telnet.Server(function (socket) {
-        console.log('someone connected')
+        console.log('someone connected');
+
 
         socket.emit('welcome', modules.playerSetup.welcome(socket));
 

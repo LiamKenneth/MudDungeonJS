@@ -11,7 +11,7 @@ var should = require('chai').should();
   describe("loadMOTD", function() {
     it("should load the Welcome Ascii art", function() {
 
-      var motd = modules.data.loadMotd('motd');
+      var motd = modules.data.loadFile(null, 'motd');
       expect(motd).should.exist;
     });
 });
@@ -28,6 +28,6 @@ describe("savePlayer", function() {
     expect(playerFile).should.exist;
 
   });
-  
+
 });
 });

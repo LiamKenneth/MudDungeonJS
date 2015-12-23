@@ -11,7 +11,10 @@
     },
     no: function(string) {
       return string.toLowerCase().match(/^(n|no|never|nah|nay)$/)
-    }
+    },
+    look:function(string) {
+      return string.toLowerCase().match(/^(l|look|loo)$/)
+    },
   };
   exports.commands = commands;
 })(require);
