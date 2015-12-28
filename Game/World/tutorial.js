@@ -14,7 +14,15 @@
           "front of you. A small wooden stool is in" +
           "the corner behind you.\r\n",
         terrain: "city",
-        exits: {"n": 1},
+        exits:
+        {
+            n: {
+            name: "North",
+            exitId: 1,
+            locked: false,
+            hidden: false
+            }
+        },
         location: [0,0,0]
       }
     }

@@ -19,8 +19,9 @@
     var server = new telnet.Server(function (socket) {
         console.log('someone connected');
 
-
+        socket.on('look', modules.events.look(socket));
         socket.emit('welcome', modules.playerSetup.welcome(socket));
+
 
 
         socket.on('interrupt', function () {
@@ -34,8 +35,8 @@
     server.listen(4000);
 
     /*
-        Create the web Server
-        Temporary code
+     Create the web Server
+     Temporary code
      */
 
     var app = require('http').createServer(handler)

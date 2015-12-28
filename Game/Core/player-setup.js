@@ -10,6 +10,7 @@
         classes: r('./PlayerSetup/classes').classes,
         stats: r('./PlayerSetup/stats').stats,
         player: r('./PlayerSetup/player-manager').playerManager,
+        playerChar: r('./PlayerSetup/player').player,
     },
     loadPlayerLocation: r('./loadRoom').playerLocation,
     fs: r('fs'),
@@ -22,11 +23,11 @@
 
     welcome: function(socket) {
 
-      //  var motd = modules.data.loadFile(null, 'motd');
-       //
-      //  if (motd) {
-      //      modules.helper.send(socket, motd);
-      //  }
+       var motd = modules.data.loadFile(null, 'motd');
+
+        if (motd) {
+            modules.helper.send(socket, motd);
+        }
 
       playerSetup.login(socket);
 
@@ -51,11 +52,16 @@
         if (name.length >= 3) {
 
             //Check Player exists
-              var playerData = modules.data.loadFile(null, name + '.json');
+              var playerData = JSON.parse(modules.data.loadFile(null, name + '.json'));
 
             if (playerData) {
-                    modules.playerSetup.player.addPlayer(socket);
-                    modules.playerSetup.player.loadPlayer(socket, playerData);
+                var PC = new modules.playerSetup.playerChar(playerData);
+
+                PC.setSocket(socket);
+
+
+                    modules.playerSetup.player.addPlayer(PC.getSocket());
+                    modules.playerSetup.player.loadPlayer(PC);
 
             } else {
 

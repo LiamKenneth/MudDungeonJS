@@ -21,22 +21,24 @@
 
   exports.playerManager = {
 
-	  loadPlayer: function(socket, playerData) {
+	  loadPlayer: function(pc) {
 
-          var playerData = JSON.parse(playerData);
+          console.log(pc.getName())
+          var socket = pc.getSocket();
 
-          modules.helper.send(socket,'Whats your password');
+
+          modules.helper.send(socket, 'Whats your password');
 
           socket.once('data', function (input) {
 
               var password = input.toString().trim().toLowerCase();
 
-              if (password === playerData.password) {
+              if (password === pc.password) {
 
-                  socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(socket, playerData));
+                  socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(pc));
               } else {
                   modules.helper.send(socket, 'Password is wrong');
-                  exports.playerManager.loadPlayer(socket, JSON.stringify(playerData));
+                  exports.playerManager.loadPlayer(socket, pc);
               }
           });
       },
@@ -63,11 +65,13 @@
 	 * Add player socket to players array
 	 *  @param player - player socket
 	 */
-  addPlayerToRoom: function (player, playerInfo, region, area, areaId)
+  addPlayerToRoom: function (player, pc, region, area, areaId)
 	{
   var room = modules['world'][region][area][areaId];
+        var name = pc.getName();
+        var socket = pc.getSocket();
 
-	 room.players.push(player, playerInfo);
+	 room.players.push(socket, name);
 
 	},
   /**

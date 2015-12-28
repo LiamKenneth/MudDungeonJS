@@ -12,48 +12,58 @@
         playerSetup: {
             player: r('./PlayerSetup/player-manager')
         },
-        color: r('colors')
+        color: r('colors'),
+        events: r('./events.js').events
+
     };
     exports.playerLocation = {
 
-        loadRoom: function (socket, playerInfo) {
+        loadRoom: function (pc) {
             //need to broadcast this
           //  modules.helper.send(socket, 'load room');
 
-            modules.playerSetup.player.playerManager.broadcast(playerInfo.name + ' has appeared');
+            var name = pc.getName();
+            var socket = pc.getSocket();
+            var location = JSON.parse(pc.getLocation());
+
+
+            modules.playerSetup.player.playerManager.broadcast(name + ' has appeared');
 
 
             //load room based on player location
-            var region = playerInfo.location.region;
-            var area = playerInfo.location.area;
-            var areaId = playerInfo.location.areaId;
-
+            var region = location.region;
+            console.log("reg " + region)
+            var area = location.area;
+            console.log("area " + area)
+            var areaId = location.areaID;
+            console.log("areaid " + areaId)
             var room = modules['world'][region][area][areaId];
 
-            modules.playerSetup.player.playerManager.addPlayerToRoom(socket, playerInfo, region, area, areaId);
+
+            modules.playerSetup.player.playerManager.addPlayerToRoom(socket, pc , region, area, areaId);
               socket.emit('data', { data: room.players.length });
 
-            socket.emit('data', { data: room.title.green });
-            socket.emit('data', { data: room.description });
-            socket.emit('data', { data: 'Exits: [' + room.exits.n.name + ']'});
 
-            room.players.forEach(function(playersInRoom) {
+            socket.emit('look', modules.events.look(socket, pc, room));
 
-                  if(playersInRoom.hasOwnProperty('name'))
-                  {
-                    if (playerInfo.name !== playersInRoom.name) {
-                        socket.emit('data', { data: playersInRoom.name + " is here." });
-                    }
+
+
+
+            socket.on('data', function(input) {
+
+
+                if (input.toString().trim() == 'look') {
+                    socket.emit('look', modules.events.look(socket, pc, room));
+
+
                 }
 
-
+                socket.emit('data', { data: "\r\n" + input });
             });
-
-
 
             socket.on('close', function () {
               modules.playerSetup.player.playerManager.removePlayer(socket);
-              modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, playerInfo, region, area, areaId);
+              modules.playerSetup.player.playerManager.removePlayerFromRoom(socket,  pc.getInfo, region, area, areaId);
 
               console.log("Player left");
             });
