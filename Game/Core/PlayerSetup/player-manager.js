@@ -67,22 +67,22 @@
 	 */
   addPlayerToRoom: function (player, pc, region, area, areaId)
 	{
-  var room = modules['world'][region][area][areaId];
+        var room = modules['world'][region][area][areaId];
         var name = pc.getName();
-        var socket = pc.getSocket();
 
-	 room.players.push(socket, name);
+	 room.players.push(pc);
 
 	},
   /**
 	 * Add player socket to players array
 	 *  @param player - player socket
 	 */
-  removePlayerFromRoom: function (player, playerInfo, region, area, areaId)
+  removePlayerFromRoom: function (player, pc, region, area, areaId)
 	{
-  var room = modules['world'][region][area][areaId];
+  var room = modules['world'][region][area];
 
-  removeByValue(room.players, player);
+
+  removeByValue(room.players, pc);
 
 	},
   /**

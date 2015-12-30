@@ -15,6 +15,9 @@
     look:function(string) {
       return string.toLowerCase().match(/^(l|look|loo)$/)
     },
+    move: function(string) {
+
+    }
   };
   exports.commands = commands;
 })(require);

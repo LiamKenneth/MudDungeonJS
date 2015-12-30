@@ -19,7 +19,7 @@
     var server = new telnet.Server(function (socket) {
         console.log('someone connected');
 
-        socket.on('look', modules.events.look(socket));
+
         socket.emit('welcome', modules.playerSetup.welcome(socket));
 
 

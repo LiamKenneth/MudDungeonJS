@@ -39,14 +39,11 @@
             console.log("areaid " + areaId)
             var room = modules['world'][region][area][areaId];
 
+            console.log( room.title)
 
             modules.playerSetup.player.playerManager.addPlayerToRoom(socket, pc , region, area, areaId);
-              socket.emit('data', { data: room.players.length });
-
 
             socket.emit('look', modules.events.look(socket, pc, room));
-
-
 
 
             socket.on('data', function(input) {
@@ -57,18 +54,28 @@
 
 
                 }
+                else if (input.toString().trim() == 'north')
+                {
+                    var nextRoom = {
+                        region: 'valston',
+                        area: 'prison',
+                        areaID: 1
+                    }
+                    socket.emit('move', modules.events.move(pc, nextRoom));
+
+
+                }
 
                 socket.emit('data', { data: "\r\n" + input });
             });
 
             socket.on('close', function () {
               modules.playerSetup.player.playerManager.removePlayer(socket);
-              modules.playerSetup.player.playerManager.removePlayerFromRoom(socket,  pc.getInfo, region, area, areaId);
+              modules.playerSetup.player.playerManager.removePlayerFromRoom(socket,  pc, region, area, areaId);
 
               console.log("Player left");
             });
 
-            //TODO display other players? if in same room
         }
 }
 

@@ -72,6 +72,12 @@ var player = function(playerInfo) {
         this.socket = socket;
     };
 
+    this.setLocation = function(region, area, areaID) {
+        this.location.region = region;
+        this.location.area = area;
+        this.location.areaID = areaID;
+    };
+
 
 
 }

@@ -7,31 +7,47 @@
     playerSetup: {
       player: r('./PlayerSetup/player-manager')
     },
+    loadPlayerLocation: r('./loadRoom').playerLocation
   };
 
   var events = {
+    move: function(player, nextRoom) {
+
+      var socket = player.getSocket();
+
+      player.setLocation(nextRoom.region, nextRoom.area, nextRoom.areaID)
+
+      console.log(player.location.areaID)
+
+
+     socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(player));
+
+    },
     look: function(socket, playerInfo, room) {
 
-      var name = playerInfo.getName();
+      try {
+        var name = playerInfo.getName();
 
-      //broadcast to all that player looked around
+        //broadcast to all that player looked around
+        modules.helper.send(socket, 'You look around');
 
-      modules.helper.send(socket, room.title.green);
-      modules.helper.send(socket, room.description);
-      modules.helper.send(socket, 'Exits: [' + room.exits.n.name + ']');
+        modules.helper.send(socket, room.title);
+        modules.helper.send(socket, room.description);
+        modules.helper.send(socket, 'Exits: [' + room.exits.n.name + ']');
 
-      room.players.forEach(function(playersInRoom) {
+        room.players.forEach(function (playersInRoom) {
 
-
-          if (name !== playersInRoom.name) {
-            modules.helper.send(socket, playersInRoom.name + " is here.");
-
+          var playerName = playersInRoom.getName();
+          var playerSocket = playersInRoom.getSocket();
+          if (name !== playerName) {
+            modules.helper.send(socket, playerName + " is here.");
+            modules.helper.send(playerSocket, name + ' looks around')
           }
 
 
-
-      });
-
+        });
+      }
+      catch(e){console.log(e)}
 
     }
 
