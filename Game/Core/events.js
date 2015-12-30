@@ -16,7 +16,6 @@
       var socket = player.getSocket();
 
 
-
       player.setLocation(nextRoom.region, nextRoom.area, nextRoom.areaID)
 
       console.log(player.location.areaID)
@@ -28,14 +27,17 @@
 
       try {
         var name = playerInfo.getName();
+        //get exits
+       var exits = events.exits(room.exits)
 
+      
 
         //broadcast to all that player looked around
         modules.helper.send(socket, 'You look around');
 
         modules.helper.send(socket, room.title);
         modules.helper.send(socket, room.description);
-        modules.helper.send(socket, 'Exits: [' + room.exits.n.name + ']');
+        modules.helper.send(socket, 'Exits: [' + exits.exits + ']');
 
         room.players.forEach(function (playersInRoom) {
 
@@ -50,6 +52,32 @@
         });
       }
       catch(e){"error " + console.log(e)}
+
+    },
+    exits: function(exits) {
+
+
+
+      var exitCount = exits.length;
+      var exitObj = {}
+      exitObj.exits = [];
+
+      while (exitCount--) {
+
+        var exitName = exits[exitCount].name;
+
+        exitObj.exits.push(exitName);
+
+        exitObj[exitName] = {
+          region: exits[exitCount].location.region,
+          area: exits[exitCount].location.area,
+          areaID: exits[exitCount].location.areaID
+        };
+
+console.log(exitObj)
+      }
+
+      return exitObj;
 
     }
 

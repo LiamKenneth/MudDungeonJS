@@ -42,8 +42,7 @@ exports.prison = {
         "front of you. A small wooden stool is in" +
         "the corner behind you.\r\n",
         terrain: "city",
-        exits: {
-            n: {
+        exits: [{
                 name: "North",
                 location: {
                     region: 'valston',
@@ -52,16 +51,16 @@ exports.prison = {
                 },
                 locked: false,
                 hidden: false
-            }
-        },
+
+        }],
         players: []
     },
     1: {
         title: "A hallway Room\r\n",
         description: "\r\nYou are in a dark hallway\r\n",
         terrain: "city",
-        exits: {
-            s: {
+        exits: [{
+
                 name: "South",
                 location: {
                     region: 'valston',
@@ -70,8 +69,8 @@ exports.prison = {
                 },
                 locked: false,
                 hidden: false
-            }
-        },
+
+        }],
         players: []
     }
 }
