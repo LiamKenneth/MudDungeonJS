@@ -18,24 +18,46 @@ var player = function(playerInfo) {
         maxMana: 0,
         mana: 0,
         stats: {
-            strength: playerInfo.stats.str || 0,
-            dexterity: playerInfo.stats.dex || 0,
-            constitution: playerInfo.stats.con || 0,
-            intelligence: playerInfo.stats.int || 0,
-            wisdom: playerInfo.stats.wis || 0,
-            charisma: playerInfo.stats.cha || 0
+            strength: playerInfo.information.stats.strength || 0,
+            dexterity: playerInfo.information.stats.dexterity || 0,
+            constitution: playerInfo.information.stats.constitution || 0,
+            intelligence: playerInfo.information.stats.intelligence || 0,
+            wisdom: playerInfo.information.stats.wisdom || 0,
+            charisma: playerInfo.information.stats.charisma || 0
         }
     };
     this.location = {
         region: playerInfo.location.region || '',
         area: playerInfo.location.area || '',
-        areaID: 0,
+        areaID:  playerInfo.location.areaID || 0,
         coordsY: 0,
         coordsX: 0
     };
     this.password = playerInfo.password;
-    this.inventory = {};
-    this.equipment = {};
+    this.inventory = [];
+    this.equipment = {
+      floating: playerInfo.equipment.floating || "Nothing",
+      light: playerInfo.equipment.light || "Nothing",
+      head: playerInfo.equipment.head || "Nothing",
+      leftEar:  playerInfo.equipment.leftEar || "Nothing",
+      rightEar:  playerInfo.equipment.rightEar || "Nothing",
+      neck:  playerInfo.equipment.neck || "Nothing",
+      cloak:  playerInfo.equipment.cloak || "Nothing",
+      aboutBody:  playerInfo.equipment.aboutBody || "Nothing",
+      body:  playerInfo.equipment.body || "Nothing",
+      waist:  playerInfo.equipment.waist || "Nothing",
+      leftSheath:  playerInfo.equipment.leftSheath || "Nothing",
+      rightSheath:  playerInfo.equipment.rightSheath || "Nothing",
+      back:  playerInfo.equipment.back || "Nothing",
+      leftWrist:  playerInfo.equipment.leftWrist || "Nothing",
+      rightWrist:  playerInfo.equipment.rightWrist || "Nothing",
+      leftHand: playerInfo.equipment.leftHand || "Nothing",
+      rightHand: playerInfo.equipment.rightHand || "Nothing",
+      leftRing: playerInfo.equipment.leftRing || "Nothing",
+      rightRing: playerInfo.equipment.rightRing || "Nothing",
+      legs:  playerInfo.equipment.legs || "Nothing",
+      feet:  playerInfo.equipment.feet || "Nothing",
+    };
     this.explored = 0;
     this.questPoints = 0;
     this.gold = 0;
@@ -62,6 +84,18 @@ var player = function(playerInfo) {
     this.getSocket = function() {
         return this.socket;
     };
+    this.getInventory = function() {
+
+      var inventory = this.inventory;
+      var inv = inventory.length;
+      var invObj = new Object();
+
+      while (inv--) {
+        invObj[inv] = inventory[inv].name
+       }
+
+      return invObj;
+    };
 
     //Set
     this.setDescription = function(description) {
@@ -77,6 +111,24 @@ var player = function(playerInfo) {
         this.location.area = area;
         this.location.areaID = areaID;
     };
+
+    this.setInventory = function(inventory) {
+
+      if (typeof inventory === 'object')
+      {
+          this.inventory.push(inventory)
+      }
+      else
+      {
+        console.log('Must insert object to inventory array');
+      }
+
+    };
+
+  this.savePlayer = function(playerinfo) {
+   //modules.data.savePlayer(player);
+  }
+
 
 
 

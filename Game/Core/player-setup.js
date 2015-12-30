@@ -23,11 +23,11 @@
 
     welcome: function(socket) {
 
-       var motd = modules.data.loadFile(null, 'motd');
-
-        if (motd) {
-            modules.helper.send(socket, motd);
-        }
+      //  var motd = modules.data.loadFile(null, 'motd');
+       //
+      //   if (motd) {
+      //       modules.helper.send(socket, motd);
+      //   }
 
       playerSetup.login(socket);
 
@@ -298,64 +298,51 @@
 
     },
     createCharacterSheet: function(socket, characterData) {
+
+    var playerData =  JSON.parse(modules.data.loadFile('Game/Core/PlayerSetup/', 'blankChar.json'));
+
         console.log(characterData)
-      var player = {
-        name: characterData.name,
-          password:'12345678',
-        level: 1,
-        race: characterData.race,
-        class: characterData.class,
-        align: "neutral",
-        stats: {
-          str: characterData.stats.str,
-          dex: characterData.stats.dex,
-          con: characterData.stats.con,
-          int: characterData.stats.int,
-          wis: characterData.stats.wis,
-          cha: characterData.stats.cha
-        },
-        inv: {
-            gold: 0,
-            silver: 0,
-            copper: 10,
-            items:
-            {
-                0:
-                 {
-                    id: JSON.parse(weapons)[0].id,
-                    name: JSON.parse(weapons)[0].name
-                },
-            }
-        },
-        wear: {
-          light: "Nothing",
-          head: "Nothing",
-          neck: "Nothing",
-          neck1: "Nothing",
-          cloak: "Nothing",
-          cloak1: "Nothing",
-          AboutBody: "Nothing",
-          body: "Nothing"
-        },
-        age: 18,
-        description: "You see nothing special about them",
-        location: {
-          region: 'valston',
-          area: 'prison',
-          areaId: 0,
-          coordsY: 0,
-          coordsX:0
-        }
+          console.log(playerData)
 
-      };
+        // items:
+        // {
+        //     0:
+        //      {
+        //         id: JSON.parse(weapons)[0].id,
+        //         name: JSON.parse(weapons)[0].name
+        //     },
+        // }
 
-      modules.data.savePlayer(player);
+        playerData.name = characterData.name;
+        console.log( playerData.name)
+        playerData.password = "123";
+        playerData.information.level = 1;
+          console.log( "playerData.information.level " + playerData.information.level)
+        playerData.information.race = characterData.race;
+        playerData.information.class = characterData.class;
+          playerData.information.stats.strength = characterData.stats.str;
+        playerData.information.stats.dexterity = characterData.stats.dex;
+        playerData.information.stats.constitution = characterData.stats.con;
+        playerData.information.stats.intelligence = characterData.stats.int;
+        playerData.information.stats.wisdom = characterData.stats.wis;
+        playerData.information.stats.charisma = characterData.stats.cha;
+        playerData.gold = 50;
+        playerData.location.region = 'valston';
+        playerData.location.area = 'prison';
+
+
+        var PC = new modules.playerSetup.playerChar(playerData);
+
+        PC.setSocket(socket);
+
+
+      modules.data.savePlayer(playerData);
 
       console.log('player saved, the end.');
 
        modules.playerSetup.player.addPlayer(socket);
 
-        socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(socket, player));
+        socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(PC));
 
     },
     sex: function(sex) {

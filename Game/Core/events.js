@@ -7,7 +7,7 @@
     playerSetup: {
       player: r('./PlayerSetup/player-manager')
     },
-    loadPlayerLocation: r('./loadRoom').playerLocation
+    loadPlayerLocation: r('./loadRoom')
   };
 
   var events = {
@@ -15,18 +15,20 @@
 
       var socket = player.getSocket();
 
+
+
       player.setLocation(nextRoom.region, nextRoom.area, nextRoom.areaID)
 
       console.log(player.location.areaID)
 
-
-     socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(player));
+     socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.playerLocation.loadRoom(player));
 
     },
     look: function(socket, playerInfo, room) {
 
       try {
         var name = playerInfo.getName();
+
 
         //broadcast to all that player looked around
         modules.helper.send(socket, 'You look around');
@@ -47,7 +49,7 @@
 
         });
       }
-      catch(e){console.log(e)}
+      catch(e){"error " + console.log(e)}
 
     }
 

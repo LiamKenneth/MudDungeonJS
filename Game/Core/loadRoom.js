@@ -26,6 +26,7 @@
             var socket = pc.getSocket();
             var location = JSON.parse(pc.getLocation());
 
+console.log(location)
 
             modules.playerSetup.player.playerManager.broadcast(name + ' has appeared');
 
