@@ -35,7 +35,7 @@
 
               if (password === pc.password) {
 
-                  socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(pc));
+                  socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(pc, null, 'load'));
               } else {
                   modules.helper.send(socket, 'Password is wrong');
                   exports.playerManager.loadPlayer(socket, pc);
