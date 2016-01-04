@@ -75,6 +75,8 @@
        */
       send: function(socket, text) {
 
+        console.log("SWEND")
+
           //A hack, not sure what nsp is. socket.io returns it though
           if(!socket.nsp) {
               socket.write(text + '\r\n');
