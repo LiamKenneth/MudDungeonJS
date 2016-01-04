@@ -3,13 +3,16 @@
     "use strict";
 
     var modules = {
-        helper: r('./helpers').helpers,
-        commands: r('./commands').commands,
+        helper: r('./helpers'),
         playerSetup:
         {
             player: r('./PlayerSetup/player-manager')
         },
-        loadPlayerLocation: r('./loadRoom')
+        loadPlayerLocation: r('./loadRoom'),
+        world:
+        {
+            valston: r('../World/valston/prison')
+        },
     };
 
     var events = {
@@ -30,13 +33,23 @@
             modules.playerSetup.player.playerManager.broadcast(enterMessage[status]);
 
         },
-        move: function(player, nextRoom)
+        move: function(player, direction, nextRoom)
         {
             var socket = player.getSocket();
+            var location = JSON.parse(player.getLocation());
 
-            events.enterRoom(player,'north', 'leave')
+            var region = location.region;
+            var area = location.area;
+            var areaId = location.areaID;
+            var room = modules['world'][region][area][areaId];
 
-            player.setLocation(nextRoom.region, nextRoom.area, nextRoom.areaID)
+            var exits =  events.exits(room.exits);
+
+            console.log(exits)
+
+            events.enterRoom(player, direction, 'leave')
+
+            player.setLocation(exits.direction.region, exits.direction.area, exits.direction.areaID);
 
             console.log(player.location.areaID)
 
@@ -55,11 +68,11 @@
 
 
                 //broadcast to all that player looked around
-                modules.helper.send(socket, 'You look around');
+                modules.helper.helpers.send(socket, 'You look around');
 
-                modules.helper.send(socket, room.title);
-                modules.helper.send(socket, room.description);
-                modules.helper.send(socket, 'Exits: [' + exits.exits + ']');
+                modules.helper.helpers.send(socket, room.title);
+                modules.helper.helpers.send(socket, room.description);
+                modules.helper.helpers.send(socket, 'Exits: [' + exits.exits + ']');
 
                 room.players.forEach(function(playersInRoom)
                 {
@@ -68,8 +81,8 @@
                     var playerSocket = playersInRoom.getSocket();
                     if (name !== playerName)
                     {
-                        modules.helper.send(socket, playerName + " is here.");
-                        modules.helper.send(playerSocket, name + ' looks around')
+                        modules.helper.helpers.send(socket, playerName + " is here.");
+                        modules.helper.helpers.send(playerSocket, name + ' looks around')
                     }
 
 

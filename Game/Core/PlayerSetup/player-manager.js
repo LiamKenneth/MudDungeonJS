@@ -1,7 +1,7 @@
   "use strict";
 
   var modules = {
-      helper: require('../helpers').helpers,
+      helper: require('../helpers'),
       loadPlayerLocation: require('../loadRoom').playerLocation,
       world: {
         valston: require('../../World/valston/prison')
@@ -27,7 +27,7 @@
           var socket = pc.getSocket();
 
 
-          modules.helper.send(socket, 'Whats your password');
+          modules.helper.helpers.send(socket, 'Whats your password');
 
           socket.once('data', function (input) {
 
@@ -37,7 +37,7 @@
 
                   socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(pc, null, 'load'));
               } else {
-                  modules.helper.send(socket, 'Password is wrong');
+                  modules.helper.helpers.send(socket, 'Password is wrong');
                   exports.playerManager.loadPlayer(socket, pc);
               }
           });
@@ -103,7 +103,7 @@
 
    exports.playerManager.each(function (player)
 		{
-            modules.helper.send(player, message);
+            modules.helper.helpers.send(player, message);
 		});
 	},
 
@@ -116,7 +116,7 @@
 
    exports.playerManager.each(function (player)
     {
-            modules.helper.send(player, message);
+            modules.helper.helpers.send(player, message);
     });
   }
 

@@ -5,7 +5,7 @@
     var modules = {
         data: r('./data').data,
         helper: r('./helpers').helpers,
-        commands: r('./commands').commands,
+        commands: r('./commands'),
         fs: r('fs'),
         world:
         {
@@ -16,7 +16,7 @@
             player: r('./PlayerSetup/player-manager')
         },
         color: r('colors'),
-        events: r('./events.js').events
+        events: r('./events.js')
 
     };
     exports.playerLocation = {
@@ -28,7 +28,7 @@
             var socket = pc.getSocket();
             var location = JSON.parse(pc.getLocation());
 
-            socket.emit('enterRoom', modules.events.enterRoom(pc, dir, status));
+            socket.emit('enterRoom', modules.events.events.enterRoom(pc, dir, status));
 
 
             //load room based on player location
@@ -44,9 +44,9 @@
 
             modules.playerSetup.player.playerManager.addPlayerToRoom(socket, pc, region, area, areaId);
 
-            socket.emit('look', modules.events.look(socket, pc, room));
+            socket.emit('look', modules.events.events.look(socket, pc, room));
 
-            socket.emit('parseInput', modules.commands.parseInput(pc));
+            socket.emit('parseInput', modules.commands.commands.parseInput(pc));
 
 
             socket.on('close', function()

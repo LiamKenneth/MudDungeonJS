@@ -1,89 +1,87 @@
 (function(r) {
-  "use strict";
+    "use strict";
 
     var modules = {
         data: r('./data').data,
-        helper: r('./helpers').helpers,
-        commands: r('./commands').commands,
+        helper: r('./helpers'),
         fs: r('fs'),
-        world:
-        {
+        world: {
             valston: r('../World/valston/prison')
-        }
-
+        },
+  events: r('./events.js')
     };
 
-  var commands = {
-    yes: function(string) {
-      return string.toLowerCase().match(/^(y|yes|yea|yeah|sure|fine|okay|aye|yep|ok)$/)
-    },
-    no: function(string) {
-      return string.toLowerCase().match(/^(n|no|never|nah|nay)$/)
-    },
-    look:function(string) {
-      return string.toLowerCase().match(/^(l|look|loo)$/)
-    },
-    move: function(string) {
+    var commands = {
+        yes: function(string) {
+            return string.toLowerCase().match(/^(y|yes|yea|yeah|sure|fine|okay|aye|yep|ok)$/)
+        },
+        no: function(string) {
+            return string.toLowerCase().match(/^(n|no|never|nah|nay)$/)
+        },
+        parseInput: function(pc) {
+            var socket = pc.getSocket();
 
-    },
-    parseInput: function(pc) {
-      var socket = pc.getSocket();
+            socket.on('data', function(input) {
 
-      socket.on('data', function(input)
-      {
+                var command = input.toString().toLowerCase().trim();
 
-        var str = input.toString().toLowerCase();
+                var commandTable = {
 
-        switch (true) {
+                    n: function() {modules.events.events.move(pc, 'north', null)},
+                    north: function() {modules.events.events.move(pc, 'north', null)},
+                    e: function() {console.log('East')},
+                    east: function() {  console.log('East')},
+                    s: function() {  console.log('South')},
+                    south: function() {  console.log('South')  },
+                    w: function() {console.log('West')},
+                    west: function() {console.log('West')  },
+                    d: function() {console.log('down')  },
+                    down: function() {  console.log('down')},
+                    u: function() {  console.log('up')},
+                    up: function() {  console.log('up')  },
+                    //Interaction
+                    l: function() {  console.log('look')  },
+                    look: function() {  console.log('look')  },
+                    ex: function() {  console.log('Exam Item') },
+                    exam: function() {  console.log('Exam Item') },
+                    exits: function() {  console.log('look')  },
+                    "'": function() {  console.log('Say')  },
+                    say: function() {  console.log('Say')  },
+                    score: function() {  console.log('Score')  },
+                    i: function() {  console.log('Inventory')  },
+                    inv: function() {  console.log('Inventory')  },
+                }
 
-          case /\bn(?!\w)|^(n(orth|ort|or|o)(?!\w))/i.test(str):
-            console.log('North')
-            break;
-          case /\be(?!\w)|^(e(ast|as|a)(?!\w))/i.test(str):
-            console.log('east')
-            break;
-          case /\bs(?!\w)|^(s(outh|out|ou|o)(?!\w))/i.test(str):
-            console.log('south')
-            break;
-          case /\bw(?!\w)|^(w(est|es|e)(?!\w))/i.test(str):
-            console.log('west')
-            break;
-          case /\bu(?!\w)|^(u(p)(?!\w))/i.test(str):
-            console.log('up')
-            break;
-            case /\bd(?!\w)|^(d(own)(?!\w))/i.test(str):
-            console.log('down')
-            break;
-          case /\bl(?!\w)|^(l(ook|o|oo)(?!\w))/i.test(str):
-            console.log('look');
-              var location = JSON.parse(pc.getLocation());
-              //load room based on player location
-              var region = location.region;
-              console.log("reg " + region)
-              var area = location.area;
-              console.log("area " + area)
-              var areaId = location.areaID;
-              console.log("areaid " + areaId)
-              var room = modules['world'][region][area][areaId];
-              socket.emit('look', modules.events.look(socket, pc, room));
-            break;
-          case str.match(/^(i|in|inv|inve|inven|invent|invento|inventor|inventory)$/):
-            console.log('inventory')
-            break;
-          default:
-            console.log(str + " • Didn't match any test");
-            break;
+                function processUserInput(command) {
+                    if (commandTable.hasOwnProperty(command))
+                    {
+                        commandTable[command]();
+                    }
+                     else
+                    {
+                        try
+                        {
+                            modules.helper.helpers.send(socket, "Sorry " + command + " is not recognised command");
+                        }
+                        catch (e)
+                        {
+                            console.log(e)
+                        }
+                    }
+                }
+
+                processUserInput(command);
+
+
+            });
+
+            // check if input is prefixed
+
+
+            var move = {
+                north: ''
+            }
         }
-
-      });
-
-      // check if input is prefixed
-
-
-      var move = {
-        north: ''
-      }
-    }
-  };
-  exports.commands = commands;
+    };
+    exports.commands = commands;
 })(require);
