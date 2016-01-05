@@ -35,12 +35,12 @@ exports.tutorial = {
 exports.prison = {
 
     0: {
-        title: "Dungeon Room\r\n",
-        description: "\r\nYou are surrounded by 4 walls covered in grime made of large grey" +
+        title: "Dungeon Room",
+        description: "You are surrounded by 4 walls covered in grime made of large grey" +
         "stone blocks. The stone floor is cold under your feet." +
         "The only possible way out seems to be the metal gate in" +
         "front of you. A small wooden stool is in" +
-        "the corner behind you.\r\n",
+        "the corner behind you.",
         terrain: "city",
         exits: [{
                 name: "North",
@@ -56,8 +56,8 @@ exports.prison = {
         players: []
     },
     1: {
-        title: "A hallway Room\r\n",
-        description: "\r\nYou are in a dark hallway\r\n",
+        title: "A hallway Room",
+        description: "You are in a dark hallway",
         terrain: "city",
         exits: [{
 

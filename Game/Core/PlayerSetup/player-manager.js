@@ -112,13 +112,17 @@ console.log(room.players)
    * Broadcast a message to every player
    * @param string message to broadcast to everyone
    */
-  broadcastToRoom: function (message)
+  broadcastToRoom: function (message, playersInRoom)
   {
 
-   exports.playerManager.each(function (player)
-    {
-            modules.helper.helpers.send(player, message);
-    });
+      playersInRoom.forEach(function(playersInRoom)
+      {
+
+          var player = playersInRoom.getSocket();
+          modules.helper.helpers.send(player, message);
+
+      });
+
   }
 
 

@@ -29,8 +29,6 @@
             var socket = pc.getSocket();
             var location = JSON.parse(pc.getLocation());
 
-            socket.emit('enterRoom', modules.events.events.enterRoom(pc, dir, status));
-
 
             //load room based on player location
             var region = location.region;
@@ -41,14 +39,25 @@
             console.log("areaid " + areaId)
             var room = modules['world'][region][area][areaId];
 
-            console.log(room.title)
+            console.log(room.players)
+
+
+
+            if (status == 'load') {
+                var playersInRoom = room.players;
+
+                socket.emit('enterRoom', modules.events.events.enterRoom(pc, dir, status, playersInRoom));
+            }
 
             if (status != 'leave') {
+                console.time('addPlayer')
                 modules.playerSetup.player.playerManager.addPlayerToRoom(socket, pc, region, area, areaId);
+                console.timeEnd('addPlayer')
             }
             else {
                 modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
             }
+
 
 
 

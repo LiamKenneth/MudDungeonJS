@@ -47,7 +47,7 @@
         } else if (modules.commands.no(input)) {
           no();
         } else {
-          socket.write("Plese answer with yes or no \r\n");
+          socket.write("Please answer with yes or no \r\n");
           socket.emit('data', { data: "Plese answer with yes or no \r\n" });
         }
       });
@@ -74,8 +74,6 @@
        * @example helpers.send(socket, 'hello');
        */
       send: function(socket, text) {
-
-        console.log("SWEND")
 
           //A hack, not sure what nsp is. socket.io returns it though
           if(!socket.nsp) {

@@ -70,10 +70,7 @@
             // /* store player info */
             var playerInfo = new Object();
             playerInfo.name = name;
-            var response = {
-                raceChoice: 'What race would you like to be?\r\n',
-                notRace: 'Sorry that\'s not a race.'
-            }
+
             var CharOptions = function(socket, choice) {
                 modules.helper.send(socket, choice.text.choice);
                 if (choice.hasOwnProperty('options')) {
@@ -144,7 +141,7 @@
                             nextChoice: 'stats',
                             text: {
                                 choice: 'Are you a male or female?',
-                                wrongChoice: 'Sorry that\'s not a sex'
+                                wrongChoice: 'Sorry that\'s not a choice'
                             },
                             pick: function(input) {
                                 return playerSetup.sex(input)
@@ -180,6 +177,17 @@
                 }
             }
         },
+        sex: function(sex) {
+            switch (sex) {
+                case 'm':
+                case 'male':
+                    return 'Male';
+                case 'F':
+                case 'female':
+                    return 'Female';
+                    return false;
+            }
+        },
         createCharacterSheet: function(socket, characterData) {
             var playerData = JSON.parse(modules.data.loadFile('Game/Core/PlayerSetup/', 'blankChar.json'));
             // items:
@@ -210,17 +218,6 @@
             console.log('player saved');
             modules.playerSetup.player.addPlayer(socket);
             socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(PC));
-        },
-        sex: function(sex) {
-            switch (sex) {
-                case 'm':
-                case 'male':
-                    return 'Male';
-                case 'F':
-                case 'female':
-                    return 'Female';
-                    return false;
-            }
         }
     };
     exports.playerSetup = playerSetup;

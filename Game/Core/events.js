@@ -16,12 +16,24 @@
     };
 
     var events = {
-        enterRoom: function(player, direction, status)
+        enterRoom: function(player, direction, status, playersInRoom)
         {
             var name = player.getName();
-            var pace = 'walks';
+            var socket = player.getSocket();
+
+           // console.log(socket)
+            var pace = 'walk'; //TODO: fix walk and walks
             var dir = direction || 'load'; // prev location
-            var enterMessage =
+           // var playerInRoomArray = playersInRoom;
+
+            var enterMessageSelf =
+            {
+                load: 'You have appeared',
+                enter: 'You' + ' ' + pace + ' in from the ' + dir,
+                leave: 'You' + ' ' + pace + ' ' + dir
+            };
+
+            var enterMessageOther =
             {
                 load: name + ' has appeared',
                 enter: name + ' ' + pace + ' in from the ' + dir,
@@ -29,8 +41,22 @@
             };
 
 
+            playersInRoom.forEach(function(playersInRoom)
+            {
 
-            modules.playerSetup.player.playerManager.broadcast(enterMessage[status]);
+                var playerName = playersInRoom.getName();
+                console.log(name + " " + playerName)
+                if (name !== playerName)
+                {
+                    var playersSocket = playersInRoom.getSocket();
+                    modules.helper.helpers.send(playersSocket, enterMessageOther[status])
+                }
+                else {
+                   modules.helper.helpers.send(socket, enterMessageSelf[status])
+                }
+
+
+            });
 
         },
         move: function(player, direction, nextRoom)
@@ -39,23 +65,24 @@
             var socket = player.getSocket();
 
             var location = JSON.parse(player.getLocation());
-console.log('pc loc ' + location.region)
+
             var region = location.region;
             var area = location.area;
             var areaId = location.areaID;
-            modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, player, region, area, areaId);
             var room = modules['world'][region][area][areaId];
-            console.time("exits")
+            events.enterRoom(player, direction, 'leave', room.players)
+
+            modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, player, region, area, areaId);
+
+
             var exits =  events.exits(room.exits);
 
-            console.timeEnd("exits")
             try {
 
-                events.enterRoom(player, direction, 'leave')
 
                 player.setLocation(exits[direction].region, exits[direction].area, exits[direction].areaID);
-
-                console.log(player.location.areaID)
+                var nextRoom = modules['world'][exits[direction].region][exits[direction].area][exits[direction].areaID];
+                events.enterRoom(player, direction, 'enter', nextRoom.players)
 
                 socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.playerLocation.loadRoom(player, direction, 'join'));
             }
@@ -104,8 +131,6 @@ console.log('pc loc ' + location.region)
         },
         exits: function(exits)
         {
-
-console.log("rm exits" + JSON.stringify(exits))
 
             var exitCount = exits.length;
             var exitObj = {}
