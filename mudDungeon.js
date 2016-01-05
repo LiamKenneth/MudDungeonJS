@@ -22,13 +22,21 @@
 
         socket.emit('welcome', modules.playerSetup.welcome(socket));
 
+        socket.on('close', function()
+        {
+            modules.playerSetup.player.playerManager.removePlayer(socket);
+            modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
 
+            console.log("Player left");
+        });
 
         socket.on('interrupt', function () {
             socket.write("INTR!");
             // disconnect on CTRL-C!
             socket.end();
         });
+
+ 
 
 
     });

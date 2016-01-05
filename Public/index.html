@@ -43,6 +43,11 @@
             document.getElementById('data').innerHTML +=  '\n\r' + data.data;
         });
 
+        socket.on('disconnect', function(){
+          socket.emit('close');
+         console.log('user disconnected');
+       });
+
 
         function sendData() {
             socket.emit('data', document.getElementById('input').value);
