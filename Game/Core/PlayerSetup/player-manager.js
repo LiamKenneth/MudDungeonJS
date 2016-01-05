@@ -14,6 +14,7 @@
     for(var i=0; i < arr.length; i++) {
         if(arr[i] == val) {
             arr.splice(i, 1);
+            console.log('removed')
             break;
         }
     }
@@ -79,9 +80,9 @@
 	 */
   removePlayerFromRoom: function (player, pc, region, area, areaId)
 	{
-  var room = modules['world'][region][area];
+  var room = modules['world'][region][area][areaId];
 
-
+console.log(room.players)
   removeByValue(room.players, pc);
 
 	},

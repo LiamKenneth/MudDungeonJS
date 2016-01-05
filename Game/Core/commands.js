@@ -19,6 +19,7 @@
             return string.toLowerCase().match(/^(n|no|never|nah|nay)$/)
         },
         parseInput: function(pc) {
+
             var socket = pc.getSocket();
 
             socket.on('data', function(input) {
@@ -27,12 +28,12 @@
 
                 var commandTable = {
 
-                    n: function() {modules.events.events.move(pc, 'north', null)},
-                    north: function() {modules.events.events.move(pc, 'north', null)},
+                    n: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'North', null)},
+                    north: function() {modules.events.events.move(pc, 'North', null)},
                     e: function() {console.log('East')},
                     east: function() {  console.log('East')},
-                    s: function() {  console.log('South')},
-                    south: function() {  console.log('South')  },
+                    s: function() {socket.removeAllListeners('data');  modules.events.events.move(pc, 'South', null)},
+                    south: function() {modules.events.events.move(pc, 'South', null) },
                     w: function() {console.log('West')},
                     west: function() {console.log('West')  },
                     d: function() {console.log('down')  },

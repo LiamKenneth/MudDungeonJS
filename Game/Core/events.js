@@ -35,25 +35,33 @@
         },
         move: function(player, direction, nextRoom)
         {
-            var socket = player.getSocket();
-            var location = JSON.parse(player.getLocation());
 
+            var socket = player.getSocket();
+
+            var location = JSON.parse(player.getLocation());
+console.log('pc loc ' + location.region)
             var region = location.region;
             var area = location.area;
             var areaId = location.areaID;
+            modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, player, region, area, areaId);
             var room = modules['world'][region][area][areaId];
-
+            console.time("exits")
             var exits =  events.exits(room.exits);
 
-            console.log(exits)
+            console.timeEnd("exits")
+            try {
 
-            events.enterRoom(player, direction, 'leave')
+                events.enterRoom(player, direction, 'leave')
 
-            player.setLocation(exits.direction.region, exits.direction.area, exits.direction.areaID);
+                player.setLocation(exits[direction].region, exits[direction].area, exits[direction].areaID);
 
-            console.log(player.location.areaID)
+                console.log(player.location.areaID)
 
-            socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.playerLocation.loadRoom(player));
+                socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.playerLocation.loadRoom(player, direction, 'join'));
+            }
+            catch (e) {
+                console.log(e)
+            }
 
         },
         look: function(socket, playerInfo, room)
@@ -97,7 +105,7 @@
         exits: function(exits)
         {
 
-
+console.log("rm exits" + JSON.stringify(exits))
 
             var exitCount = exits.length;
             var exitObj = {}
@@ -116,7 +124,7 @@
                     areaID: exits[exitCount].location.areaID
                 };
 
-                console.log(exitObj)
+                console.log("find exit" + exitObj)
             }
 
             return exitObj;

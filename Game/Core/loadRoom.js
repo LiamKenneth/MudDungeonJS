@@ -23,6 +23,7 @@
 
         loadRoom: function(pc, dir, status)
         {
+            console.log(dir + status)
 
             var name = pc.getName();
             var socket = pc.getSocket();
@@ -42,7 +43,14 @@
 
             console.log(room.title)
 
-            modules.playerSetup.player.playerManager.addPlayerToRoom(socket, pc, region, area, areaId);
+            if (status != 'leave') {
+                modules.playerSetup.player.playerManager.addPlayerToRoom(socket, pc, region, area, areaId);
+            }
+            else {
+                modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
+            }
+
+
 
             socket.emit('look', modules.events.events.look(socket, pc, room));
 
