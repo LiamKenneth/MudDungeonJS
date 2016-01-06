@@ -41,6 +41,10 @@ exports.prison = {
         "The only possible way out seems to be the metal gate in" +
         "front of you. A small wooden stool is in" +
         "the corner behind you.",
+        keywords: {
+            "look gate": "You look at the metal gate which leads north, apart from being the only exit you see nothing special",
+            "exam gate": "You look closely at the gate and notice the hinges and lock look weak, maybe you could bash the door down?"
+        },
         terrain: "city",
         exits: [{
                 name: "North",
@@ -53,7 +57,18 @@ exports.prison = {
                 hidden: false
 
         }],
-        players: []
+        players: [],
+        items:[{
+            name: "Wooden Stool",
+            actions: {
+                "sit": "sit",
+                "wield": "wield"
+            },
+            description: {
+                "look": "You look at a small wooden stool, maybe you could use it to bash the prison gate down?",
+                "exam": "You look closely at the stool and notice a lockpick underneath it"
+            }
+        }]
     },
     1: {
         title: "A hallway Room",
