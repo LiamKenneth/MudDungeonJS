@@ -24,25 +24,34 @@
 
             socket.on('data', function(input) {
 
-                var command = input.toString().toLowerCase().trim();
+                var str = input.toString().toLowerCase().trim();
+                //command  //preposition //item
+                //Look    //at/on/in     //sign
+                var command = str.split(' ').slice(0, 2).join(' ');
+              //  var preposition = str.split(' ').slice(1, 2).join(' ')
+                var item = str.split(' ').slice(2).join(' ');
+
+
 
                 var commandTable = {
 
                     n: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'North', null)},
-                    north: function() {modules.events.events.move(pc, 'North', null)},
-                    e: function() {console.log('East')},
-                    east: function() {  console.log('East')},
+                    north: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'North', null)},
+                    e: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'East', null)},
+                    east: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'East', null)},
                     s: function() {socket.removeAllListeners('data');  modules.events.events.move(pc, 'South', null)},
-                    south: function() {modules.events.events.move(pc, 'South', null) },
-                    w: function() {console.log('West')},
-                    west: function() {console.log('West')  },
-                    d: function() {console.log('down')  },
-                    down: function() {  console.log('down')},
-                    u: function() {  console.log('up')},
-                    up: function() {  console.log('up')  },
+                    south: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'South', null)},
+                    w: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'West', null)},
+                    west: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'West', null) },
+                    d: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'Down', null)},
+                    down: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'Down', null)},
+                    u: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'Up', null)},
+                    up: function() {socket.removeAllListeners('data'); modules.events.events.move(pc, 'Up', null) },
                     //Interaction
-                    l: function() {  console.log('look')  },
-                    look: function() {  console.log('look')  },
+                    l: function() { modules.events.events.look(socket, pc)},
+                    look: function() { modules.events.events.look(socket, pc)  },
+                    "look at": function() { modules.events.events.look(socket, pc, 'at', item)  },
+                    'look in': function() { modules.events.events.look(socket, pc, 'in', item)  },
                     ex: function() {  console.log('Exam Item') },
                     exam: function() {  console.log('Exam Item') },
                     exits: function() {  console.log('look')  },

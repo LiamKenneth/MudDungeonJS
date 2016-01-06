@@ -61,7 +61,7 @@
 
 
 
-            socket.emit('look', modules.events.events.look(socket, pc, room));
+            socket.emit('look', modules.events.events.look(socket, pc));
 
             socket.emit('parseInput', modules.commands.commands.parseInput(pc));
 

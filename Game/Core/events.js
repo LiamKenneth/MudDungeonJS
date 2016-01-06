@@ -91,14 +91,20 @@
             }
 
         },
-        look: function(socket, playerInfo, room)
+        look: function(socket, playerInfo, preposition, item)
         {
 
-            try
-            {
+          console.log(preposition + " " + item)
+
                 var name = playerInfo.getName();
-                //get exits
-                var exits = events.exits(room.exits)
+                var location = JSON.parse(playerInfo.getLocation());
+
+                var region = location.region;
+                var area = location.area;
+                var areaId = location.areaID;
+                var room = modules['world'][region][area][areaId];
+
+                var exits = events.exits(room.exits);
 
 
 
@@ -122,11 +128,7 @@
 
 
                 });
-            }
-            catch (e)
-            {
-                "error " + console.log(e)
-            }
+
 
         },
         exits: function(exits)
