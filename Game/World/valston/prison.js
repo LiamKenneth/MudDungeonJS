@@ -46,7 +46,8 @@ exports.prison = {
             "exam gate": "You look closely at the gate and notice the hinges and lock look weak, maybe you could bash the door down?"
         },
         terrain: "city",
-        exits: [{
+        exits: {
+        North:{
                 name: "North",
                 location: {
                     region: 'valston',
@@ -56,7 +57,8 @@ exports.prison = {
                 locked: false,
                 hidden: false
 
-        }],
+                }
+            },
         players: [],
         items:[{
             name: "Wooden Stool",
