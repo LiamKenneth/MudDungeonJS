@@ -76,8 +76,8 @@ exports.prison = {
         title: "A hallway Room",
         description: "You are in a dark hallway",
         terrain: "city",
-        exits: [{
-
+        exits: {
+            South:{
                 name: "South",
                 location: {
                     region: 'valston',
@@ -86,8 +86,8 @@ exports.prison = {
                 },
                 locked: false,
                 hidden: false
-
-        }],
+                }           
+        },
         players: []
     }
 }

@@ -69,6 +69,7 @@
 
                         if (room.exits[direction].locked === false) {
 
+                     
                             events.enterRoom(player, direction, 'leave', room.players)
 
                             modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, player, region, area, areaId);
@@ -140,17 +141,13 @@
 
 
 
-                        var exitObj = {
-                            North: {},
-                            South: {},
-                            East: {},
-                            West: {},
-                        }
+                        var exitObj = new Object;
+
                         exitObj.exits = [];
 
                         if (exits.hasOwnProperty('North')) {
                             exitObj.exits.push('North');
-                            exitObj.exits.North = {
+                            exitObj.North = {
                                 region: exits.North.location.region,
                                 area: exits.North.location.area,
                                 areaID: exits.North.location.areaID
