@@ -1,5 +1,5 @@
-#desc#
-#Player name#, #title#
+pDesc
+pName #title#
 -------------------------------------------------------------------------------
 Level: #level#                   Race : #race#                  Align: #align#
 Age  : #Age#                  Class: #class#                Played: #Hours# Hours

@@ -190,15 +190,24 @@
                     var scoreSheet =  modules.data.loadFile(null, 'score');
 
                     var name = player.getName();
-                    var description = player.getDescription();
+                    var desc = player.getDescription();
+
+                    var data = {
+                       pName: name,
+                       pDesc: desc
+                    };
+
+                    scoreSheet = scoreSheet.replace(/pName|pDesc|/gm, function(matched){
+                          return data[matched];
+                        });
 
 
-                    var playerScore = scoreSheet.replace("#Player name#", name);
                   /// http://stackoverflow.com/questions/15604140/replace-multiple-strings-with-multiple-other-strings scoreSheet.replace("#desc#", description);
 
-                    modules.helper.helpers.send(socket, playerScore);
+                    modules.helper.helpers.send(socket, scoreSheet);
 
-                    }
+
+                }
 
             };
             exports.events = events;
