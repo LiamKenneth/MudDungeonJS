@@ -197,7 +197,8 @@
                        pDesc: desc
                     };
 
-                    scoreSheet = scoreSheet.replace(/pName|pDesc|/gm, function(matched){
+                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)/g, function(matched){
+                        console.log("matched:" + matched)
                           return data[matched];
                         });
 
