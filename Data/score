@@ -1,0 +1,12 @@
+#desc#
+#Player name#, #title#
+-------------------------------------------------------------------------------
+Level: #level#                   Race : #race#                  Align: #align#
+Age  : #Age#                  Class: #class#                Played: #Hours# Hours
+Sex  : #Sex#
+Str  : #str# (100)
+Dex  : #dex# (100)
+Con  : #con# (100)
+Int  : #int# (100)
+Wis  : #wis# (100)
+Cha  : #cha# (100)

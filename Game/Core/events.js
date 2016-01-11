@@ -3,6 +3,7 @@
 
         var modules = {
             helper: r('./helpers'),
+            data: r('./data').data,
             playerSetup: {
                 player: r('./PlayerSetup/player-manager')
             },
@@ -69,7 +70,7 @@
 
                         if (room.exits[direction].locked === false) {
 
-                     
+
                             events.enterRoom(player, direction, 'leave', room.players)
 
                             modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, player, region, area, areaId);
@@ -182,6 +183,20 @@
 
 
                         return exitObj;
+
+                    },
+                    score: function(socket, player) {
+
+                    var scoreSheet =  modules.data.loadFile(null, 'score');
+
+                    var name = player.getName();
+                    var description = player.getDescription();
+
+
+                    var playerScore = scoreSheet.replace("#Player name#", name);
+                  /// http://stackoverflow.com/questions/15604140/replace-multiple-strings-with-multiple-other-strings scoreSheet.replace("#desc#", description);
+
+                    modules.helper.helpers.send(socket, playerScore);
 
                     }
 

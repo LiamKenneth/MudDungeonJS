@@ -15,7 +15,7 @@
         fs: r('fs'),
         color: r('colors')
     };
-    var weapons = modules.data.loadFile('Game/Core/Items/Weapons/swords/', 'swords.json');
+    var weapons = modules.data.loadFile('./Game/Core/Items/Weapons/swords/', 'swords.json');
     var playerSetup = {
         welcome: function(socket) {
             //  var motd = modules.data.loadFile(null, 'motd');

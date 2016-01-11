@@ -17,17 +17,18 @@
 
     var telnet = modules.telnet;
     var server = new telnet.Server(function (socket) {
-        console.log('someone connected');
+        console.log('telnet someone connected');
 
 
         socket.emit('welcome', modules.playerSetup.welcome(socket));
 
         socket.on('close', function()
         {
-            modules.playerSetup.player.playerManager.removePlayer(socket);
-            modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
 
-            console.log("Player left");
+            // modules.playerSetup.player.playerManager.removePlayer(socket);
+            // modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
+
+            console.log("telnet Player left");
         });
 
         socket.on('interrupt', function () {
@@ -36,7 +37,7 @@
             socket.end();
         });
 
- 
+
 
 
     });
@@ -66,10 +67,26 @@
             });
     }
 
-    io.on('connection', function (socket) {
-        console.log('someone connected');
+    io.sockets.on('connection', function (socket) {
+        console.log('Web user connected');
+
+        socket.on('disconnect', function () {
+
+          // modules.playerSetup.player.playerManager.removePlayer(socket);
+           //modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
+
+           console.log("Web Player left");
+
+    });
 
         socket.emit('welcome', modules.playerSetup.welcome(socket));
+
+
+    });
+
+    io.on('disconnect', function()
+    {
+        console.log("Player left");
     });
 
 

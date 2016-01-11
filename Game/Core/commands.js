@@ -57,7 +57,7 @@
                     exits: function() {  console.log('look')  },
                     "'": function() {  console.log('Say')  },
                     say: function() {  console.log('Say')  },
-                    score: function() {  console.log('Score')  },
+                    score: function() { modules.events.events.score(socket, pc)  },
                     i: function() {  console.log('Inventory')  },
                     inv: function() {  console.log('Inventory')  },
                 }

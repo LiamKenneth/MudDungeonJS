@@ -41,11 +41,15 @@
         socket.on('data', function (data) {
             console.log(data);
             document.getElementById('data').innerHTML +=  '\n\r' + data.data;
+
         });
 
         socket.on('disconnect', function(){
+                 console.log('user disconnected');
+
           socket.emit('close');
-         console.log('user disconnected');
+
+ ;
        });
 
 
