@@ -1,12 +1,25 @@
 pDesc
-pName, pTitle
--------------------------------------------------------------------------------
-Level: pLevel               Race : pRace                  Align: pAlign
-Age  : pAge                 Class: pClass                Played: #Hours# Hours
-Sex  : pSex
-Str  : pStr (StrMax)
-Dex  : pDex (dexMax)
-Con  : pCon (conMax)
-Int  : pInt (intMax)
-Wis  : pWis (wisMax)
-Cha  : pCha (chaMax)
++-------------------------------------------------------------------------+
+| pName, pTitle                                                           |
++--------------------------+-------------------+--------------------------+
+| Strength     : [ pStr/StrMax ] | Race : pRace      | Practices    : [     5 ] |
+| Dexterity    : [ pDex/dexMax ] | Class: pClass     | Trains       : [     1 ] |
+| Constitution : [ pCon/conMax ] | Sub  : Priest     | Explored     : [     9 ] |
+| Intelligence : [ pInt/intMax ] | Sex  : pSex       | Quest points : [    95 ] |
+| Wisdom       : [ pWis/wisMax ] | Level: pLevel     | Quest time   : [     0 ] |
+| Charisma     : [ pCha/chaMax ] |                   | Goals done   : [     2 ] |
++------------------------+-+-------------------+--------------------------+
+| HP     : [  340/340  ] | Hitroll  : [   45 ] | Weight :   206 of 342    |
+| Mana   : [  403/403  ] | Damroll  : [   46 ] | Items  :    64 of 129    |
+| Moves  : [  673/673  ] | Wimpy    : [   30 ] | Align  : pAlign          |
+| Gold   : [     942210] | Age      : [   13 ] | Status : Standing        |
+| Silver : [           ] | Hours    : [    14] |                          |
+| Copper : [           ] | MKills   : [      ] |                          |
+| To Lvl : [       482 ] |                     | Hunger : 0   Starving    |
+|                        | Hours    : [    14] | Thirst : 0   Dehydrated  |
++------------------------+---------------------+--------------------------+
+| Resistances:                                                            |
+| Pierce:  110 (Armored           ) [#########---------------------------]|
+| Bash  :  110 (Armored           ) [#########---------------------------]|
+| Slash :  -55 (Defenseless       ) [------------------------------------]|
++-------------------------------------------------------------------------+
