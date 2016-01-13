@@ -45,8 +45,9 @@
 
             if (status == 'load') {
                 var playersInRoom = room.players;
-
+                console.time('enter')
                 socket.emit('enterRoom', modules.events.events.enterRoom(pc, dir, status, playersInRoom));
+                    console.timeEnd('enter')
             }
 
             if (status != 'leave') {
@@ -60,8 +61,9 @@
 
 
 
-
+    console.time('look')
             socket.emit('look', modules.events.events.look(socket, pc));
+console.timeEnd('look')
 
             socket.emit('parseInput', modules.commands.commands.parseInput(pc));
 

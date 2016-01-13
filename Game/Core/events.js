@@ -186,22 +186,46 @@
 
                     },
                     score: function(socket, player) {
-
+                            console.time('Score')
                     var scoreSheet =  modules.data.loadFile(null, 'score');
+
 
                     var name = player.getName();
                     var desc = player.getDescription();
+                    var Class = player.getClass();
+                    var race = player.getRace();
+                    var age = player.getAge();
+                    var level = player.getLevel();
+                    var info = player.getPlayerInfo();
 
                     var data = {
                        pName: name,
-                       pDesc: desc
+                       pDesc: desc,
+                       pClass: Class,
+                       pRace: race,
+                       pAge: age,
+                       pLevel: level,
+                       pAlign: info.information.alignment,
+                       pStr: info.information.stats.strength,
+                       StrMax: info.information.stats.strength,
+                       pDex: info.information.stats.dexterity,
+                       dexMax: info.information.stats.dexterity,
+                       pCon: info.information.stats.constitution,
+                       conMax: info.information.stats.constitution,
+                       pInt: info.information.stats.intelligence,
+                       intMax: info.information.stats.intelligence,
+                       pWis: info.information.stats.wisdom,
+                       wisMax: info.information.stats.wisdom,
+                       pCha: info.information.stats.charisma,
+                       chaMax: info.information.stats.charisma,
+
                     };
 
-                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)/g, function(matched){
-                        console.log("matched:" + matched)
+                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)|(pAge)|(pClass)|(pRace)|(pLevel)|(pAlign)|(pStr)|(StrMax)|(pDex)|(dexMax)|(pCon)|(conMax)|(pInt)|(intMax)|(pWis)|(wisMax)|(pCha)|(chaMax)/g, function(matched){
+
                           return data[matched];
                         });
-
+console.timeEnd('Score')
 
                   /// http://stackoverflow.com/questions/15604140/replace-multiple-strings-with-multiple-other-strings scoreSheet.replace("#desc#", description);
 

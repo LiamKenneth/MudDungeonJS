@@ -6,10 +6,10 @@ var player = function(playerInfo) {
     this.description = playerInfo.description || 'You see nothing special about them';
     this.age = playerInfo.age || 18;
     this.information = {
-        level: playerInfo.level || 1,
-        race: playerInfo.race || '',
-        class: playerInfo.class || '',
-        alignment: playerInfo.alignment || '',
+        level: playerInfo.information.level || 1,
+        race: playerInfo.information.race || '',
+        class: playerInfo.information.class || '',
+        alignment: playerInfo.information.alignment || '',
         alignmentScore: 0,
         experience: 0,
         experienceToNextLevel: 0,
@@ -65,9 +65,30 @@ var player = function(playerInfo) {
     this.copper = 0;
 
     //Get
-    this.getInfo = function() {
-        return JSON.stringify(player);
+
+    this.getPlayerInfo = function() {
+        return this;
     };
+    this.getInfo = function() {
+        return this.information;
+    };
+
+    this.getAge = function() {
+        return this.age;
+    };
+
+    this.getLevel = function() {
+        return this.information.level;
+    };
+
+    this.getClass = function() {
+        return this.information.class;
+    };
+
+    this.getRace = function() {
+        return this.information.race;
+    };
+
 
     this.getName = function() {
         return this.name;
@@ -75,6 +96,7 @@ var player = function(playerInfo) {
     this.getDescription = function() {
         return this.description;
     };
+
     this.getLocation = function() {
         return JSON.stringify(this.location);
     };

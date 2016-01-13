@@ -24,7 +24,7 @@
 
 	  loadPlayer: function(pc) {
 
-          console.log(pc.getName())
+          console.log(pc.getClass())
           var socket = pc.getSocket();
 
 
