@@ -1,22 +1,26 @@
 pDesc
 +-------------------------------------------------------------------------+
-| pName, pTitle                                                           |
+| pName, pTitle [Conclave]                                                |
 +--------------------------+-------------------+--------------------------+
-| Strength     : [ pStr/StrMax ] | Race : pRace      | Practices    : [     5 ] |
-| Dexterity    : [ pDex/dexMax ] | Class: pClass     | Trains       : [     1 ] |
-| Constitution : [ pCon/conMax ] | Sub  : Priest     | Explored     : [     9 ] |
-| Intelligence : [ pInt/intMax ] | Sex  : pSex       | Quest points : [    95 ] |
-| Wisdom       : [ pWis/wisMax ] | Level: pLevel     | Quest time   : [     0 ] |
-| Charisma     : [ pCha/chaMax ] |                   | Goals done   : [     2 ] |
+| Strength     : [pStr/StrMax] | Race : pRace| Practices    : [     0 ] |
+| Dexterity    : [pDex/dexMax] | Class: pClass| Trains       : [     0 ] |
+| Constitution : [pCon/conMax] | Sub  :            | Explored     : [     0 ] |
+| Intelligence : [pInt/intMax] | Sex  : pSex| Quest points : [     0 ] |
+| Wisdom       : [pWis/wisMax] | Level: pLevel| Quest time   : [     0 ] |
+| Charisma     : [pCha/chaMax] |                   | Goals done   : [     0 ] |
 +------------------------+-+-------------------+--------------------------+
-| HP     : [  340/340  ] | Hitroll  : [   45 ] | Weight :   206 of 342    |
-| Mana   : [  403/403  ] | Damroll  : [   46 ] | Items  :    64 of 129    |
-| Moves  : [  673/673  ] | Wimpy    : [   30 ] | Align  : pAlign          |
-| Gold   : [     942210] | Age      : [   13 ] | Status : Standing        |
+| HP     : [    0/0    ] | Hitroll  : [   45 ] | Weight :   206 of 342    |
+| Mana   : [    0/0    ] | Damroll  : [   46 ] | Items  :    64 of 129    |
+| Moves  : [    0/  0  ] | Wimpy    : [   30 ] | Align  : pAlign          |
+| Gold   : [          0] | Age      : [   13 ] | Status : Standing        |
 | Silver : [           ] | Hours    : [    14] |                          |
 | Copper : [           ] | MKills   : [      ] |                          |
-| To Lvl : [       482 ] |                     | Hunger : 0   Starving    |
-|                        | Hours    : [    14] | Thirst : 0   Dehydrated  |
+| To Lvl : [       0   ] | MDeaths  : [      ] | Hunger : 0   Starving    |
+|                        |                     | Thirst : 0   Dehydrated  |
++------------------------+---------------------+--------------------------+
+| PKills  : [1234567890] |                                                |
+| PDeaths : [          ] |                                                |
+|                        |                                                |
 +------------------------+---------------------+--------------------------+
 | Resistances:                                                            |
 | Pierce:  110 (Armored           ) [#########---------------------------]|

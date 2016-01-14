@@ -36,8 +36,8 @@
      */
     promptPlayer: function(socket, selected, yes, no) {
 
-      socket.write("You selected " + selected + " are you sure? [Y/N]\r\n");
-      socket.emit('data', { data: "You selected " + selected + " are you sure? [Y/N]\r\n" });
+      socket.write("You selected " + selected.trim() + " are you sure? [Y/N]\r\n");
+      socket.emit('data', { data: "You selected " + selected.trim() + " are you sure? [Y/N]\r\n" });
       socket.on('data', function(input) {
 
         var input = helpers.cleanInput(input);

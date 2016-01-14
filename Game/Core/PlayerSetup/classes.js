@@ -3,7 +3,7 @@
     var modules = {
         helper: require('../helpers').helpers
     };
-
+//8char max
     var classList = {
         fighter: 'Fighter',
         mage: 'Mage'

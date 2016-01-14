@@ -198,16 +198,28 @@
                     var level = player.getLevel();
                     var info = player.getPlayerInfo();
 
+                    function pad(value, length, position) {
+
+                        if (position == 'left') {
+                            return (value.toString().length < length) ? pad(" " + value, length, 'left') : value;
+                        } else if (position == 'right') {
+                            return (value.toString().length < length) ? pad(value + " ", length, 'right') : value;
+                        }
+                    }
+
+
+
+
                     var data = {
                        pName: name,
                        pDesc: desc,
-                       pClass: Class,
-                       pRace: race,
+                       pClass: pad(Class, 11, 'right'),
+                       pRace: pad(race, 11, 'right'),
                        pAge: age,
                        pLevel: level,
                        pAlign: info.information.alignment,
-                       pStr: info.information.stats.strength,
-                       StrMax: info.information.stats.strength,
+                       pStr: pad(info.information.stats.strength, 3, 'left'),
+                       StrMax: pad(info.information.stats.strength, 3, 'right'),
                        pDex: info.information.stats.dexterity,
                        dexMax: info.information.stats.dexterity,
                        pCon: info.information.stats.constitution,

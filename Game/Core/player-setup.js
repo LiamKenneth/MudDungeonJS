@@ -72,9 +72,9 @@
             playerInfo.name = name;
 
             var CharOptions = function(socket, choice) {
-                modules.helper.send(socket, choice.text.choice);
+                modules.helper.send(socket, choice.text.choice.trim());
                 if (choice.hasOwnProperty('options')) {
-                    modules.helper.send(socket, choice.options);
+                    modules.helper.send(socket, choice.options.trim());
                 }
                 socket.once('data', function(input) {
                     var input = input.toString().trim().toLowerCase();
@@ -181,10 +181,10 @@
             switch (sex) {
                 case 'm':
                 case 'male':
-                    return 'Male';
+                    return 'Male       ';
                 case 'F':
                 case 'female':
-                    return 'Female';
+                    return 'Female     ';
                     return false;
             }
         },
@@ -203,12 +203,12 @@
             playerData.information.level = 1;
             playerData.information.race = characterData.race;
             playerData.information.class = characterData.class;
-            playerData.information.stats.strength = characterData.str;
-            playerData.information.stats.dexterity = characterData.dex;
-            playerData.information.stats.constitution = characterData.con;
-            playerData.information.stats.intelligence = characterData.int;
-            playerData.information.stats.wisdom = characterData.wis;
-            playerData.information.stats.charisma = characterData.cha;
+            playerData.information.stats.strength = ' ' + characterData.str + ' ';
+            playerData.information.stats.dexterity = ' ' + characterData.dex+ ' ';
+            playerData.information.stats.constitution = ' ' + characterData.con+ ' ';
+            playerData.information.stats.intelligence = ' ' + characterData.int+ ' ';
+            playerData.information.stats.wisdom = ' ' + characterData.wis+ ' ';
+            playerData.information.stats.charisma = ' ' + characterData.cha+ ' ';
             playerData.gold = 50;
             playerData.location.region = 'valston';
             playerData.location.area = 'prison';
