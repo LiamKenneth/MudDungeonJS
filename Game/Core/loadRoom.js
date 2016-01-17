@@ -52,18 +52,18 @@
 
             if (status != 'leave') {
                 console.time('addPlayer')
-                modules.playerSetup.player.playerManager.addPlayerToRoom(socket, pc, region, area, areaId);
+                socket.emit('addPlayer', modules.playerSetup.player.playerManager.addPlayerToRoom(socket, pc, region, area, areaId));
                 console.timeEnd('addPlayer')
             }
             else {
-                modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
+                socket.emit('removePlayer', modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId));
             }
 
 
 
-    console.time('look')
+    //console.time('look')
             socket.emit('look', modules.events.events.look(socket, pc));
-console.timeEnd('look')
+//console.timeEnd('look')
 
             socket.emit('parseInput', modules.commands.commands.parseInput(pc));
 

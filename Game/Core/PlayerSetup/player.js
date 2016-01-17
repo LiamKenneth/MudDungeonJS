@@ -1,22 +1,27 @@
 "use strict";
 
+
+
 var player = function(playerInfo) {
     this.socket = '';
     this.name = playerInfo.name || '';
     this.description = playerInfo.description || 'You see nothing special about them';
     this.age = playerInfo.age || 18;
+    this.sex = playerInfo.sex || 'Female';
     this.information = {
         level: playerInfo.information.level || 1,
         race: playerInfo.information.race || '',
         class: playerInfo.information.class || '',
-        alignment: playerInfo.information.alignment || '',
-        alignmentScore: 0,
-        experience: 0,
-        experienceToNextLevel: 0,
-        maxHitpoints: 0,
-        hitpoints: 0,
-        maxMana: 0,
-        mana: 0,
+        alignment: playerInfo.information.alignment || 'Good',
+        alignmentScore: playerInfo.information.alignmentScore || 0,
+        experience: playerInfo.information.experience || 0,
+        experienceToNextLevel: playerInfo.information.experienceToNextLevel || 0,
+        maxHitpoints:  playerInfo.information.maxHitpoints || 32,
+        hitpoints:  playerInfo.information.hitpoints || 32,
+        maxMana:  playerInfo.information.maxMana || 100,
+        mana: playerInfo.information.mana || 100,
+        maxMoves: playerInfo.information.maxMoves || 100,
+        moves: playerInfo.information.moves || 100,
         stats: {
             strength: playerInfo.information.stats.strength || 0,
             dexterity: playerInfo.information.stats.dexterity || 0,
@@ -56,13 +61,14 @@ var player = function(playerInfo) {
       leftRing: playerInfo.equipment.leftRing || "Nothing",
       rightRing: playerInfo.equipment.rightRing || "Nothing",
       legs:  playerInfo.equipment.legs || "Nothing",
-      feet:  playerInfo.equipment.feet || "Nothing",
+      feet:  playerInfo.equipment.feet || "Nothing"
     };
-    this.explored = 0;
+    this.explored = playerInfo.explored || 0;
+    this.totalRooms = playerInfo.totalRooms || 0;
     this.questPoints = 0;
-    this.gold = 0;
-    this.silver = 0;
-    this.copper = 0;
+    this.gold = playerInfo.gold || 0;
+    this.silver = playerInfo.silver || 0;
+    this.copper = playerInfo.copper || 0;
 
     //Get
 

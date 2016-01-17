@@ -190,6 +190,30 @@
         },
         createCharacterSheet: function(socket, characterData) {
             var playerData = JSON.parse(modules.data.loadFile('Game/Core/PlayerSetup/', 'blankChar.json'));
+
+            var classRoll = {
+                fighter: 12,
+                mage: 6,
+                thief: 8,
+                cleric: 8
+            };
+
+            var manaRoll = {
+                mage: characterData.int,
+                cleric: characterData.wis
+            }
+
+            var classDie = classRoll[characterData.class];
+            var manaDie = classRoll[manaRoll];
+
+          //  console.log(classDie);
+           // console.log(manaDie);
+            var hp = modules.helper.dice(1, 6);
+             //   hp += Math.floor((Math.random() * characterData.con) + 1);
+
+            //var mana = modules.helper.dice(1, 10);
+            //  //  mana += Math.floor((Math.random() * manaDie) + 1);
+
             // items:
             // {
             //     0:
@@ -198,20 +222,44 @@
             //         name: JSON.parse(weapons)[0].name
             //     },
             // }
+
+            var classXP = {
+                fighter: 2000,
+                cleric: 2500,
+                Mage: 3000,
+                Thief: 1500,
+            }
+
             playerData.name = characterData.name;
             playerData.password = "123";
+            playerData.sex = characterData.sex;
             playerData.information.level = 1;
             playerData.information.race = characterData.race;
             playerData.information.class = characterData.class;
-            playerData.information.stats.strength = ' ' + characterData.str + ' ';
-            playerData.information.stats.dexterity = ' ' + characterData.dex+ ' ';
-            playerData.information.stats.constitution = ' ' + characterData.con+ ' ';
-            playerData.information.stats.intelligence = ' ' + characterData.int+ ' ';
-            playerData.information.stats.wisdom = ' ' + characterData.wis+ ' ';
-            playerData.information.stats.charisma = ' ' + characterData.cha+ ' ';
-            playerData.gold = 50;
+            playerData.information.stats.strength = characterData.str;
+            playerData.information.stats.dexterity = characterData.dex;
+            playerData.information.stats.constitution = characterData.con;
+            playerData.information.stats.intelligence = characterData.int;
+            playerData.information.stats.wisdom = characterData.wis;
+            playerData.information.stats.charisma = characterData.cha;
+            playerData.information.hitpoints = hp;
+            playerData.information.maxHitpoints = hp;
+            playerData.information.mana = 100; // casters all start with 100 mana
+            playerData.information.maxMana = 100;
+            playerData.information.moves = 100;
+            playerData.information.maxMoves = 100;
+            playerData.information.alignmentScore = 0;
+            playerData.information.alignment = 'Neutral';
+            playerData.information.experience = 0;
+            playerData.information.experienceToNextLevel = classXP[characterData.class];
+            playerData.explored = 1;
+            playerData.totalRooms = 2; //hardcode for now eek!
+            playerData.gold = 0;
+            playerData.silver = 150;
+            playerData.copper = 0;
             playerData.location.region = 'valston';
             playerData.location.area = 'prison';
+
             var PC = new modules.playerSetup.playerChar(playerData);
             PC.setSocket(socket);
             modules.data.savePlayer(playerData);

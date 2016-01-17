@@ -64,7 +64,7 @@
                 var room = modules['world'][region][area][areaId];
 
 
-                console.log("Checking if exit exists" + room  + " " +  direction.toLowerCase().charAt(0) + " " + direction + " " + room.exits + " hard code " + room.exits.n);
+               // console.log("Checking if exit exists" + room  + " " +  direction.toLowerCase().charAt(0) + " " + direction + " " + room.exits + " hard code " + room.exits.n);
 
                 if (room.exits.hasOwnProperty(direction)) {
 
@@ -77,16 +77,13 @@
 
                             var exits = events.exits(room.exits);
 
-                            try {
 
                                 player.setLocation(exits[direction].region, exits[direction].area, exits[direction].areaID);
                                 var nextRoom = modules['world'][exits[direction].region][exits[direction].area][exits[direction].areaID];
                                 events.enterRoom(player, direction, 'enter', nextRoom.players)
 
                                 socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.playerLocation.loadRoom(player, direction, 'join'));
-                            } catch (e) {
-                                console.log(e)
-                            }
+
                         } else {
                             modules.helper.helpers.send(socket, 'The exit is locked');
                             //Wait for new command
@@ -201,9 +198,19 @@
                     function pad(value, length, position) {
 
                         if (position == 'left') {
-                            return (value.toString().length < length) ? pad(" " + value, length, 'left') : value;
+                            try {
+                                return (value.toString().length < length) ? pad(" " + value, length, 'left') : value;
+                            }
+                            catch (e) {
+                                console.log(e)
+                            }
                         } else if (position == 'right') {
-                            return (value.toString().length < length) ? pad(value + " ", length, 'right') : value;
+                            try {
+                                return (value.toString().length < length) ? pad(value + " ", length, 'right') : value;
+                            }
+                            catch (e) {
+                                console.log(e)
+                            }
                         }
                     }
 
@@ -215,25 +222,37 @@
                        pDesc: desc,
                        pClass: pad(Class, 11, 'right'),
                        pRace: pad(race, 11, 'right'),
+                        pSex: pad(info.sex, 11, 'right'),
                        pAge: age,
-                       pLevel: level,
+                        pHP: pad(info.information.hitpoints, 5, 'left'),
+                        HPMax: pad(info.information.maxHitpoints, 5, 'right'),
+                        pMana: pad(info.information.mana, 5, 'left'),
+                        ManaMax: pad(info.information.maxMana, 5, 'right'),
+                        pMoves: pad(info.information.moves,5,'left'),
+                        MovesMax: pad(info.information.maxMoves, 5, 'right'),
+                       pLevel: pad(level, 11, 'right'),
                        pAlign: info.information.alignment,
+                        pTNL: pad(info.information.experienceToNextLevel, 11, 'left'),
                        pStr: pad(info.information.stats.strength, 3, 'left'),
                        StrMax: pad(info.information.stats.strength, 3, 'right'),
-                       pDex: info.information.stats.dexterity,
-                       dexMax: info.information.stats.dexterity,
-                       pCon: info.information.stats.constitution,
-                       conMax: info.information.stats.constitution,
-                       pInt: info.information.stats.intelligence,
-                       intMax: info.information.stats.intelligence,
-                       pWis: info.information.stats.wisdom,
-                       wisMax: info.information.stats.wisdom,
-                       pCha: info.information.stats.charisma,
-                       chaMax: info.information.stats.charisma,
+                       pDex: pad(info.information.stats.dexterity, 3, 'left'),
+                       dexMax: pad(info.information.stats.dexterity, 3, 'right'),
+                       pCon: pad(info.information.stats.constitution, 3, 'left'),
+                       conMax: pad(info.information.stats.constitution, 3, 'right'),
+                       pInt: pad(info.information.stats.intelligence, 3, 'left'),
+                       intMax: pad(info.information.stats.intelligence, 3, 'right'),
+                       pWis: pad(info.information.stats.wisdom, 3, 'left'),
+                       wisMax: pad(info.information.stats.wisdom, 3, 'right'),
+                       pCha: pad(info.information.stats.charisma, 3, 'left'),
+                       chaMax: pad(info.information.stats.charisma, 3, 'right'),
+                        pGold: pad(info.gold, 11 , 'left'),
+                        pSilver: pad(info.silver, 11 , 'left'),
+                        pCopper: pad(info.copper, 11 , 'left'),
+                        pExplore: pad(info.explored, 6, 'left')
 
                     };
 
-                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)|(pAge)|(pClass)|(pRace)|(pLevel)|(pAlign)|(pStr)|(StrMax)|(pDex)|(dexMax)|(pCon)|(conMax)|(pInt)|(intMax)|(pWis)|(wisMax)|(pCha)|(chaMax)/g, function(matched){
+                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)|(pAge)|(pHP)|(HPMax)|(pMana)|(ManaMax)|(pMoves)|(MovesMax)|(pTNL)|(pExplore)|(pSex)|(pGold)|(pCopper)|(pSilver)|(pClass)|(pRace)|(pLevel)|(pAlign)|(pStr)|(StrMax)|(pDex)|(dexMax)|(pCon)|(conMax)|(pInt)|(intMax)|(pWis)|(wisMax)|(pCha)|(chaMax)/g, function(matched){
 
                           return data[matched];
                         });

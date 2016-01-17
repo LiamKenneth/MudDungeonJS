@@ -65,7 +65,7 @@
       for(var i = number; i--;) {
        sum += Math.floor((Math.random() * size) + 1)
       }
-
+console.log(sum)
       return sum;
     },
       /**

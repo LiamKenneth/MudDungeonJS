@@ -9,6 +9,13 @@
         mage: 'Mage'
     };
 
+    var classRoll = {
+        fighter: 12,
+        mage: 6,
+        thief: 8,
+        cleric: 8
+    };
+
     exports.classes = {
 
         chooseClass: function(playerClass)

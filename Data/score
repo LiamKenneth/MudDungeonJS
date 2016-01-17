@@ -4,18 +4,18 @@ pDesc
 +--------------------------+-------------------+--------------------------+
 | Strength     : [pStr/StrMax] | Race : pRace| Practices    : [     0 ] |
 | Dexterity    : [pDex/dexMax] | Class: pClass| Trains       : [     0 ] |
-| Constitution : [pCon/conMax] | Sub  :            | Explored     : [     0 ] |
+| Constitution : [pCon/conMax] | Sub  : Nothing    | Explored     : [pExplore ] |
 | Intelligence : [pInt/intMax] | Sex  : pSex| Quest points : [     0 ] |
 | Wisdom       : [pWis/wisMax] | Level: pLevel| Quest time   : [     0 ] |
 | Charisma     : [pCha/chaMax] |                   | Goals done   : [     0 ] |
 +------------------------+-+-------------------+--------------------------+
-| HP     : [    0/0    ] | Hitroll  : [   45 ] | Weight :   206 of 342    |
-| Mana   : [    0/0    ] | Damroll  : [   46 ] | Items  :    64 of 129    |
-| Moves  : [    0/  0  ] | Wimpy    : [   30 ] | Align  : pAlign          |
-| Gold   : [          0] | Age      : [   13 ] | Status : Standing        |
-| Silver : [           ] | Hours    : [    14] |                          |
-| Copper : [           ] | MKills   : [      ] |                          |
-| To Lvl : [       0   ] | MDeaths  : [      ] | Hunger : 0   Starving    |
+| HP     : [pHP/HPMax] | Hitroll  : [pHitRoll ] | Weight :   206 of 342    |
+| Mana   : [pMana/ManaMax] | Damroll  : [pDamRoll ] | Items  :    64 of 129    |
+| Moves  : [pMoves/MovesMax] | Wimpy    : [pWimpy ] | Align  : pAlign          |
+| Gold   : [pGold] | Age      : [pAge ] | Status : Standing        |
+| Silver : [pSilver] | Hours    : [pAge ] |                          |
+| Copper : [pCopper] | MKills   : [pMkills ] |                          |
+| To Lvl : [pTNL] | MDeaths  : [pMDeaths ] | Hunger : 0   Starving    |
 |                        |                     | Thirst : 0   Dehydrated  |
 +------------------------+---------------------+--------------------------+
 | PKills  : [1234567890] |                                                |
