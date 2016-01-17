@@ -13,7 +13,7 @@ pDesc
 | Mana   : [pMana/ManaMax] | Damroll  : [pDamRoll ] | Items  :    64 of 129    |
 | Moves  : [pMoves/MovesMax] | Wimpy    : [pWimpy ] | Align  : pAlign          |
 | Gold   : [pGold] | Age      : [pAge ] | Status : Standing        |
-| Silver : [pSilver] | Hours    : [pAge ] |                          |
+| Silver : [pSilver] | Hours    : [pHours ] |                          |
 | Copper : [pCopper] | MKills   : [pMkills ] |                          |
 | To Lvl : [pTNL] | MDeaths  : [pMDeaths ] | Hunger : 0   Starving    |
 |                        |                     | Thirst : 0   Dehydrated  |

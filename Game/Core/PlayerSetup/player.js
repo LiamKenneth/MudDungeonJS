@@ -69,6 +69,14 @@ var player = function(playerInfo) {
     this.gold = playerInfo.gold || 0;
     this.silver = playerInfo.silver || 0;
     this.copper = playerInfo.copper || 0;
+    this.hitroll = playerInfo.hitroll || 0;
+    this.damroll = playerInfo.damroll || 0;
+    this.wimpy = playerInfo.wimpy || 0;
+    this.hours = playerInfo.hours || 0;
+    this.mkills = playerInfo.mkills || 0;
+    this.mDeaths = playerInfo.mDeaths || 0;
+
+
 
     //Get
 

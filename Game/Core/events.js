@@ -100,7 +100,7 @@
                 },
                 look: function(socket, playerInfo, preposition, item) {
 
-                        console.log(preposition + " " + item)
+                        //console.log(preposition + " " + item)
 
                         var name = playerInfo.getName();
                         var location = JSON.parse(playerInfo.getLocation());
@@ -110,8 +110,9 @@
                         var areaId = location.areaID;
                         var room = modules['world'][region][area][areaId];
 
-                        var exits = events.exits(room.exits);
+                    if (preposition == null) {
 
+                        var exits = events.exits(room.exits);
 
 
                         //broadcast to all that player looked around
@@ -121,7 +122,7 @@
                         modules.helper.helpers.send(socket, room.description);
                         modules.helper.helpers.send(socket, 'Exits: [' + exits.exits + ']');
 
-                        room.players.forEach(function(playersInRoom) {
+                        room.players.forEach(function (playersInRoom) {
 
                             var playerName = playersInRoom.getName();
                             var playerSocket = playersInRoom.getSocket();
@@ -132,6 +133,19 @@
 
 
                         });
+
+                    }
+                    else if (preposition == 'at') {
+                       // console.log(room.items)
+                        console.log(item)
+
+                       if(room.items.hasOwnProperty('Wooden')) {
+                           modules.helper.helpers.send(socket, room.items[item].description.look);
+                       }
+                        else {
+                           modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
+                       }
+                    }
 
 
                     },
@@ -223,7 +237,7 @@
                        pClass: pad(Class, 11, 'right'),
                        pRace: pad(race, 11, 'right'),
                         pSex: pad(info.sex, 11, 'right'),
-                       pAge: age,
+                       pAge: pad(age,5, 'left'),
                         pHP: pad(info.information.hitpoints, 5, 'left'),
                         HPMax: pad(info.information.maxHitpoints, 5, 'right'),
                         pMana: pad(info.information.mana, 5, 'left'),
@@ -248,11 +262,17 @@
                         pGold: pad(info.gold, 11 , 'left'),
                         pSilver: pad(info.silver, 11 , 'left'),
                         pCopper: pad(info.copper, 11 , 'left'),
-                        pExplore: pad(info.explored, 6, 'left')
+                        pExplore: pad(info.explored, 6, 'left'),
+                        pHitRoll: pad(info.hitroll, 5, 'left'),
+                        pDamRoll: pad(info.damroll, 5, 'left'),
+                        pWimpy:pad(info.wimpy, 5, 'left'),
+                        pHours: pad(info.hours, 5, 'left'),
+                        pMkills: pad(info.mkills, 5, 'left'),
+                        pMDeaths: pad(info.mDeaths, 5, 'left')
 
                     };
 
-                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)|(pAge)|(pHP)|(HPMax)|(pMana)|(ManaMax)|(pMoves)|(MovesMax)|(pTNL)|(pExplore)|(pSex)|(pGold)|(pCopper)|(pSilver)|(pClass)|(pRace)|(pLevel)|(pAlign)|(pStr)|(StrMax)|(pDex)|(dexMax)|(pCon)|(conMax)|(pInt)|(intMax)|(pWis)|(wisMax)|(pCha)|(chaMax)/g, function(matched){
+                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)|(pAge)|(pHP)|(HPMax)|(pMana)|(ManaMax)|(pHours)|(pMkills)|(pMDeaths)|(pHitRoll)|(pDamRoll)|(pWimpy)|(pMoves)|(MovesMax)|(pTNL)|(pExplore)|(pSex)|(pGold)|(pCopper)|(pSilver)|(pClass)|(pRace)|(pLevel)|(pAlign)|(pStr)|(StrMax)|(pDex)|(dexMax)|(pCon)|(conMax)|(pInt)|(intMax)|(pWis)|(wisMax)|(pCha)|(chaMax)/g, function(matched){
 
                           return data[matched];
                         });

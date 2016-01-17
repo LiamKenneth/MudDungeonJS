@@ -15,7 +15,7 @@ exports.prison = {
         },
         terrain: "city",
         exits: {
-        North:{
+            North: {
                 name: "North",
                 location: {
                     region: 'valston',
@@ -25,20 +25,21 @@ exports.prison = {
                 locked: false,
                 hidden: false
 
-                }
-            },
-        players: [],
-        items:[{
-            name: "Wooden Stool",
-            actions: {
-                "sit": "sit",
-                "wield": "wield"
-            },
-            description: {
-                "look": "You look at a small wooden stool, maybe you could use it to bash the prison gate down?",
-                "exam": "You look closely at the stool and notice a lockpick underneath it"
             }
-        }]
+        },
+        players: [],
+        items: {
+            "Wooden": {
+                actions: {
+                    "sit": "sit",
+                    "wield": "wield"
+                },
+                description: {
+                    "look": "You look at a small wooden stool, maybe you could use it to bash the prison gate down?",
+                    "exam": "You look closely at the stool and notice a lockpick underneath it"
+                }
+            }
+        }
     },
     1: {
         title: "A hallway Room",

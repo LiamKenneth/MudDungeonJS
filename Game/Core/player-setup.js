@@ -259,6 +259,12 @@
             playerData.copper = 0;
             playerData.location.region = 'valston';
             playerData.location.area = 'prison';
+            playerData.hitroll = 1; //hard coded until formula is worked out
+            playerData.damroll = 1; //hard coded until formula is worked out
+            playerData.wimpy = 30;
+            playerData.hours = 0;
+            playerData.mkills = 0;
+            playerData.mDeaths = 0;
 
             var PC = new modules.playerSetup.playerChar(playerData);
             PC.setSocket(socket);
