@@ -9,21 +9,42 @@ pDesc
 | Wisdom       : [pWis/wisMax] | Level: pLevel| Quest time   : [     0 ] |
 | Charisma     : [pCha/chaMax] |                   | Goals done   : [     0 ] |
 +------------------------+-+-------------------+--------------------------+
-| HP     : [pHP/HPMax] | Hitroll  : [pHitRoll ] | Weight :   206 of 342    |
-| Mana   : [pMana/ManaMax] | Damroll  : [pDamRoll ] | Items  :    64 of 129    |
-| Moves  : [pMoves/MovesMax] | Wimpy    : [pWimpy ] | Align  : pAlign          |
+| HP     : [pHP/HPMax] | Hitroll  : [pHitRoll ] | Weight : [pWeight] of [maxWeight]  |
+| Mana   : [pMana/ManaMax] | Damroll  : [pDamRoll ] | Align  : pAlign         |
+| Moves  : [pMoves/MovesMax] | Wimpy    : [pWimpy ] | Align  : pAlign         |
 | Gold   : [pGold] | Age      : [pAge ] | Status : Standing        |
 | Silver : [pSilver] | Hours    : [pHours ] |                          |
 | Copper : [pCopper] | MKills   : [pMkills ] |                          |
-| To Lvl : [pTNL] | MDeaths  : [pMDeaths ] | Hunger : 0   Starving    |
-|                        |                     | Thirst : 0   Dehydrated  |
+| To Lvl : [pTNL] | MDeaths  : [pMDeaths ] |                              |
+|                        |                     |                          |
 +------------------------+---------------------+--------------------------+
 | PKills  : [1234567890] |                                                |
 | PDeaths : [          ] |                                                |
 |                        |                                                |
 +------------------------+---------------------+--------------------------+
 | Resistances:                                                            |
-| Pierce:  110 (Armored           ) [#########---------------------------]|
-| Bash  :  110 (Armored           ) [#########---------------------------]|
-| Slash :  -55 (Defenseless       ) [------------------------------------]|
+| Pierce:  110 (Armored)                                                  |
+| Bash  :  110 (Armored )                                                 |
+| Slash :  -55 (Defenseless)                                              |
 +-------------------------------------------------------------------------+
+
++-------------------------------------------------------------------------+
+| PName, pTitle [Conclave]                                                |
++--------------------------+-------------------+--------------------------+
+| Strength     : [ 20/20 ] | Race  : Human     | Practices    : [     0 ] |
+| Dexterity    : [ 15/15 ] | Class : Fighter   | Trains       : [     0 ] |
+| Constitution : [ 16/16 ] | Sub   : Nothing   | Explored     : [     1 ] |
+| Intelligence : [ 15/15 ] | Sex   : Male      | Quest points : [     0 ] |
+| Wisdom       : [ 16/16 ] | Age   : 18        | Quest time   : [     0 ] |
+| Charisma     : [ 20/20 ] | Level : 1         | Goals done   : [     0 ] |
++------------------------+-+-------------------+--------------------------+
+| HP     : [    3/3    ] | Hitroll  : B:[-117] P:[-199] S:[-199]          |
+| Mana   : [  100/100  ] | Damroll  : B:[-117] P:[-199] S:[-199] M:[50]   |
+| Moves  : [  100/100  ] | Armour   : B:[-117] P:[-199] S:[-199] M:[50]   |
+| Gold   : [          0] +------------------------------------------------+
+| Silver : [          0] | MKills   : [    0 ] | Weight : [  0] of [100]  |
+| Copper : [          0] | MDeaths  : [    0 ] | Align  : Neutral         |
+| To Lvl : [          0] | PKills   : [    0 ] | Status : Standing        |
+| XP     : [          0] | pDeaths  : [    0 ] | Wimpy  : [   30 ]        |
+|                        | pKPoints : [    0 ] | Hours  : [    0 ]        |
++------------------------+---------------------+--------------------------+

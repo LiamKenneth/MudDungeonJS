@@ -268,11 +268,12 @@
                         pWimpy:pad(info.wimpy, 5, 'left'),
                         pHours: pad(info.hours, 5, 'left'),
                         pMkills: pad(info.mkills, 5, 'left'),
-                        pMDeaths: pad(info.mDeaths, 5, 'left')
-
+                        pMDeaths: pad(info.mDeaths, 5, 'left'),
+                        pWeight: pad(info.weight, 3, 'left'),
+                        maxWeight: pad(info.maxWeight, 3, 'right')
                     };
 
-                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)|(pAge)|(pHP)|(HPMax)|(pMana)|(ManaMax)|(pHours)|(pMkills)|(pMDeaths)|(pHitRoll)|(pDamRoll)|(pWimpy)|(pMoves)|(MovesMax)|(pTNL)|(pExplore)|(pSex)|(pGold)|(pCopper)|(pSilver)|(pClass)|(pRace)|(pLevel)|(pAlign)|(pStr)|(StrMax)|(pDex)|(dexMax)|(pCon)|(conMax)|(pInt)|(intMax)|(pWis)|(wisMax)|(pCha)|(chaMax)/g, function(matched){
+                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)|(pAge)|(pWeight)|(maxWeight)|(pHP)|(HPMax)|(pMana)|(ManaMax)|(pHours)|(pMkills)|(pMDeaths)|(pHitRoll)|(pDamRoll)|(pWimpy)|(pMoves)|(MovesMax)|(pTNL)|(pExplore)|(pSex)|(pGold)|(pCopper)|(pSilver)|(pClass)|(pRace)|(pLevel)|(pAlign)|(pStr)|(StrMax)|(pDex)|(dexMax)|(pCon)|(conMax)|(pInt)|(intMax)|(pWis)|(wisMax)|(pCha)|(chaMax)/g, function(matched){
 
                           return data[matched];
                         });

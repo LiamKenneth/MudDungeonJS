@@ -265,6 +265,8 @@
             playerData.hours = 0;
             playerData.mkills = 0;
             playerData.mDeaths = 0;
+            playerData.weight = 0;
+            playerData.maxWeight = parseInt(characterData.str) * 5;
 
             var PC = new modules.playerSetup.playerChar(playerData);
             PC.setSocket(socket);

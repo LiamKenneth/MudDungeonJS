@@ -75,6 +75,8 @@ var player = function(playerInfo) {
     this.hours = playerInfo.hours || 0;
     this.mkills = playerInfo.mkills || 0;
     this.mDeaths = playerInfo.mDeaths || 0;
+    this.weight = playerInfo.weight || 0;
+    this.maxWeight = playerInfo.maxWeight || 0;
 
 
 
