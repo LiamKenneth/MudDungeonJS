@@ -75,8 +75,13 @@ var player = function(playerInfo) {
     this.hours = playerInfo.hours || 0;
     this.mkills = playerInfo.mkills || 0;
     this.mDeaths = playerInfo.mDeaths || 0;
+    this.pkKills = playerInfo.pkKills || 0;
+    this.pkDeaths = playerInfo.pkDeaths || 0;
+    this.pkPoints = playerInfo.pkPoints || 0;
     this.weight = playerInfo.weight || 0;
     this.maxWeight = playerInfo.maxWeight || 0;
+    this.wimpy = playerInfo.wimpy || 0;
+    this.status = playerInfo.status || 0;
 
 
 

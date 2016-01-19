@@ -4,7 +4,7 @@ pDesc
 +--------------------------+-------------------+--------------------------+
 | Strength     : [pStr/StrMax] | Race  : pRace| Practices    : [     0 ] |
 | Dexterity    : [pDex/dexMax] | Class : pClass| Trains       : [     0 ] |
-| Constitution : [pCon/conMax] | Sub   : Nothing   | Explored     : [pExplore] |
+| Constitution : [pCon/conMax] | Sub   : Nothing   | Explored     : [ pExplore ] |
 | Intelligence : [pInt/intMax] | Sex   : pSex| Quests Done  : [     0 ] |
 | Wisdom       : [pWis/wisMax] | Age   : pAge|                          |
 | Charisma     : [pCha/chaMax] | Level : pLevel|                          |
@@ -13,9 +13,9 @@ pDesc
 | Mana   : [pMana/ManaMax] | Damroll  : B:[-117] P:[-199] S:[-199] M:[50]   |
 | Moves  : [pMoves/MovesMax] | Armour   : B:[-117] P:[-199] S:[-199] M:[50]   |
 | Gold   : [pGold] +------------------------------------------------+
-| Silver : [pSilver] | MKills   : [pMkills] | Weight : [pWeight] of [maxWeight]  |
-| Copper : [pCopper] | MDeaths  : [pMDeaths] | Align  : [ pALign ]     |
-| To Lvl : [pTNL] | PKills   : [pPKills] | Status : [ Standing ]    |
-| XP     : [          0] | pDeaths  : [pPKDeaths] | Wimpy  : [   30 ]        |
-|                        | pKPoints : [pPKPoints] | Hours  : [pHours]        |
+| Silver : [pSilver] | MKills   : [pMkills] | Weight : [pWeight] of [maxWeight]   |
+| Copper : [pCopper] | MDeaths  : [pMDeaths] | Align  : [ pAlign ] |
+| To Lvl : [pTNL] | PKills   : [pPKills] | Status : [ pStatus ] |
+| XP     : [          0] | pDeaths  : [pPKDeaths] | Wimpy  : [ pWimpy ] |
+|                        | pKPoints : [pPKPoints] | Hours  : [ pHours ] |
 +------------------------+---------------------+--------------------------+

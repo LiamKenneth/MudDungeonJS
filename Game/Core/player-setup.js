@@ -208,7 +208,7 @@
 
           //  console.log(classDie);
            // console.log(manaDie);
-            var hp = modules.helper.dice(1, 6);
+            var hp = modules.helper.dice(1, 12);
              //   hp += Math.floor((Math.random() * characterData.con) + 1);
 
             //var mana = modules.helper.dice(1, 10);
@@ -232,7 +232,7 @@
 
             playerData.name = characterData.name;
             playerData.password = "123";
-            playerData.sex = characterData.sex;
+            playerData.sex = characterData.sex.trim();
             playerData.information.level = 1;
             playerData.information.race = characterData.race;
             playerData.information.class = characterData.class;
@@ -242,8 +242,8 @@
             playerData.information.stats.intelligence = characterData.int;
             playerData.information.stats.wisdom = characterData.wis;
             playerData.information.stats.charisma = characterData.cha;
-            playerData.information.hitpoints = hp;
-            playerData.information.maxHitpoints = hp;
+            playerData.information.hitpoints = 30 + hp;
+            playerData.information.maxHitpoints = 30 + hp;
             playerData.information.mana = 100; // casters all start with 100 mana
             playerData.information.maxMana = 100;
             playerData.information.moves = 100;
@@ -265,8 +265,14 @@
             playerData.hours = 0;
             playerData.mkills = 0;
             playerData.mDeaths = 0;
+            playerData.pkKills = 0;
+            playerData.pkDeaths = 0;
+            playerData.pkPoints = 0;
             playerData.weight = 0;
             playerData.maxWeight = parseInt(characterData.str) * 5;
+            playerData.wimpy = 25;
+            playerData.status = 'Standing';
+
 
             var PC = new modules.playerSetup.playerChar(playerData);
             PC.setSocket(socket);

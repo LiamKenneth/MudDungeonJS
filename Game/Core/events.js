@@ -236,7 +236,7 @@
                        pDesc: desc,
                        pClass: pad(Class, 10, 'right'),
                        pRace: pad(race, 10, 'right'),
-                        pSex: pad(info.sex, 9, 'right'),
+                        pSex: pad(info.sex, 10, 'right'),
                        pAge: pad(age,10, 'right'),
                         pHP: pad(info.information.hitpoints, 5, 'left'),
                         HPMax: pad(info.information.maxHitpoints, 5, 'right'),
@@ -245,7 +245,7 @@
                         pMoves: pad(info.information.moves,5,'left'),
                         MovesMax: pad(info.information.maxMoves, 5, 'right'),
                        pLevel: pad(level, 10, 'right'),
-                       pAlign: info.information.alignment,
+                       pAlign:  pad(info.information.alignment,12, 'right'),
                         pTNL: pad(info.information.experienceToNextLevel, 11, 'left'),
                        pStr: pad(info.information.stats.strength, 3, 'left'),
                        StrMax: pad(info.information.stats.strength, 3, 'right'),
@@ -262,18 +262,23 @@
                         pGold: pad(info.gold, 11 , 'left'),
                         pSilver: pad(info.silver, 11 , 'left'),
                         pCopper: pad(info.copper, 11 , 'left'),
-                        pExplore: pad(info.explored, 6, 'left'),
+                        pExplore: pad(info.explored,5, 'left'),
                         pHitRoll: pad(info.hitroll, 5, 'left'),
                         pDamRoll: pad(info.damroll, 5, 'left'),
-                        pWimpy:pad(info.wimpy, 5, 'left'),
-                        pHours: pad(info.hours, 5, 'left'),
+                        pHours: pad(info.hours, 12, 'left'),
                         pMkills: pad(info.mkills, 5, 'left'),
                         pMDeaths: pad(info.mDeaths, 5, 'left'),
                         pWeight: pad(info.weight, 3, 'left'),
-                        maxWeight: pad(info.maxWeight, 3, 'right')
+                        maxWeight: pad(info.maxWeight, 3, 'right'),
+                        pStatus: pad(info.status, 12, 'right'),
+                        pWimpy: pad(info.wimpy, 12, 'right'),
+                        pPKills:  pad(info.pkKills, 5, 'left'),
+                        pPKDeaths:  pad(info.pkKills, 5, 'left'),
+                        pDeaths:  pad(info.pkDeaths, 5, 'left'),
+                        pPKPoints: pad(info.pkPoints, 5, 'left'),
                     };
 
-                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)|(pAge)|(pWeight)|(maxWeight)|(pHP)|(HPMax)|(pMana)|(ManaMax)|(pHours)|(pMkills)|(pMDeaths)|(pHitRoll)|(pDamRoll)|(pWimpy)|(pMoves)|(MovesMax)|(pTNL)|(pExplore)|(pSex)|(pGold)|(pCopper)|(pSilver)|(pClass)|(pRace)|(pLevel)|(pAlign)|(pStr)|(StrMax)|(pDex)|(dexMax)|(pCon)|(conMax)|(pInt)|(intMax)|(pWis)|(wisMax)|(pCha)|(chaMax)/g, function(matched){
+                    scoreSheet = scoreSheet.replace(/(pName)|(pDesc)|(pAge)|(pWeight)|(maxWeight)|(pStatus)|(pHP)|(HPMax)|(pMana)|(ManaMax)|(pHours)|(pMkills)|(pMDeaths)|(pHitRoll)|(pDamRoll)|(pWimpy)|(pMoves)|(MovesMax)|(pTNL)|(pExplore)|(pSex)|(pGold)|(pCopper)|(pSilver)|(pClass)|(pRace)|(pLevel)|(pAlign)|(pPKills)|(pPKDeaths)|(pPKPoints)|(pStr)|(StrMax)|(pDex)|(dexMax)|(pCon)|(conMax)|(pInt)|(intMax)|(pWis)|(wisMax)|(pCha)|(chaMax)/g, function(matched){
 
                           return data[matched];
                         });
