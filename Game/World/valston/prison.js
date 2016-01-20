@@ -37,9 +37,62 @@ exports.prison = {
             },
             description: {
                 "look": "You look at a small wooden stool, maybe you could use it to bash the prison gate down?",
-                "exam": "You look closely at the stool and notice a lockpick underneath it"
+                "exam": "You look closely at the stool and notice a lockpick underneath it",
+                "room": "An old Wooden stool is in the corner of the room."
             }
-        }]
+        },
+            {
+                keywords: ['sword', 'swo', 'long'],
+                name: 'Long Sword',
+                actions: {
+                    "sit": "sit",
+                    "wield": "wield"
+                },
+                description: {
+                    "look": "You look at a long sword",
+                    "exam": "You look closely at a long sword",
+                    "room": "A long Sword is here"
+                }
+            },
+            {
+                keywords: ['sword', 'swo', 'short'],
+                name: 'Short Sword',
+                actions: {
+                    "sit": "sit",
+                    "wield": "wield"
+                },
+                description: {
+                    "look": "You look at a short sword",
+                    "exam": "You look closely at a short sword",
+                    "room": "A short Sword is here."
+                }
+            },
+            {
+                keywords: ['mace', 'mac'],
+                name: 'Mace',
+                actions: {
+                    "sit": "sit",
+                    "wield": "wield"
+                },
+                description: {
+                    "look": "You look at a mace",
+                    "exam": "You look closely at a mace",
+                    "room": "An iron Mace is here."
+                }
+            },
+            {
+                keywords: ['bow', 'long'],
+                name: 'long bow',
+                actions: {
+                    "sit": "sit",
+                    "wield": "wield"
+                },
+                description: {
+                    "look": "You look at a bow",
+                    "exam": "You look closely at a bow",
+                    "room": "A long bow is here leaning against the wall"
+                }
+            }]
     },
     1: {
         title: "A hallway Room",

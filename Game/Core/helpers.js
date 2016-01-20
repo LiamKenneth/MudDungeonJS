@@ -65,7 +65,7 @@
       for(var i = number; i--;) {
        sum += Math.floor((Math.random() * size) + 1)
       }
-console.log(sum)
+
       return sum;
     },
       /**
@@ -77,7 +77,7 @@ console.log(sum)
 
           //A hack, not sure what nsp is. socket.io returns it though
           if(!socket.nsp) {
-              socket.write(text + '\r\n');
+              socket.write(text + '\r\n\r\n');
           }
           else {
               socket.emit('data', { data: text });
