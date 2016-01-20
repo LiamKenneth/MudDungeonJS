@@ -137,14 +137,49 @@
                     }
                     else if (preposition == 'at') {
                        // console.log(room.items)
-                        console.log(item)
+                       // console.log(item)
+                        console.time('lookAt');
 
-                       if(room.items.hasOwnProperty('Wooden')) {
-                           modules.helper.helpers.send(socket, room.items[item].description.look);
-                       }
-                        else {
-                           modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
-                       }
+                        var roomItems = room.items;
+                        var roomItemCount = roomItems.length;
+
+                        var itemKeywords;
+                        var itemKeywordsCount;
+                        var found = false;
+
+                        for (var i = 0; i < roomItemCount; i++) {
+
+                            console.log(roomItems[i])
+
+                            if(roomItems[i].hasOwnProperty('keywords')) {
+                                itemKeywords = roomItems[i].keywords;
+                                itemKeywordsCount = itemKeywords.length;
+
+                                for (var j = 0; j < itemKeywordsCount; j++) {
+
+                                    if (itemKeywords[j] == item.trim().toLowerCase()) {
+                                        modules.helper.helpers.send(socket, roomItems[i].description.look);
+                                        found = true;
+                                        break;
+                                    }
+
+                                }
+                            }
+
+
+
+                        }
+
+                        if (!found) {
+                            modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
+                        }
+console.timeEnd('lookAt');
+                       //if(room.items.hasOwnProperty('Wooden')) {
+                       //    modules.helper.helpers.send(socket, room.items[item].description.look);
+                       //}
+                       // else {
+                       //    modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
+                       //}
                     }
 
 
