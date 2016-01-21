@@ -70,6 +70,9 @@
     io.sockets.on('connection', function (socket) {
         console.log('Web user connected');
 
+        socket.emit('welcome', modules.playerSetup.welcome(socket));
+
+
         socket.on('disconnect', function () {
 
           // modules.playerSetup.player.playerManager.removePlayer(socket);
@@ -79,7 +82,6 @@
 
     });
 
-        socket.emit('welcome', modules.playerSetup.welcome(socket));
 
 
     });

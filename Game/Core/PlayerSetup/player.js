@@ -16,9 +16,9 @@ var player = function(playerInfo) {
         alignmentScore: playerInfo.information.alignmentScore || 0,
         experience: playerInfo.information.experience || 0,
         experienceToNextLevel: playerInfo.information.experienceToNextLevel || 0,
-        maxHitpoints:  playerInfo.information.maxHitpoints || 32,
-        hitpoints:  playerInfo.information.hitpoints || 32,
-        maxMana:  playerInfo.information.maxMana || 100,
+        maxHitpoints: playerInfo.information.maxHitpoints || 32,
+        hitpoints: playerInfo.information.hitpoints || 32,
+        maxMana: playerInfo.information.maxMana || 100,
         mana: playerInfo.information.mana || 100,
         maxMoves: playerInfo.information.maxMoves || 100,
         moves: playerInfo.information.moves || 100,
@@ -34,34 +34,34 @@ var player = function(playerInfo) {
     this.location = {
         region: playerInfo.location.region || '',
         area: playerInfo.location.area || '',
-        areaID:  playerInfo.location.areaID || 0,
+        areaID: playerInfo.location.areaID || 0,
         coordsY: 0,
         coordsX: 0
     };
     this.password = playerInfo.password;
     this.inventory = [];
     this.equipment = {
-      floating: playerInfo.equipment.floating || "Nothing",
-      light: playerInfo.equipment.light || "Nothing",
-      head: playerInfo.equipment.head || "Nothing",
-      leftEar:  playerInfo.equipment.leftEar || "Nothing",
-      rightEar:  playerInfo.equipment.rightEar || "Nothing",
-      neck:  playerInfo.equipment.neck || "Nothing",
-      cloak:  playerInfo.equipment.cloak || "Nothing",
-      aboutBody:  playerInfo.equipment.aboutBody || "Nothing",
-      body:  playerInfo.equipment.body || "Nothing",
-      waist:  playerInfo.equipment.waist || "Nothing",
-      leftSheath:  playerInfo.equipment.leftSheath || "Nothing",
-      rightSheath:  playerInfo.equipment.rightSheath || "Nothing",
-      back:  playerInfo.equipment.back || "Nothing",
-      leftWrist:  playerInfo.equipment.leftWrist || "Nothing",
-      rightWrist:  playerInfo.equipment.rightWrist || "Nothing",
-      leftHand: playerInfo.equipment.leftHand || "Nothing",
-      rightHand: playerInfo.equipment.rightHand || "Nothing",
-      leftRing: playerInfo.equipment.leftRing || "Nothing",
-      rightRing: playerInfo.equipment.rightRing || "Nothing",
-      legs:  playerInfo.equipment.legs || "Nothing",
-      feet:  playerInfo.equipment.feet || "Nothing"
+        floating: playerInfo.equipment.floating || "Nothing",
+        light: playerInfo.equipment.light || "Nothing",
+        head: playerInfo.equipment.head || "Nothing",
+        leftEar: playerInfo.equipment.leftEar || "Nothing",
+        rightEar: playerInfo.equipment.rightEar || "Nothing",
+        neck: playerInfo.equipment.neck || "Nothing",
+        cloak: playerInfo.equipment.cloak || "Nothing",
+        aboutBody: playerInfo.equipment.aboutBody || "Nothing",
+        body: playerInfo.equipment.body || "Nothing",
+        waist: playerInfo.equipment.waist || "Nothing",
+        leftSheath: playerInfo.equipment.leftSheath || "Nothing",
+        rightSheath: playerInfo.equipment.rightSheath || "Nothing",
+        back: playerInfo.equipment.back || "Nothing",
+        leftWrist: playerInfo.equipment.leftWrist || "Nothing",
+        rightWrist: playerInfo.equipment.rightWrist || "Nothing",
+        leftHand: playerInfo.equipment.leftHand || "Nothing",
+        rightHand: playerInfo.equipment.rightHand || "Nothing",
+        leftRing: playerInfo.equipment.leftRing || "Nothing",
+        rightRing: playerInfo.equipment.rightRing || "Nothing",
+        legs: playerInfo.equipment.legs || "Nothing",
+        feet: playerInfo.equipment.feet || "Nothing"
     };
     this.explored = playerInfo.explored || 0;
     this.totalRooms = playerInfo.totalRooms || 0;
@@ -129,15 +129,15 @@ var player = function(playerInfo) {
     };
     this.getInventory = function() {
 
-      var inventory = this.inventory;
-      var inv = inventory.length;
-      var invObj = new Object();
+        var inventory = this.inventory;
+        var inv = inventory.length;
+        var invObj = new Object();
 
-      while (inv--) {
-        invObj[inv] = inventory[inv].name
-       }
+        while (inv--) {
+            invObj[inv] = inventory[inv].name
+        }
 
-      return invObj;
+        return invObj;
     };
 
     //Set
@@ -157,20 +157,17 @@ var player = function(playerInfo) {
 
     this.setInventory = function(inventory) {
 
-      if (typeof inventory === 'object')
-      {
-          this.inventory.push(inventory)
-      }
-      else
-      {
-        console.log('Must insert object to inventory array');
-      }
+        if (typeof inventory === 'object') {
+            this.inventory.push(inventory)
+        } else {
+            console.log('Must insert object to inventory array');
+        }
 
     };
 
-  this.savePlayer = function(playerinfo) {
-   //modules.data.savePlayer(player);
-  }
+    this.savePlayer = function(playerinfo) {
+        //modules.data.savePlayer(player);
+    }
 
 
 

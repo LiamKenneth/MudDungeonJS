@@ -28,7 +28,7 @@ exports.prison = {
             }
         },
         players: [],
-        items: {
+        items: [ {
             "Wooden": {
                 actions: {
                     "sit": "sit",
@@ -39,7 +39,7 @@ exports.prison = {
                     "exam": "You look closely at the stool and notice a lockpick underneath it"
                 }
             }
-        }
+        }]
     },
     1: {
         title: "A hallway Room",
