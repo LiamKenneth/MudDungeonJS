@@ -100,7 +100,7 @@
                 },
                 look: function(socket, playerInfo, preposition, item) {
 
-                    
+
                         //console.log(preposition + " " + item)
 
                         var name = playerInfo.getName();
@@ -151,6 +151,8 @@
                        // console.log(item)
                         console.time('lookAt');
 
+                        var item = item.trim().toLowerCase();
+
                         var roomItems = room.items;
                         var roomItemCount = roomItems.length;
 
@@ -160,24 +162,16 @@
 
                         for (var i = 0; i < roomItemCount; i++) {
 
-                            console.log(roomItems[i])
-
-                            if(roomItems[i].hasOwnProperty('keywords') && found == false) {
+                            if( found == false) {
                                 itemKeywords = roomItems[i].keywords;
                                 itemKeywordsCount = itemKeywords.length;
 
-                                for (var j = 0; j < itemKeywordsCount; j++) {
-
-                                    if (itemKeywords[j] == item.trim().toLowerCase()) {
-                                        modules.helper.helpers.send(socket, roomItems[i].description.look);
-                                        found = true;
-                                        break;
-                                    }
-
-                                }
+                                      if (itemKeywords.indexOf(item) > -1) {
+                                          modules.helper.helpers.send(socket, roomItems[i].description.look);
+                                          found = true;
+                                          break;
+                                      }
                             }
-
-
 
                         }
 
