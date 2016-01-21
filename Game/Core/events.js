@@ -100,6 +100,7 @@
                 },
                 look: function(socket, playerInfo, preposition, item) {
 
+                    
                         //console.log(preposition + " " + item)
 
                         var name = playerInfo.getName();
@@ -122,6 +123,18 @@
                         modules.helper.helpers.send(socket, room.description);
                         modules.helper.helpers.send(socket, 'Exits: [' + exits.exits + ']');
 
+                        var roomItems = room.items;
+                        var roomItemCount = roomItems.length;
+                        var displayItems = '';
+
+                        for (var i = 0; i < roomItemCount; i++) {
+
+                            displayItems += roomItems[i].description.room + '\r\n';
+
+                        }
+
+                        modules.helper.helpers.send(socket, displayItems);
+
                         room.players.forEach(function (playersInRoom) {
 
                             var playerName = playersInRoom.getName();
@@ -130,21 +143,54 @@
                                 modules.helper.helpers.send(socket, playerName + " is here.");
                                 modules.helper.helpers.send(playerSocket, name + ' looks around')
                             }
-
-
                         });
 
                     }
                     else if (preposition == 'at') {
                        // console.log(room.items)
-                        console.log(item)
+                       // console.log(item)
+                        console.time('lookAt');
 
-                       if(room.items.hasOwnProperty('Wooden')) {
-                           modules.helper.helpers.send(socket, room.items[item].description.look);
-                       }
-                        else {
-                           modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
-                       }
+                        var roomItems = room.items;
+                        var roomItemCount = roomItems.length;
+
+                        var itemKeywords;
+                        var itemKeywordsCount;
+                        var found = false;
+
+                        for (var i = 0; i < roomItemCount; i++) {
+
+                            console.log(roomItems[i])
+
+                            if(roomItems[i].hasOwnProperty('keywords') && found == false) {
+                                itemKeywords = roomItems[i].keywords;
+                                itemKeywordsCount = itemKeywords.length;
+
+                                for (var j = 0; j < itemKeywordsCount; j++) {
+
+                                    if (itemKeywords[j] == item.trim().toLowerCase()) {
+                                        modules.helper.helpers.send(socket, roomItems[i].description.look);
+                                        found = true;
+                                        break;
+                                    }
+
+                                }
+                            }
+
+
+
+                        }
+
+                        if (!found) {
+                            modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
+                        }
+console.timeEnd('lookAt');
+                       //if(room.items.hasOwnProperty('Wooden')) {
+                       //    modules.helper.helpers.send(socket, room.items[item].description.look);
+                       //}
+                       // else {
+                       //    modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
+                       //}
                     }
 
 
