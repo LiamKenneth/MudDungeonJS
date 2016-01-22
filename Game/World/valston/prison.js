@@ -91,7 +91,21 @@ exports.prison = {
                     "look": "You look at a bow",
                     "exam": "You look closely at a bow",
                     "room": "A long bow is here leaning against the wall"
-                }
+                },
+                {
+                    keywords: ['Tresure', 'chest'],
+                    name: 'Tresure Chest',
+                    actions: {
+                        "container": true,
+                    },
+                    description: {
+                        "look": "You look at a chest",
+                        "exam": "You look closely at a chest",
+                        "room": "A chest is here "
+                    }.
+                    items: [{
+
+                    }]
             }]
     },
     1: {

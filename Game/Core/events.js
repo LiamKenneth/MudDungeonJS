@@ -162,7 +162,7 @@
 
                         for (var i = 0; i < roomItemCount; i++) {
 
-                            if( found == false) {
+                            if(found == false) {
                                 itemKeywords = roomItems[i].keywords;
                                 itemKeywordsCount = itemKeywords.length;
 
@@ -179,12 +179,7 @@
                             modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
                         }
 console.timeEnd('lookAt');
-                       //if(room.items.hasOwnProperty('Wooden')) {
-                       //    modules.helper.helpers.send(socket, room.items[item].description.look);
-                       //}
-                       // else {
-                       //    modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
-                       //}
+
                     }
 
 

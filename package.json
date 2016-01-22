@@ -4,7 +4,9 @@
   "description": "A mud engine built on node. using telnet and web sockets",
   "main": "mudDungeon.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+  "start": "gulp"
+
   },
   "repository": {
     "type": "git",
