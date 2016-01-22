@@ -128,7 +128,7 @@
                         var displayItems = '';
 
                         if (roomItemCount > 0) {
-                            
+
                         for (var i = 0; i < roomItemCount; i++) {
 
                             displayItems += roomItems[i].description.room + '\r\n';
@@ -183,6 +183,60 @@
                         }
 console.timeEnd('lookAt');
 
+                    }
+                    else if (preposition == 'in') {
+
+                        console.time('lookIn');
+
+                        var item = item.trim().toLowerCase();
+
+                        var roomItems = room.items;
+                        var roomItemCount = roomItems.length;
+
+                        var itemKeywords;
+                        var itemKeywordsCount;
+                        var found = false;
+
+                        for (var i = 0; i < roomItemCount; i++) {
+
+                            if (found == false) {
+                                itemKeywords = roomItems[i].keywords;
+                                itemKeywordsCount = itemKeywords.length;
+
+                                if (itemKeywords.indexOf(item) > -1) {
+
+                                    var containerItems = roomItems[i].items;
+
+                                    console.log(containerItems.name);
+
+                                    var containerItemCount = containerItems.length;
+                                    if (containerItemCount > 0) {
+
+                                        modules.helper.helpers.send(socket, 'You look inside the ' + roomItems[i].name + ' and see:');
+
+                                        for (var j = 0; j < containerItemCount; j++) {
+                                            //console.log(containerItems.name);
+                                            console.log(roomItems[i].items[j].name);
+                                            modules.helper.helpers.send(socket, roomItems[i].items[j].name);
+                                        }
+
+                                    }
+
+                                    //Found  container now loop through items again!
+ 
+                                    found = true;
+                                    break;
+                                }
+
+
+                            }
+                        }
+
+                        if (!found) {
+                                modules.helper.helpers.send(socket,'Sorry you don\'t see that here');
+                            }
+
+console.timeEnd('lookIn');      
                     }
 
 

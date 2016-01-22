@@ -80,18 +80,56 @@ exports.prison = {
                     "room": "An iron Mace is here."
                 }
             },
-            {
-                keywords: ['bow', 'long'],
-                name: 'long bow',
-                actions: {
-                    "sit": "sit",
-                    "wield": "wield"
-                },
-                description: {
-                    "look": "You look at a bow",
-                    "exam": "You look closely at a bow",
-                    "room": "A long bow is here leaning against the wall"
-                }
+        {
+            keywords: ['bow', 'long'],
+            name: 'long bow',
+            actions: {
+                "sit": "sit",
+                "wield": "wield"
+            },
+            description: {
+                "look": "You look at a bow",
+                "exam": "You look closely at a bow",
+                "room": "A long bow is here leaning against the wall"
+            }
+        },
+                {
+                    keywords: ['chest', 'wooden'],
+                    name: 'Wooden chest',
+                    actions: {
+                    "container": true,
+                    "locked": false
+                    },
+                    description: {
+                        "look": "You look at a chest",
+                        "exam": "You look closely at a chest",
+                        "room": "A large chest is in the centre of the room."
+                    },
+                    items: [
+                        {
+                            keywords: ['gold', 'coins'],
+                            name: 'Gold',
+                            description: {
+                                "look": "You look at gold",
+                                "exam": "You look closely at some gold"
+                            },
+                            count: 500
+                        },
+                        {
+                            keywords: ['potion', 'healing'],
+                            name: 'Healing Potion',
+                            actions: {
+                                "quaff": true,
+                            },
+                            properties: {
+
+                            },
+                            description: {
+                                "look": "You look at a potion",
+                                "exam": "You look closely at a potion",
+                            }
+                        }
+                    ]
             }]
     },
     1: {

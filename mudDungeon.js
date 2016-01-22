@@ -11,7 +11,7 @@
     };
 
     var telnetPort = process.env.PORT || 4000;
-    var WebPort = process.env.PORT || 4001;
+    var WebPort = 4001;
 
 
     /*
