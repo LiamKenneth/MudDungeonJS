@@ -127,11 +127,14 @@
                         var roomItemCount = roomItems.length;
                         var displayItems = '';
 
+                        if (roomItemCount > 0) {
+                            
                         for (var i = 0; i < roomItemCount; i++) {
 
                             displayItems += roomItems[i].description.room + '\r\n';
 
                         }
+                    }
 
                         modules.helper.helpers.send(socket, displayItems);
 
