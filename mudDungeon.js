@@ -10,6 +10,8 @@
         events: r('./Game/Core/events').events,
     };
 
+    var port = process.env.PORT || 4001;
+
 
     /*
      Create the telnet server
@@ -52,7 +54,7 @@
     var io = require('socket.io')(app);
     var fs = require('fs');
 
-    app.listen(80);
+    app.listen(port);
 
     function handler (req, res) {
         fs.readFile(__dirname + '/Public/index.html',
