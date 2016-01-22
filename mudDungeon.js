@@ -52,7 +52,7 @@
     var io = require('socket.io')(app);
     var fs = require('fs');
 
-    app.listen(4001);
+    app.listen(80);
 
     function handler (req, res) {
         fs.readFile(__dirname + '/Public/index.html',
