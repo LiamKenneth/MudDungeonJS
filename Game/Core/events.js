@@ -123,7 +123,7 @@
                         modules.helper.helpers.send(socket, room.description);
                         modules.helper.helpers.send(socket, 'Exits: [' + exits.exits + ']');
 
-                        var roomItems = room.items;
+                        var roomItems = room.items || 0;
                         var roomItemCount = roomItems.length;
                         var displayItems = '';
 
@@ -162,18 +162,39 @@
                         var itemKeywords;
                         var itemKeywordsCount;
                         var found = false;
+                        var multi = false;
+                        if (/^\d+\./.test(item)) {
+                            console.log('i have a number')
+                           var findNthItem = parseInt(item.split('.')[0], 10);
+                           multi = true;
+                            item = item.split('.')[1];
+                        }
 
+                        console.log('items = ' + roomItemCount)
                         for (var i = 0; i < roomItemCount; i++) {
 
                             if(found == false) {
                                 itemKeywords = roomItems[i].keywords;
                                 itemKeywordsCount = itemKeywords.length;
 
-                                      if (itemKeywords.indexOf(item) > -1) {
+                                console.log('match ' + itemKeywords.indexOf(item))
+
+                                      if (multi && itemKeywords.indexOf(item) > -1) {
+
+                                          if (findNthItem == i) {
+
+                                              modules.helper.helpers.send(socket, roomItems[i].description.look);
+                                              found = true;
+                                              break;
+                                          }
+
+                                      }
+                                      else if (itemKeywords.indexOf(item) > -1) {
                                           modules.helper.helpers.send(socket, roomItems[i].description.look);
                                           found = true;
                                           break;
                                       }
+
                             }
 
                         }
@@ -197,35 +218,64 @@ console.timeEnd('lookAt');
                         var itemKeywordsCount;
                         var found = false;
 
+                        // Loops rooms item array for container
                         for (var i = 0; i < roomItemCount; i++) {
 
                             if (found == false) {
                                 itemKeywords = roomItems[i].keywords;
                                 itemKeywordsCount = itemKeywords.length;
 
+                                //If item is found via keyword
                                 if (itemKeywords.indexOf(item) > -1) {
+                                    found = true;
 
-                                    var containerItems = roomItems[i].items;
+                                    //if item is a container
+                                    if (roomItems[i].actions.container == true) {
 
-                                    console.log(containerItems.name);
+                                        //get container items array
+                                        var containerItems = roomItems[i].items;
 
-                                    var containerItemCount = containerItems.length;
-                                    if (containerItemCount > 0) {
+                                        console.log(containerItems.name);
 
-                                        modules.helper.helpers.send(socket, 'You look inside the ' + roomItems[i].name + ' and see:');
+                                        var containerItemCount = containerItems.length;
 
-                                        for (var j = 0; j < containerItemCount; j++) {
-                                            //console.log(containerItems.name);
-                                            console.log(roomItems[i].items[j].name);
-                                            modules.helper.helpers.send(socket, roomItems[i].items[j].name);
+                                        if(roomItems[i].actions.locked == true) {
+                                            modules.helper.helpers.send(socket, 'You attempt to open the ' + roomItems[i].name + ' but it\'s locked');
+                                        }
+                                        else {
+
+                                            if (containerItemCount > 0) {
+
+                                                modules.helper.helpers.send(socket, 'You look inside the ' + roomItems[i].name + ' and see:');
+
+                                                var chestItems = '';
+
+                                                for (var j = 0; j < containerItemCount; j++) {
+
+                                                    if (roomItems[i].items[j].count > 1) {
+
+                                                        chestItems += roomItems[i].items[j].name + ' (' + roomItems[i].items[j].count + ')\r\n';
+
+                                                    }
+                                                    else {
+                                                        chestItems += roomItems[i].items[j].name + '\r\n';
+                                                    }
+
+                                                }
+
+                                                modules.helper.helpers.send(socket, chestItems);
+
+                                            }
+                                            else {
+                                                modules.helper.helpers.send(socket, 'You look inside the ' + roomItems[i].name + ' but nothing is inside');
+                                            }
+
                                         }
 
                                     }
-
-                                    //Found  container now loop through items again!
- 
-                                    found = true;
-                                    break;
+                                    else {
+                                        modules.helper.helpers.send(socket, "A " + roomItems[i].name + " is not a container");
+                                    }
                                 }
 
 

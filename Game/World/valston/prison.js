@@ -1,4 +1,3 @@
-
 /*not sure how to do this yet */
 exports.prison = {
 
@@ -40,47 +39,43 @@ exports.prison = {
                 "exam": "You look closely at the stool and notice a lockpick underneath it",
                 "room": "An old Wooden stool is in the corner of the room."
             }
-        },
-            {
-                keywords: ['sword', 'swo', 'long'],
-                name: 'Long Sword',
-                actions: {
-                    "sit": "sit",
-                    "wield": "wield"
-                },
-                description: {
-                    "look": "You look at a long sword",
-                    "exam": "You look closely at a long sword",
-                    "room": "A long Sword is here"
-                }
+        }, {
+            keywords: ['sword', 'swo', 'long'],
+            name: 'Long Sword',
+            actions: {
+                "sit": "sit",
+                "wield": "wield"
             },
-            {
-                keywords: ['sword', 'swo', 'short'],
-                name: 'Short Sword',
-                actions: {
-                    "sit": "sit",
-                    "wield": "wield"
-                },
-                description: {
-                    "look": "You look at a short sword",
-                    "exam": "You look closely at a short sword",
-                    "room": "A short Sword is here."
-                }
+            description: {
+                "look": "You look at a long sword",
+                "exam": "You look closely at a long sword",
+                "room": "A long Sword is here"
+            }
+        }, {
+            keywords: ['sword', 'swo', 'short'],
+            name: 'Short Sword',
+            actions: {
+                "sit": "sit",
+                "wield": "wield"
             },
-            {
-                keywords: ['mace', 'mac'],
-                name: 'Mace',
-                actions: {
-                    "sit": "sit",
-                    "wield": "wield"
-                },
-                description: {
-                    "look": "You look at a mace",
-                    "exam": "You look closely at a mace",
-                    "room": "An iron Mace is here."
-                }
+            description: {
+                "look": "You look at a short sword",
+                "exam": "You look closely at a short sword",
+                "room": "A short Sword is here."
+            }
+        }, {
+            keywords: ['mace', 'mac'],
+            name: 'Mace',
+            actions: {
+                "sit": "sit",
+                "wield": "wield"
             },
-        {
+            description: {
+                "look": "You look at a mace",
+                "exam": "You look closely at a mace",
+                "room": "An iron Mace is here."
+            }
+        }, {
             keywords: ['bow', 'long'],
             name: 'long bow',
             actions: {
@@ -92,52 +87,48 @@ exports.prison = {
                 "exam": "You look closely at a bow",
                 "room": "A long bow is here leaning against the wall"
             }
-        },
-                {
-                    keywords: ['chest', 'wooden'],
-                    name: 'Wooden chest',
-                    actions: {
-                    "container": true,
-                    "locked": false
-                    },
-                    description: {
-                        "look": "You look at a chest",
-                        "exam": "You look closely at a chest",
-                        "room": "A large chest is in the centre of the room."
-                    },
-                    items: [
-                        {
-                            keywords: ['gold', 'coins'],
-                            name: 'Gold',
-                            description: {
-                                "look": "You look at gold",
-                                "exam": "You look closely at some gold"
-                            },
-                            count: 500
-                        },
-                        {
-                            keywords: ['potion', 'healing'],
-                            name: 'Healing Potion',
-                            actions: {
-                                "quaff": true,
-                            },
-                            properties: {
+        }, {
+            keywords: ['chest', 'wooden'],
+            name: 'Wooden chest',
+            actions: {
+                "container": true,
+                "locked": false
+            },
+            description: {
+                "look": "You look at a chest",
+                "exam": "You look closely at a chest",
+                "room": "A large chest is in the centre of the room."
+            },
+            items: [{
+                keywords: ['gold', 'coins'],
+                name: 'Gold',
+                description: {
+                    "look": "You look at gold",
+                    "exam": "You look closely at some gold"
+                },
+                count: 500
+            }, {
+                keywords: ['potion', 'healing'],
+                name: 'Healing Potion',
+                actions: {
+                    "quaff": true,
+                },
+                properties: {
 
-                            },
-                            description: {
-                                "look": "You look at a potion",
-                                "exam": "You look closely at a potion",
-                            }
-                        }
-                    ]
+                },
+                description: {
+                    "look": "You look at a potion",
+                    "exam": "You look closely at a potion",
+                }
             }]
+        }]
     },
     1: {
         title: "A hallway Room",
         description: "You are in a dark hallway",
         terrain: "city",
         exits: {
-            South:{
+            South: {
                 name: "South",
                 location: {
                     region: 'valston',
@@ -146,7 +137,7 @@ exports.prison = {
                 },
                 locked: false,
                 hidden: false
-                }
+            }
         },
         players: []
     }

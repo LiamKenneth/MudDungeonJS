@@ -18,33 +18,33 @@
      Create the telnet server
      */
 
-    // var telnet = modules.telnet;
-    // var server = new telnet.Server(function (socket) {
-    //     console.log('telnet someone connected');
-    //
-    //
-    //     socket.emit('welcome', modules.playerSetup.welcome(socket));
-    //
-    //     socket.on('close', function()
-    //     {
-    //
-    //         // modules.playerSetup.player.playerManager.removePlayer(socket);
-    //         // modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
-    //
-    //         console.log("telnet Player left");
-    //     });
-    //
-    //     socket.on('interrupt', function () {
-    //         socket.write("INTR!");
-    //         // disconnect on CTRL-C!
-    //         socket.end();
-    //     });
-    //
-    //
-    //
-    //
-    // });
-    // server.listen(telnetPort);
+     var telnet = modules.telnet;
+     var server = new telnet.Server(function (socket) {
+         console.log('telnet someone connected');
+
+
+         socket.emit('welcome', modules.playerSetup.welcome(socket));
+
+         socket.on('close', function()
+         {
+
+             // modules.playerSetup.player.playerManager.removePlayer(socket);
+             // modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
+
+             console.log("telnet Player left");
+         });
+
+         socket.on('interrupt', function () {
+             socket.write("INTR!");
+             // disconnect on CTRL-C!
+             socket.end();
+         });
+
+
+
+
+     });
+     server.listen(telnetPort);
 
     /*
      Create the web Server
