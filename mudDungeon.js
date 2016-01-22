@@ -10,7 +10,7 @@
         events: r('./Game/Core/events').events,
     };
 
-    var telnetPort = process.env.PORT || 4000;
+    var telnetPort =  4000;
     var WebPort = 4001;
 
 
