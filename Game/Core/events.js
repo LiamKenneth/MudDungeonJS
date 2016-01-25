@@ -55,13 +55,15 @@
             },
             move: function(player, direction, nextRoom) {
 
+                console.time('move')
+
                 var socket = player.getSocket();
 
                 var location = JSON.parse(player.getLocation());
                 
                 var room = modules.room.room.playerLocation(location);
 
-                if (room.exits.hasOwnProperty(direction)) {
+                if (room.exits[direction] != 'undefined') {
 
                         if (room.exits[direction].locked === false) {
 
@@ -80,7 +82,8 @@
                                 var nextRoom = modules['world'][exits[direction].region][exits[direction].area][exits[direction].areaID];
                                 events.enterRoom(player, direction, 'enter', nextRoom.players)
 
-                                socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.playerLocation.loadRoom(player, direction, 'join'));
+                            console.timeEnd('move')
+                            socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.playerLocation.loadRoom(player, direction, 'join'));
 
                         } else {
                             modules.helper.helpers.send(socket, 'The exit is locked');
