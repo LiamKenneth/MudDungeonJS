@@ -82,7 +82,7 @@
 	{
   var room = modules['world'][region][area][areaId];
 
-console.log(room.players)
+ 
   removeByValue(room.players, pc);
 
 	},
@@ -123,7 +123,41 @@ console.log(room.players)
 
       });
 
+  },
+
+ /*-------------------------------------------------------------------*
+ * Broadcast an event to the player and other players
+ * --------------------------------------------------------------------
+ * 
+ * Example: You pick up a sword. Others will see: Liam picks up a sword
+ * @param Object currentPlayerName - player object file
+ * @param array playersInRoom - An array of players in the room
+ * @param Object response - containing the responses to show the user(s)
+ * Example response:
+ * response = {
+ *  forRoom: 'Liam picks up a sword',
+ *  forPlayer: 'You pick up a sword
+ * }
+ * 
+ * ---------------------------------------------------------------------
+ */
+  broadcastPlayerEvent: function(currentPlayer, playersInRoom, response) {
+
+      playersInRoom.forEach(function (playersInRoom) {
+
+          var playerName = playersInRoom.getName();
+          var currentPlayerName = currentPlayer.getName();
+          var currentPlayerSocket = currentPlayer.getSocket();
+
+          if (currentPlayerName !== playerName) {
+              var playersSocket = playersInRoom.getSocket();
+              modules.helper.helpers.send(playersSocket, response.forRoom);
+          } else {
+              modules.helper.helpers.send(currentPlayerSocket, response.forPlayer);
+          }
+      });
   }
+  
 
 
 };

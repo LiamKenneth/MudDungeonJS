@@ -18,11 +18,11 @@
   //  var weapons = modules.data.loadFile('./Game/Core/Items/Weapons/swords/', 'swords.json');
     var playerSetup = {
         welcome: function(socket) {
-              var motd = modules.data.loadFile(null, 'motd');
-
-               if (motd) {
-                   modules.helper.send(socket, motd);
-               }
+//              var motd = modules.data.loadFile(null, 'motd');
+//
+//               if (motd) {
+//                   modules.helper.send(socket, motd);
+//               }
             playerSetup.login(socket);
         },
         login: function(socket) {

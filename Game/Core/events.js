@@ -4,6 +4,7 @@
         var modules = {
             helper: r('./helpers'),
             data: r('./data').data,
+            room: r('./Rooms/roomFunctions'),
             playerSetup: {
                 player: r('./PlayerSetup/player-manager')
             },
@@ -40,7 +41,7 @@
                 playersInRoom.forEach(function(playersInRoom) {
 
                     var playerName = playersInRoom.getName();
-                    console.log(name + " " + playerName)
+                
                     if (name !== playerName) {
                         var playersSocket = playersInRoom.getSocket();
                         modules.helper.helpers.send(playersSocket, enterMessageOther[status])
@@ -57,11 +58,9 @@
                 var socket = player.getSocket();
 
                 var location = JSON.parse(player.getLocation());
+                
+                var room = modules.room.room.playerLocation(location);
 
-                var region = location.region;
-                var area = location.area;
-                var areaId = location.areaID;
-                var room = modules['world'][region][area][areaId];
 
 
                // console.log("Checking if exit exists" + room  + " " +  direction.toLowerCase().charAt(0) + " " + direction + " " + room.exits + " hard code " + room.exits.n);
@@ -72,6 +71,8 @@
 
 
                             events.enterRoom(player, direction, 'leave', room.players)
+
+                            //code breaks here because region etc is not defined. change remove function to just take room param to get the region/area/ area id
 
                             modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, player, region, area, areaId);
 
@@ -144,7 +145,7 @@
                             var playerSocket = playersInRoom.getSocket();
                             if (name !== playerName) {
                                 modules.helper.helpers.send(socket, playerName + " is here.");
-                                modules.helper.helpers.send(playerSocket, name + ' looks around')
+                                modules.helper.helpers.send(playerSocket, name + ' looks around');
                             }
                         });
 
@@ -164,24 +165,31 @@
                         var found = false;
                         var multi = false;
                         if (/^\d+\./.test(item)) {
-                            console.log('i have a number')
+                        
                            var findNthItem = parseInt(item.split('.')[0], 10);
                            multi = true;
                             item = item.split('.')[1];
                         }
 
-                        console.log('items = ' + roomItemCount)
+                       // console.log('items = ' + roomItemCount)
                         for (var i = 0; i < roomItemCount; i++) {
 
                             if(found == false) {
                                 itemKeywords = roomItems[i].keywords;
                                 itemKeywordsCount = itemKeywords.length;
 
-                                console.log('match ' + itemKeywords.indexOf(item))
+                                //console.log('match ' + itemKeywords.indexOf(item))
+
+                                var response = {
+                                    "forRoom": name + ' looks at a ' + roomItems[i].name,
+                                    "forPlayer": 'You look at a ' + roomItems[i].name
+                                }
 
                                       if (multi && itemKeywords.indexOf(item) > -1) {
 
                                           if (findNthItem == i) {
+
+                                              modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
 
                                               modules.helper.helpers.send(socket, roomItems[i].description.look);
                                               found = true;
@@ -190,6 +198,8 @@
 
                                       }
                                       else if (itemKeywords.indexOf(item) > -1) {
+                                          modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
                                           modules.helper.helpers.send(socket, roomItems[i].description.look);
                                           found = true;
                                           break;

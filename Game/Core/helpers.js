@@ -63,7 +63,7 @@
     dice: function(number, size) {
       var sum = 0;
       for(var i = number; i--;) {
-       sum += Math.floor((Math.random() * size) + 1)
+          sum += Math.floor((Math.random() * size) + 1);
       }
 
       return sum;

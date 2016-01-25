@@ -47,7 +47,7 @@ exports.prison = {
                 "wield": "wield"
             },
             description: {
-                "look": "You look at a long sword",
+                "look": "The sword shines and glows, it looks sharp",
                 "exam": "You look closely at a long sword",
                 "room": "A long Sword is here"
             }

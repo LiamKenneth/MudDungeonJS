@@ -32,14 +32,14 @@
 
             //load room based on player location
             var region = location.region;
-            console.log("reg " + region)
+            //console.log("reg " + region)
             var area = location.area;
-            console.log("area " + area)
+            //console.log("area " + area)
             var areaId = location.areaID;
-            console.log("areaid " + areaId)
+            //console.log("areaid " + areaId)
             var room = modules['world'][region][area][areaId];
 
-            console.log(room.players)
+           // console.log(room.players)
 
 
 
