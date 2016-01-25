@@ -61,10 +61,6 @@
                 
                 var room = modules.room.room.playerLocation(location);
 
-
-
-               // console.log("Checking if exit exists" + room  + " " +  direction.toLowerCase().charAt(0) + " " + direction + " " + room.exits + " hard code " + room.exits.n);
-
                 if (room.exits.hasOwnProperty(direction)) {
 
                         if (room.exits[direction].locked === false) {
@@ -74,12 +70,13 @@
 
                             //code breaks here because region etc is not defined. change remove function to just take room param to get the region/area/ area id
 
-                            modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, player, region, area, areaId);
+                            modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, player, room);
 
                             var exits = events.exits(room.exits);
 
 
                                 player.setLocation(exits[direction].region, exits[direction].area, exits[direction].areaID);
+
                                 var nextRoom = modules['world'][exits[direction].region][exits[direction].area][exits[direction].areaID];
                                 events.enterRoom(player, direction, 'enter', nextRoom.players)
 
