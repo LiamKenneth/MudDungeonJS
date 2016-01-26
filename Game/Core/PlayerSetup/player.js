@@ -3,8 +3,10 @@
 
 
 var player = function(playerInfo) {
+    this.type = 'player';
     this.socket = '';
     this.name = playerInfo.name || '';
+    this.keywords = [playerInfo.name]
     this.description = playerInfo.description || 'You see nothing special about them';
     this.age = playerInfo.age || 18;
     this.sex = playerInfo.sex || 'Female';
@@ -93,6 +95,10 @@ var player = function(playerInfo) {
     this.getInfo = function() {
         return this.information;
     };
+
+    this.getKeywords = function() {
+        return this.keywords;
+    }
 
     this.getAge = function() {
         return this.age;

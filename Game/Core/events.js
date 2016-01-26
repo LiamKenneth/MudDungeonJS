@@ -111,7 +111,6 @@
 
             var roomItemsLength = roomItems.length;
 
-            console.log(roomItems);
 
             var itemKeywords;
             var findNthItem;
@@ -129,21 +128,31 @@
                 "look at": function (item) {
 
                     var description = item.description.look;
+
                     var response = {
                         "forRoom": name + ' looks at a ' + item.name,
                         "forPlayer": 'You look at a ' + item.name
-                    }
+                    };
 
-                    if (!!item.name) {
+                    if (item.type == 'object') {
                         response.forRoom = name + ' looks at a ' + item.name;
                         response.forPlayer = 'You look at a ' + item.name;
                     } else {
-                        response.forRoom = name + ' looks at ' + item.name;
-                        response.forPlayer = 'You look at ' + item.name;
+
+                        if(item.name == playerInfo.name) {
+                            var sex = playerInfo.sex == 'male' ? 'himself' : 'herself';
+                            response.forRoom = name + ' looks at ' + sex;
+                            response.forPlayer = 'You look at yourself';
+                        }
+                        else {
+
+                            response.forRoom = name + ' looks at ' + item.name;
+                            response.forPlayer = 'You look at ' + item.name;
+                        }
 
                         description = item.description;
 
-                    }
+                    };
 
 
                     modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);

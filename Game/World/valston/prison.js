@@ -28,6 +28,7 @@ exports.prison = {
         },
         players: [],
         items: [{
+            type: 'object',
             keywords: ['wooden', 'stool', 'woo'],
             name: 'Wooden Stool',
             actions: {
@@ -40,6 +41,7 @@ exports.prison = {
                 "room": "An old Wooden stool is in the corner of the room."
             }
         }, {
+            type: 'object',
             keywords: ['sword', 'swo', 'long'],
             name: 'Long Sword',
             actions: {
@@ -52,6 +54,7 @@ exports.prison = {
                 "room": "A long Sword is here"
             }
         }, {
+            type: 'object',
             keywords: ['sword', 'swo', 'short'],
             name: 'Short Sword',
             actions: {
@@ -64,6 +67,7 @@ exports.prison = {
                 "room": "A short Sword is here."
             }
         }, {
+            type: 'object',
             keywords: ['mace', 'mac'],
             name: 'Mace',
             actions: {
@@ -76,6 +80,7 @@ exports.prison = {
                 "room": "An iron Mace is here."
             }
         }, {
+            type: 'object',
             keywords: ['bow', 'long'],
             name: 'long bow',
             actions: {
@@ -88,6 +93,7 @@ exports.prison = {
                 "room": "A long bow is here leaning against the wall"
             }
         }, {
+            type: 'object',
             keywords: ['chest', 'wooden'],
             name: 'Wooden chest',
             actions: {
@@ -100,6 +106,7 @@ exports.prison = {
                 "room": "A large chest is in the centre of the room."
             },
             items: [{
+                type: 'object',
                 keywords: ['gold', 'coins'],
                 name: 'Gold',
                 description: {
@@ -108,6 +115,7 @@ exports.prison = {
                 },
                 count: 500
             }, {
+                type: 'object',
                 keywords: ['potion', 'healing'],
                 name: 'Healing Potion',
                 actions: {
