@@ -132,58 +132,6 @@
 
 
             var eventLookUp = {
-                "look": function (item) {
-
-                    var description = item.description.look;
-
-                    var response = {
-                        "forRoom": name + ' looks at a ' + item.name,
-                        "forPlayer": 'You look at a ' + item.name
-                    };
-
-                    if (item.type == 'object') {
-
-                        // change a to an if item.name starts with a vowel a,e,i,o,u 
-                        // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
-
-                        var itemNameStartsWith = item.name.substr(0,1).toLowerCase();
- 
-
-                        if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
-
-                            response.forRoom = name + ' looks at an ' + item.name;
-                            response.forPlayer = 'You look at an ' + item.name;
-
-                        } else {
-
-                            response.forRoom = name + ' looks at a ' + item.name;
-                            response.forPlayer = 'You look at a ' + item.name;
-                        }
-
-                      
-                    } else {
-                     
-                        if (item.name == playerInfo.name || item.name == 'self') {
-                            var sex = playerInfo.sex == 'Male' ? 'himself.' : 'herself.';
-                            response.forRoom = name + ' looks at ' + sex;
-                            response.forPlayer = 'You look at yourself';
-                        }
-                        else {
-
-                            response.forRoom = name + ' looks at ' + item.name;
-                            response.forPlayer = 'You look at ' + item.name;
-                        }
-
-                        description = item.description || playerInfo.description;
-
-                    };
-
-
-                    modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
-
-                    modules.helper.helpers.send(socket, description);
-
-                },
                 "look at": function (item) {
 
                     var description = item.description.look;
@@ -306,14 +254,54 @@
                 },
                 "exam": function (item) {
 
-                var response = {
-                    "forRoom": name + ' looks at a ' + item.name,
-                    "forPlayer": 'You look at a ' + item.name
-                }
+                    var description = item.description.exam;
 
-                modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+                    var response = {
+                        "forRoom": name + ' takes a closer look at a ' + item.name,
+                        "forPlayer": 'You take a closer look at a' + item.name
+                    };
 
-                modules.helper.helpers.send(socket, item.description.exam);
+                    if (item.type == 'object') {
+
+                        // change a to an if item.name starts with a vowel a,e,i,o,u 
+                        // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                        var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                        if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                            response.forRoom = name + ' takes a closer look at an ' + item.name;
+                            response.forPlayer = 'You take a closer look at an ' + item.name;
+
+                        } else {
+
+                            response.forRoom = name + ' takes a closer look at a ' + item.name;
+                            response.forPlayer = 'You take a closer look at a ' + item.name;
+                        }
+
+
+                    } else {
+
+                        if (item.name == playerInfo.name || item.name == 'self') {
+                            var sex = playerInfo.sex == 'Male' ? 'himself.' : 'herself.';
+                            response.forRoom = name + ' looks at ' + sex;
+                            response.forPlayer = 'You look at yourself';
+                        }
+                        else {
+
+                            response.forRoom = name + ' looks at ' + item.name;
+                            response.forPlayer = 'You look at ' + item.name;
+                        }
+
+                        description = item.description || playerInfo.description;
+
+                    };
+
+
+                    modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+                    modules.helper.helpers.send(socket, description);
 
             }
             }

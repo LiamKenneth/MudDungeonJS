@@ -28,20 +28,14 @@
                 //command  //preposition //item
                 //Look    //at/on/in     //sign
                 var command = str.split(' ').slice(0, 2).join(' ');
-              //  var preposition = str.split(' ').slice(1, 2).join(' ')
-                var item = str.split(' ').slice(2).join(' ');
 
-                console.log("type " + typeof item)
+                var item = str.split(' ').slice(2).join(' ');
 
                 if (item == null || item ==  '') {
                     //at / in not used. eg: look sword
                     command = str.split(' ').slice(0, 1).join(' ');
                     item = str.split(' ').slice(1).join(' ');
                 }
-
-                console.log("command " + command);
-                console.log("item " + item);
-
 
                 var commandTable = {
 
@@ -62,8 +56,8 @@
                     look: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))  },
                     "look at": function() { socket.emit('Look at',modules.events.events.look(socket, pc, 'at', item))  },
                     'look in': function() {socket.emit('Look in', modules.events.events.look(socket, pc, 'in', item))  },
-                    ex: function() {  console.log('Exam Item') },
-                    exam: function() {  console.log('Exam Item') },
+                    ex: function () { socket.emit('Examine Item', modules.events.events.look(socket, pc, null, item)) },
+                    exam: function () { socket.emit('Examine Item', modules.events.events.look(socket, pc, null, item)) }, //need to make an examine event and not use the look event
                     exits: function() {  console.log('look')  },
                     "'": function() {  console.log('Say')  },
                     say: function() {  console.log('Say')  },
