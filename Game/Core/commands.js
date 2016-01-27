@@ -31,6 +31,16 @@
               //  var preposition = str.split(' ').slice(1, 2).join(' ')
                 var item = str.split(' ').slice(2).join(' ');
 
+                console.log("type " + typeof item)
+
+                if (item == null || item ==  '') {
+                    //at / in not used. eg: look sword
+                    command = str.split(' ').slice(0, 1).join(' ');
+                    item = str.split(' ').slice(1).join(' ');
+                }
+
+                console.log("command " + command);
+                console.log("item " + item);
 
 
                 var commandTable = {
@@ -48,8 +58,8 @@
                     u: function() {socket.removeAllListeners('data'); socket.emit('Up', modules.events.events.move(pc, 'Up', null))},
                     up: function() {socket.removeAllListeners('data'); socket.emit('Up', modules.events.events.move(pc, 'Up', null)) },
                     //Interaction
-                    l: function() { socket.emit('Look',modules.events.events.look(socket, pc))},
-                    look: function() { socket.emit('Look',modules.events.events.look(socket, pc))  },
+                    l: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))},
+                    look: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))  },
                     "look at": function() { socket.emit('Look at',modules.events.events.look(socket, pc, 'at', item))  },
                     'look in': function() {socket.emit('Look in', modules.events.events.look(socket, pc, 'in', item))  },
                     ex: function() {  console.log('Exam Item') },
@@ -69,14 +79,9 @@
                     }
                      else
                     {
-                        try
-                        {
-                            modules.helper.helpers.send(socket, "Sorry " + command + " is not recognised command");
-                        }
-                        catch (e)
-                        {
-                            console.log(e)
-                        }
+ 
+                      modules.helper.helpers.send(socket, "Sorry " + command + " is not recognised command");
+
                     }
                 }
 
@@ -85,12 +90,6 @@
 
             });
 
-            // check if input is prefixed
-
-
-            var move = {
-                north: ''
-            }
         }
     };
     exports.commands = commands;

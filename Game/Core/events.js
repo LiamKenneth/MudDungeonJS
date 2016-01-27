@@ -100,14 +100,21 @@
         },
         findObject: function (playerInfo, room, item, event) {
 
+          
+
 
             item = item.trim().toLowerCase();
             var name = playerInfo.getName();
             var socket = playerInfo.getSocket();
             var roomItems = room.items;
+
+   
+            roomItems.push({type: 'player', keywords: ['self'], name:playerInfo.name, description: playerInfo.description});
             var playersInRoom = room.players;
 
             Array.prototype.push.apply(roomItems, playersInRoom);
+
+ 
 
             var roomItemsLength = roomItems.length;
 
@@ -117,7 +124,7 @@
             var found = false;
             var multi = false;
             if (/^\d+\./.test(item)) {
-
+              
                 findNthItem = parseInt(item.split('.')[0], 10);
                 multi = true;
                 item = item.split('.')[1];
@@ -125,6 +132,58 @@
 
 
             var eventLookUp = {
+                "look": function (item) {
+
+                    var description = item.description.look;
+
+                    var response = {
+                        "forRoom": name + ' looks at a ' + item.name,
+                        "forPlayer": 'You look at a ' + item.name
+                    };
+
+                    if (item.type == 'object') {
+
+                        // change a to an if item.name starts with a vowel a,e,i,o,u 
+                        // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                        var itemNameStartsWith = item.name.substr(0,1).toLowerCase();
+ 
+
+                        if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                            response.forRoom = name + ' looks at an ' + item.name;
+                            response.forPlayer = 'You look at an ' + item.name;
+
+                        } else {
+
+                            response.forRoom = name + ' looks at a ' + item.name;
+                            response.forPlayer = 'You look at a ' + item.name;
+                        }
+
+                      
+                    } else {
+                     
+                        if (item.name == playerInfo.name || item.name == 'self') {
+                            var sex = playerInfo.sex == 'Male' ? 'himself.' : 'herself.';
+                            response.forRoom = name + ' looks at ' + sex;
+                            response.forPlayer = 'You look at yourself';
+                        }
+                        else {
+
+                            response.forRoom = name + ' looks at ' + item.name;
+                            response.forPlayer = 'You look at ' + item.name;
+                        }
+
+                        description = item.description || playerInfo.description;
+
+                    };
+
+
+                    modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+                    modules.helper.helpers.send(socket, description);
+
+                },
                 "look at": function (item) {
 
                     var description = item.description.look;
@@ -135,12 +194,29 @@
                     };
 
                     if (item.type == 'object') {
-                        response.forRoom = name + ' looks at a ' + item.name;
-                        response.forPlayer = 'You look at a ' + item.name;
-                    } else {
 
-                        if(item.name == playerInfo.name) {
-                            var sex = playerInfo.sex == 'male' ? 'himself' : 'herself';
+                        // change a to an if item.name starts with a vowel a,e,i,o,u 
+                        // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                        var itemNameStartsWith = item.name.substr(0,1).toLowerCase();
+ 
+
+                        if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                            response.forRoom = name + ' looks at an ' + item.name;
+                            response.forPlayer = 'You look at an ' + item.name;
+
+                        } else {
+
+                            response.forRoom = name + ' looks at a ' + item.name;
+                            response.forPlayer = 'You look at a ' + item.name;
+                        }
+
+                      
+                    } else {
+                     
+                        if (item.name == playerInfo.name || item.name == 'self') {
+                            var sex = playerInfo.sex == 'Male' ? 'himself.' : 'herself.';
                             response.forRoom = name + ' looks at ' + sex;
                             response.forPlayer = 'You look at yourself';
                         }
@@ -150,7 +226,7 @@
                             response.forPlayer = 'You look at ' + item.name;
                         }
 
-                        description = item.description;
+                        description = item.description || playerInfo.description;
 
                     };
 
@@ -248,10 +324,10 @@
 
                 if (found == false) {
                     itemKeywords = roomItems[i].keywords;
-
+               
                     if (multi && itemKeywords.indexOf(item) > -1) {
 
-                        if (findNthItem == i) {
+                        if (findNthItem == i -1) {
 
                             eventLookUp[event](roomItems[i]);
 
@@ -259,15 +335,15 @@
 
                         }
 
-                    } else if (itemKeywords.indexOf(item) > -1) {
-
+                    } else if (multi == false && itemKeywords.indexOf(item) > -1) {
+    
                         eventLookUp[event](roomItems[i]);
 
                         found = true;
 
                     }
 
-                }
+                } 
 
             }
 
@@ -288,7 +364,7 @@
 
             var room = modules.room.room.playerLocation(location);
 
-            if (preposition == null) {
+            if (preposition == null && item == null) {
 
                 var exits = events.exits(room.exits);
 
@@ -325,12 +401,20 @@
                     }
                 });
 
-            } else if (preposition == 'at') {
- 
+            } else if (preposition == null && item != null) {
+
+                console.time('look without at');
+
+                events.findObject(playerInfo, room, item, 'look at');
+
+                console.timeEnd('look without at');
+            }
+            else if (preposition == 'at') {
+
                 console.time('lookAt');
- 
-                    events.findObject(playerInfo, room, item, 'look at');
-                
+
+                events.findObject(playerInfo, room, item, 'look at');
+
                 console.timeEnd('lookAt');
 
             } else if (preposition == 'in') {

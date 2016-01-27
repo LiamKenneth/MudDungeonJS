@@ -29,6 +29,19 @@ exports.prison = {
         players: [],
         items: [{
             type: 'object',
+            keywords: ['apple', 'app'],
+            name: 'Apple',
+            actions: {
+                "eat": true,
+                "wield": "wield"
+            },
+            description: {
+                "look": "You look at a small apple pn the floor",
+                "exam": "You look closely at the apple and notice one half has been eaten already",
+                "room": "An apple is on the floor"
+            }
+        },{
+            type: 'object',
             keywords: ['wooden', 'stool', 'woo'],
             name: 'Wooden Stool',
             actions: {
