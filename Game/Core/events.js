@@ -100,7 +100,7 @@
         },
         findObject: function (playerInfo, room, item, event) {
 
-          
+          console.log("find object " + item + "/" + event)
 
 
             item = item.trim().toLowerCase();
@@ -254,6 +254,8 @@
                 },
                 "exam": function (item) {
 
+                    console.log('inside exam function')
+
                     var description = item.description.exam;
 
                     var response = {
@@ -341,6 +343,18 @@
                 modules.helper.helpers.send(socket, 'Sorry you don\'t see that here');
             }
 
+        },
+        exam: function (socket, playerInfo, item) {
+
+                var location = JSON.parse(playerInfo.getLocation());
+                var room = modules.room.room.playerLocation(location);
+
+                console.time('Examine');
+
+                events.findObject(playerInfo, room, item, 'exam');
+
+                console.timeEnd('Examine');
+ 
         },
         look: function (socket, playerInfo, preposition, item) {
 
@@ -560,6 +574,17 @@
             modules.helper.helpers.send(socket, scoreSheet);
 
 
+        },
+        say: function (socket, playerInfo, msg) {
+            var response = {
+                "forRoom": playerInfo.name + ' says ' + msg,
+                "forPlayer": 'You say ' + msg
+            };
+
+            var location = JSON.parse(playerInfo.getLocation());
+            var room = modules.room.room.playerLocation(location);
+
+            modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
         }
 
     };

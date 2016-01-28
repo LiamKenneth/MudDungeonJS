@@ -31,11 +31,15 @@
 
                 var item = str.split(' ').slice(2).join(' ');
 
-                if (item == null || item ==  '') {
+                if (item == null || item == '') {
+                    console.log("item is null");
                     //at / in not used. eg: look sword
                     command = str.split(' ').slice(0, 1).join(' ');
                     item = str.split(' ').slice(1).join(' ');
                 }
+
+                console.log(command)
+                console.log(item)
 
                 var commandTable = {
 
@@ -56,11 +60,12 @@
                     look: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))  },
                     "look at": function() { socket.emit('Look at',modules.events.events.look(socket, pc, 'at', item))  },
                     'look in': function() {socket.emit('Look in', modules.events.events.look(socket, pc, 'in', item))  },
-                    ex: function () { socket.emit('Examine Item', modules.events.events.look(socket, pc, null, item)) },
-                    exam: function () { socket.emit('Examine Item', modules.events.events.look(socket, pc, null, item)) }, //need to make an examine event and not use the look event
+                    ex: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
+                    exam: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
+                    examine: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
                     exits: function() {  console.log('look')  },
-                    "'": function() {  console.log('Say')  },
-                    say: function() {  console.log('Say')  },
+                    "'": function () { socket.emit('Say', modules.events.events.say(socket, pc, item)) },
+                    say: function () { socket.emit('Say', modules.events.events.say(socket, pc, item)) },
                     score: function() { socket.emit('Score', modules.events.events.score(socket, pc))  },
                     i: function() {  console.log('Inventory')  },
                     inv: function() {  console.log('Inventory')  },
