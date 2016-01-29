@@ -31,8 +31,7 @@
 
                 var item = str.split(' ').slice(2).join(' ');
 
-                if (item == null || item == '') {
-                    console.log("item is null");
+                if (item == null || item == '' || command.startsWith('say')) { //< This looks hacky
                     //at / in not used. eg: look sword
                     command = str.split(' ').slice(0, 1).join(' ');
                     item = str.split(' ').slice(1).join(' ');
@@ -64,11 +63,12 @@
                     exam: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
                     examine: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
                     exits: function() {  console.log('look')  },
-                    "'": function () { socket.emit('Say', modules.events.events.say(socket, pc, item)) },
-                    say: function () { socket.emit('Say', modules.events.events.say(socket, pc, item)) },
+                    "'": function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
+                    say: function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
                     score: function() { socket.emit('Score', modules.events.events.score(socket, pc))  },
                     i: function() {  console.log('Inventory')  },
-                    inv: function() {  console.log('Inventory')  },
+                    inv: function () { console.log('Inventory') },
+                    get: function () { socket.emit('Get Item', modules.events.events.get(socket, pc, item)) }
                 }
 
                 function processUserInput(command) {

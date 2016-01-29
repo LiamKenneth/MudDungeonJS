@@ -305,7 +305,51 @@
 
                     modules.helper.helpers.send(socket, description);
 
-            }
+                },
+                "get": function(item) {
+
+                    console.log('inside get function');
+
+                    var description = item.name;
+
+                    var response = {
+                        "forRoom": name + ' gets a  ' + item.name,
+                        "forPlayer": 'You get a' + item.name
+                    };
+
+                    if (item.type == 'object') {
+
+                        // change a to an if item.name starts with a vowel a,e,i,o,u 
+                        // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                        var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                        if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                            response.forRoom = name + ' gets an ' + item.name;
+                            response.forPlayer = 'You get an ' + item.name;
+
+                        } else {
+
+                            response.forRoom = name + ' gets a ' + item.name;
+                            response.forPlayer = 'You get a ' + item.name;
+                        }
+
+
+                    }  
+
+
+                    modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+
+
+                    playerInfo.inventory.push(item);
+
+                    // remove item from room
+                    //save room
+                    // save player!?
+                }
             }
 
 
@@ -576,6 +620,9 @@
 
         },
         say: function (socket, playerInfo, msg) {
+
+            msg = msg.substr(msg.indexOf(" ") + 1).trim();
+
             var response = {
                 "forRoom": playerInfo.name + ' says ' + msg,
                 "forPlayer": 'You say ' + msg
@@ -585,6 +632,21 @@
             var room = modules.room.room.playerLocation(location);
 
             modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+        },
+        get: function (socket, playerInfo, item) {
+
+
+            var location = JSON.parse(playerInfo.getLocation());
+             var room = modules.room.room.playerLocation(location);
+
+            console.time('Get');
+
+
+            events.findObject(playerInfo, room, item, 'get');
+
+            console.timeEnd('Get');
+
+ 
         }
 
     };
