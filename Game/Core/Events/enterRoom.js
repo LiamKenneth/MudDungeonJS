@@ -1,0 +1,56 @@
+﻿(function (r) {
+    "use strict";
+
+    var modules = {
+        helper: r('../helpers'),
+        data: r('../data').data,
+        room: r('../Rooms/roomFunctions'),
+        playerSetup: {
+            player: r('../PlayerSetup/player-manager')
+        },
+        commands: r('../commands'),
+        events: {
+            enterRoom: r('./enterRoom')
+        },
+        loadPlayerLocation: r('../loadRoom'),
+        world: {
+            valston: r('../../World/valston/prison')
+        },
+    };
+
+    var enterRoom = function (player, direction, status, playersInRoom) {
+            var name = player.getName();
+            var socket = player.getSocket();
+
+            var pace = 'walk'; //TODO: fix walk and walks
+            var dir = direction || 'load'; // prev location
+          
+            var enterMessageSelf = {
+                load: 'You have appeared',
+                enter: 'You' + ' ' + pace + ' in from the ' + dir,
+                leave: 'You' + ' ' + pace + ' ' + dir
+            };
+
+            var enterMessageOther = {
+                load: name + ' has appeared',
+                enter: name + ' ' + pace + ' in from the ' + dir,
+                leave: name + ' ' + pace + ' ' + dir
+            };
+
+
+            playersInRoom.forEach(function (playersInRoom) {
+
+                var playerName = playersInRoom.getName();
+
+                if (name !== playerName) {
+                    var playersSocket = playersInRoom.getSocket();
+                    modules.helper.helpers.send(playersSocket, enterMessageOther[status]);
+                } else {
+                    modules.helper.helpers.send(socket, enterMessageSelf[status]);
+                }
+
+            });
+
+        }
+    exports.enterRoom = enterRoom;
+})(require);

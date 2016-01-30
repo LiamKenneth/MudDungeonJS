@@ -8,7 +8,9 @@
         world: {
             valston: r('../World/valston/prison')
         },
-  events: r('./events.js')
+        events: {
+            move: r('./Events/move')
+        }
     };
 
     var commands = {
@@ -42,33 +44,34 @@
 
                 var commandTable = {
 
-                    n: function() {socket.removeAllListeners('data'); socket.emit('North', modules.events.events.move(pc, 'North', null))},
-                    north: function() {socket.removeAllListeners('data'); socket.emit('North',  modules.events.events.move(pc, 'North', null))},
-                    e: function() {socket.removeAllListeners('data'); socket.emit('East',  modules.events.events.move(pc, 'East', null))},
-                    east: function() {socket.removeAllListeners('data'); socket.emit('East', modules.events.events.move(pc, 'East', null))},
-                    s: function() {socket.removeAllListeners('data');  socket.emit('South', modules.events.events.move(pc, 'South', null))},
-                    south: function() {socket.removeAllListeners('data'); socket.emit('South', modules.events.events.move(pc, 'South', null))},
-                    w: function() {socket.removeAllListeners('data'); socket.emit('West', modules.events.events.move(pc, 'West', null))},
-                    west: function() {socket.removeAllListeners('data'); socket.emit('West', modules.events.events.move(pc, 'West', null)) },
-                    d: function() {socket.removeAllListeners('data'); socket.emit('Down', modules.events.events.move(pc, 'Down', null))},
-                    down: function() {socket.removeAllListeners('data'); socket.emit('Down', modules.events.events.move(pc, 'Down', null))},
-                    u: function() {socket.removeAllListeners('data'); socket.emit('Up', modules.events.events.move(pc, 'Up', null))},
-                    up: function() {socket.removeAllListeners('data'); socket.emit('Up', modules.events.events.move(pc, 'Up', null)) },
+                    n: function() {socket.removeAllListeners('data'); socket.emit('North', modules.events.move.move(pc, 'North', null));},
+                    north: function() { commandTable.n(); },
+                    e: function() {socket.removeAllListeners('data'); socket.emit('East',  modules.events.move.move(pc, 'East', null));},
+                    east: function () { commandTable.e(); },
+                    s: function() {socket.removeAllListeners('data');  socket.emit('South', modules.events.move.move(pc, 'South', null));},
+                    south: function () { commandTable.s(); },
+                    w: function() {socket.removeAllListeners('data'); socket.emit('West', modules.events.move.move(pc, 'West', null));},
+                    west: function () { commandTable.w(); },
+                    d: function() {socket.removeAllListeners('data'); socket.emit('Down', modules.events.move.move(pc, 'Down', null));},
+                    down: function () { commandTable.d(); },
+                    u: function() {socket.removeAllListeners('data'); socket.emit('Up', modules.events.move.move(pc, 'Up', null));},
+                    up: function () { commandTable.u(); },
                     //Interaction
-                    l: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))},
-                    look: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))  },
-                    "look at": function() { socket.emit('Look at',modules.events.events.look(socket, pc, 'at', item))  },
-                    'look in': function() {socket.emit('Look in', modules.events.events.look(socket, pc, 'in', item))  },
-                    ex: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
-                    exam: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
-                    examine: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
-                    exits: function() {  console.log('look')  },
-                    "'": function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
-                    say: function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
-                    score: function() { socket.emit('Score', modules.events.events.score(socket, pc))  },
-                    i: function() {  console.log('Inventory')  },
-                    inv: function () { console.log('Inventory') },
-                    get: function () { socket.emit('Get Item', modules.events.events.get(socket, pc, item)) }
+                //    l: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))},
+                //    look: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))  },
+                //    "look at": function() { socket.emit('Look at',modules.events.events.look(socket, pc, 'at', item))  },
+                //    'look in': function() {socket.emit('Look in', modules.events.events.look(socket, pc, 'in', item))  },
+                //    ex: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
+                //    exam: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
+                //    examine: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
+                //    exits: function() {  console.log('look')  },
+                //    "'": function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
+                //    say: function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
+                //    ">": function () { socket.emit('Say to', modules.events.events.say(socket, pc, input)) },
+                //    score: function() { socket.emit('Score', modules.events.events.score(socket, pc))  },
+                //    i: function() {  console.log('Inventory')  },
+                //    inv: function () { console.log('Inventory') },
+                //    get: function () { socket.emit('Get Item', modules.events.events.get(socket, pc, item)) }
                 }
 
                 function processUserInput(command) {
