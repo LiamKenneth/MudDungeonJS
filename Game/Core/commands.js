@@ -12,7 +12,8 @@
             move: r('./Events/move'),
             look: r('./Events/look'),
             exam: r('./Events/examine'),
-            say: r('./Events/say')
+            say: r('./Events/say'),
+            score: r('./Events/score')
         }
     };
 
@@ -68,10 +69,10 @@
                     exam: function () { socket.emit('Examine Item', modules.events.exam.exam(socket, pc, item)); },
                     examine: function () { commandTable.exam(); },
                 //    exits: function() {  console.log('look')  },
-                    "'": function () { socket.emit('Say', modules.events.say.say(socket, pc, input)) },
-                    say: function () { socket.emit('Say', modules.events.say.say(socket, pc, input)) },
+                    "'": function () { socket.emit('Say', modules.events.say.say(socket, pc, input)); },
+                    say: function () { socket.emit('Say', modules.events.say.say(socket, pc, input)); },
                 //    ">": function () { socket.emit('Say to', modules.events.events.say(socket, pc, input)) },
-                //    score: function() { socket.emit('Score', modules.events.events.score(socket, pc))  },
+                    score: function() { socket.emit('Score', modules.events.score.score(socket, pc)); },
                 //    i: function() {  console.log('Inventory')  },
                 //    inv: function () { console.log('Inventory') },
                 //    get: function () { socket.emit('Get Item', modules.events.events.get(socket, pc, item)) }

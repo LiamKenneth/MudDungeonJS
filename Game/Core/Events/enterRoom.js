@@ -36,7 +36,7 @@
                 enter: name + ' ' + pace + ' in from the ' + dir,
                 leave: name + ' ' + pace + ' ' + dir
             };
-
+       
 
             playersInRoom.forEach(function (playersInRoom) {
 
@@ -44,8 +44,11 @@
 
                 if (name !== playerName) {
                     var playersSocket = playersInRoom.getSocket();
+
+                    console.log(enterMessageOther[status])
                     modules.helper.helpers.send(playersSocket, enterMessageOther[status]);
                 } else {
+                    console.log(enterMessageSelf[status])
                     modules.helper.helpers.send(socket, enterMessageSelf[status]);
                 }
 

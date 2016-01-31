@@ -4,10 +4,8 @@
 
     var modules = {
         telnet: r('wez-telnet'),
-        data: r('./Game/Core/data'),
         playerSetup: r('./Game/Core/player-setup').playerSetup,
         player: r('./Game/Core/PlayerSetup/player-manager').playerManager,
-        events: r('./Game/Core/events').events,
     };
 
     var telnetPort =  4000;

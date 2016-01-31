@@ -6,6 +6,11 @@
         data: r('./data').data,
         helper: r('./helpers').helpers,
         commands: r('./commands'),
+        events: {
+            enterRoom: r('./Events/enterRoom'),
+            exits: r('./Events/findExits'),
+            look: r('./Events/look'),
+        },
         fs: r('fs'),
         world:
         {
@@ -16,16 +21,13 @@
             player: r('./PlayerSetup/player-manager')
         },
         color: r('colors'),
-        events: r('./events.js')
-
+ 
     };
     exports.playerLocation = {
 
-        loadRoom: function(pc, dir, status)
-        {
-            console.log(dir + status)
+        loadRoom: function(pc, dir, status) {
+            console.log("loadRoom");
 
-            var name = pc.getName();
             var socket = pc.getSocket();
             var location = JSON.parse(pc.getLocation());
 
@@ -46,7 +48,7 @@
             if (status == 'load') {
                 var playersInRoom = room.players;
                 console.time('enter')
-                socket.emit('enterRoom', modules.events.events.enterRoom(pc, dir, status, playersInRoom));
+                socket.emit('enterRoom', modules.events.enterRoom.enterRoom(pc, dir, status, playersInRoom));
                     console.timeEnd('enter')
             }
 
@@ -62,7 +64,7 @@
 
 
     //console.time('look')
-            socket.emit('look', modules.events.events.look(socket, pc));
+            socket.emit('look', modules.events.look.look(socket, pc));
 //console.timeEnd('look')
 
             socket.emit('parseInput', modules.commands.commands.parseInput(pc));

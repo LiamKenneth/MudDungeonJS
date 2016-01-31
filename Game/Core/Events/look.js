@@ -20,7 +20,7 @@
         },
     };
 
-    var look = function (socket, playerInfo, preposition, item) {
+    var look = function (socket, playerInfo, preposition, object) {
 
 
             var name = playerInfo.getName();
@@ -28,9 +28,11 @@
 
             var room = modules.room.room.playerLocation(location);
 
-        console.log(item)
+            console.log("look " + object)
 
-            if (preposition == null && item == '') {
+            var item = object || null;
+
+            if (preposition == null && item == null ) {
                 /*
                  * If Preposition is null and Item is null
                  * the user just typed look.

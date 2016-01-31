@@ -280,7 +280,7 @@ var findObject = function (playerInfo, room, item, event) {
         if (found == false) {
             itemKeywords = roomItems[i].keywords;
 
-            console.log("roomItems" + itemKeywords)
+           // console.log("roomItems" + itemKeywords)
                
             if (multi && itemKeywords.indexOf(item) > -1) {
 
@@ -310,7 +310,7 @@ var findObject = function (playerInfo, room, item, event) {
         if (found == false) {
             itemKeywords = playersInRoom[y].keywords;
 
-            console.log("players" + itemKeywords)
+         //   console.log("players" + itemKeywords)
 
             if (multi && itemKeywords.indexOf(item) > -1) {
 
