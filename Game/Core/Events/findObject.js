@@ -25,21 +25,20 @@ var findObject = function (playerInfo, room, item, event) {
     console.log("find object " + item + "/" + event)
 
 
-    item = item.trim().toLowerCase();
+     item = item.trim().toLowerCase();
     var name = playerInfo.getName();
     var socket = playerInfo.getSocket();
-    var roomItems = room.items;
+    var roomItems = room.items || [];
 
    
-    roomItems.push({type: 'player', keywords: ['self'], name:playerInfo.name, description: playerInfo.description});
-    var playersInRoom = room.players;
+   
+    var playersInRoom = room.players || [];
 
-    Array.prototype.push.apply(roomItems, playersInRoom);
+    //Array.prototype.push.apply(roomItems, playersInRoom);
 
- 
 
     var roomItemsLength = roomItems.length;
-
+    var playerLength = playersInRoom.length;
 
     var itemKeywords;
     var findNthItem;
@@ -280,6 +279,8 @@ var findObject = function (playerInfo, room, item, event) {
 
         if (found == false) {
             itemKeywords = roomItems[i].keywords;
+
+            console.log("roomItems" + itemKeywords)
                
             if (multi && itemKeywords.indexOf(item) > -1) {
 
@@ -301,7 +302,38 @@ var findObject = function (playerInfo, room, item, event) {
 
         } 
 
+    };
+
+  //  console.log(playerLength)
+    for (var y = 0; y < playerLength; y++) {
+
+        if (found == false) {
+            itemKeywords = playersInRoom[y].keywords;
+
+            console.log("players" + itemKeywords)
+
+            if (multi && itemKeywords.indexOf(item) > -1) {
+
+                if (findNthItem == y - 1) {
+
+                    eventLookUp[event](playersInRoom[y]);
+
+                    found = true;
+
+                }
+
+            } else if (multi == false && itemKeywords.indexOf(item) > -1) {
+
+                eventLookUp[event](playersInRoom[y]);
+
+                found = true;
+
+            }
+
+        }
+
     }
+
 
     //another for loop but for players and inventory if it's not found in room?
 

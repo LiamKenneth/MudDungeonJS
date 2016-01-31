@@ -141,14 +141,16 @@
  */
   broadcastPlayerEvent: function(currentPlayer, playersInRoom, response) {
 
-      playersInRoom.forEach(function (playersInRoom) {
+      playersInRoom.forEach(function (player) {
 
-          var playerName = playersInRoom.getName();
+          console.log(player)
+
+          var playerName = player.name;
           var currentPlayerName = currentPlayer.getName();
           var currentPlayerSocket = currentPlayer.getSocket();
 
           if (currentPlayerName !== playerName) {
-              var playersSocket = playersInRoom.getSocket();
+              var playersSocket = player.getSocket();
               modules.helper.helpers.send(playersSocket, response.forRoom);
           } else {
               modules.helper.helpers.send(currentPlayerSocket, response.forPlayer);

@@ -11,7 +11,8 @@
         events: {
             move: r('./Events/move'),
             look: r('./Events/look'),
-            exam: r('./Events/examine')
+            exam: r('./Events/examine'),
+            say: r('./Events/say')
         }
     };
 
@@ -67,8 +68,8 @@
                     exam: function () { socket.emit('Examine Item', modules.events.exam.exam(socket, pc, item)); },
                     examine: function () { commandTable.exam(); },
                 //    exits: function() {  console.log('look')  },
-                 //   "'": function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
-                //    say: function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
+                    "'": function () { socket.emit('Say', modules.events.say.say(socket, pc, input)) },
+                    say: function () { socket.emit('Say', modules.events.say.say(socket, pc, input)) },
                 //    ">": function () { socket.emit('Say to', modules.events.events.say(socket, pc, input)) },
                 //    score: function() { socket.emit('Score', modules.events.events.score(socket, pc))  },
                 //    i: function() {  console.log('Inventory')  },
