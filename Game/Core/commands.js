@@ -9,7 +9,9 @@
             valston: r('../World/valston/prison')
         },
         events: {
-            move: r('./Events/move')
+            move: r('./Events/move'),
+            look: r('./Events/look'),
+            exam: r('./Events/examine')
         }
     };
 
@@ -57,15 +59,15 @@
                     u: function() {socket.removeAllListeners('data'); socket.emit('Up', modules.events.move.move(pc, 'Up', null));},
                     up: function () { commandTable.u(); },
                     //Interaction
-                //    l: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))},
-                //    look: function() { socket.emit('Look',modules.events.events.look(socket, pc, null, item))  },
-                //    "look at": function() { socket.emit('Look at',modules.events.events.look(socket, pc, 'at', item))  },
-                //    'look in': function() {socket.emit('Look in', modules.events.events.look(socket, pc, 'in', item))  },
-                //    ex: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
-                //    exam: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
-                //    examine: function () { socket.emit('Examine Item', modules.events.events.exam(socket, pc, item)) },
+                    l: function() { socket.emit('Look', modules.events.look.look(socket, pc, null, item)); },
+                    look: function() { commandTable.l(); },
+                    "look at": function() { socket.emit('Look at', modules.events.look.look(socket, pc, 'at', item)); },
+                    'look in': function() { socket.emit('Look in', modules.events.look.look(socket, pc, 'in', item)); },
+                    ex: function () { commandTable.exam(); },
+                    exam: function () { socket.emit('Examine Item', modules.events.exam.exam(socket, pc, item)); },
+                    examine: function () { commandTable.exam(); },
                 //    exits: function() {  console.log('look')  },
-                //    "'": function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
+                 //   "'": function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
                 //    say: function () { socket.emit('Say', modules.events.events.say(socket, pc, input)) },
                 //    ">": function () { socket.emit('Say to', modules.events.events.say(socket, pc, input)) },
                 //    score: function() { socket.emit('Score', modules.events.events.score(socket, pc))  },
