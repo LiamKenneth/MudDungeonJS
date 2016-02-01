@@ -13,7 +13,8 @@
             look: r('./Events/look'),
             exam: r('./Events/examine'),
             say: r('./Events/say'),
-            score: r('./Events/score')
+            score: r('./Events/score'),
+            help: r('./Events/help')
         }
     };
 
@@ -37,7 +38,7 @@
 
                 var item = str.split(' ').slice(2).join(' ');
 
-                if (item == null || item == '' || command.startsWith('say')) { //< This looks hacky
+                if (item == null || item == '' || command.startsWith('say') || command.startsWith('help')) { //< This looks hacky
                     //at / in not used. eg: look sword
                     command = str.split(' ').slice(0, 1).join(' ');
                     item = str.split(' ').slice(1).join(' ');
@@ -68,6 +69,7 @@
                     ex: function () { commandTable.exam(); },
                     exam: function () { socket.emit('Examine Item', modules.events.exam.exam(socket, pc, item)); },
                     examine: function () { commandTable.exam(); },
+                    help: function () { socket.emit('Help', modules.events.help.help(socket, pc, item)); },
                 //    exits: function() {  console.log('look')  },
                     "'": function () { socket.emit('Say', modules.events.say.say(socket, pc, input)); },
                     say: function () { socket.emit('Say', modules.events.say.say(socket, pc, input)); },
