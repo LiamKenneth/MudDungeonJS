@@ -18,7 +18,9 @@
                 modules.helper.helpers.send(socket, helpFile);
             },
             "movement": function () { helpCommand.move() },
-            "move up": function () { modules.helper.helpers.send(socket, "It works") }
+            
+
+
         };
 
 

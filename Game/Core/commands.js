@@ -14,7 +14,8 @@
             exam: r('./Events/examine'),
             say: r('./Events/say'),
             score: r('./Events/score'),
-            help: r('./Events/help')
+            help: r('./Events/help'),
+            inventory: r('./Events/inventory')
         }
     };
 
@@ -75,8 +76,9 @@
                     say: function () { socket.emit('Say', modules.events.say.say(socket, pc, input)); },
                 //    ">": function () { socket.emit('Say to', modules.events.events.say(socket, pc, input)) },
                     score: function() { socket.emit('Score', modules.events.score.score(socket, pc)); },
-                //    i: function() {  console.log('Inventory')  },
-                //    inv: function () { console.log('Inventory') },
+                    i: function () { socket.emit('inventory', modules.events.inventory.inventory(socket, pc)); },
+                    inv: function () { commandTable.i() },
+                    inventory: function () { commandTable.i() },
                 //    get: function () { socket.emit('Get Item', modules.events.events.get(socket, pc, item)) }
                 }
 

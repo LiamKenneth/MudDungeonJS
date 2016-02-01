@@ -41,7 +41,7 @@ var player = function(playerInfo) {
         coordsX: 0
     };
     this.password = playerInfo.password;
-    this.inventory = [];
+    this.inventory = playerInfo.inventory || [];
     this.equipment = {
         floating: playerInfo.equipment.floating || "Nothing",
         light: playerInfo.equipment.light || "Nothing",
@@ -134,16 +134,7 @@ var player = function(playerInfo) {
         return this.socket;
     };
     this.getInventory = function() {
-
-        var inventory = this.inventory;
-        var inv = inventory.length;
-        var invObj = new Object();
-
-        while (inv--) {
-            invObj[inv] = inventory[inv].name
-        }
-
-        return invObj;
+        return this.inventory;
     };
 
     //Set
