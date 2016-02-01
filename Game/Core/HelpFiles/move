@@ -1,0 +1,14 @@
+﻿----------------------------------------------------------------------------
+Help Keywords : MOVE MOVEMENT NORTH SOUTH EAST WEST UP DOWN.
+Help Category : Transport.
+Related Helps : Close, Enter, Exits, Open.
+Last Updated  : 2016/02/01
+----------------------------------------------------------------------------
+To move, type the direction you wish to move.  Valid directions are north,
+south, east, west, up, and down.  You may shorten these commands (just use
+'n' for 'north', for example).
+
+Some rooms also have custom exits.  These use special commands, such as
+'jump down', etc.  These will (usually) show via the 'exits' command;
+see 'help exits'.
+----------------------------------------------------------------------------
