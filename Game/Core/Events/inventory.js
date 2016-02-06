@@ -18,7 +18,7 @@
             invItems = "Nothing.";
         } else {
             for (var i = 0; i < invLength; i++) {
-                invItems +=inv[i].name;
+                invItems +=inv[i].name + '\n';
             }
         }
 
