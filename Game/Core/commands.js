@@ -15,7 +15,9 @@
             say: r('./Events/say'),
             score: r('./Events/score'),
             help: r('./Events/help'),
-            inventory: r('./Events/inventory')
+            inventory: r('./Events/inventory'),
+            get: r('./Events/get'),
+            drop: r('./Events/drop')
         }
     };
 
@@ -79,7 +81,8 @@
                     i: function () { socket.emit('inventory', modules.events.inventory.inventory(socket, pc)); },
                     inv: function () { commandTable.i() },
                     inventory: function () { commandTable.i() },
-                //    get: function () { socket.emit('Get Item', modules.events.events.get(socket, pc, item)) }
+                    get: function () { socket.emit('Get Item', modules.events.get.get(socket, pc, item)) },
+                    drop: function () { socket.emit('Drop Item', modules.events.drop.drop(socket, pc, item)) }
                 }
 
                 function processUserInput(command) {

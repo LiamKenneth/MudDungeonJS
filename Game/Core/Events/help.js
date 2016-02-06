@@ -18,8 +18,13 @@
                 modules.helper.helpers.send(socket, helpFile);
             },
             "movement": function () { helpCommand.move() },
-            
-
+            "get": function () {
+                var helpFile = modules.data.loadFile('./Game/Core/HelpFiles/', 'get');
+                modules.helper.helpers.send(socket, helpFile);
+            },
+            "give": function () { helpCommand.get() },
+            "drop": function () { helpCommand.get() },
+            "put": function () { helpCommand.get() },
 
         };
 

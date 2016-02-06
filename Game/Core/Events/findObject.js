@@ -29,16 +29,10 @@ var findObject = function (playerInfo, room, item, event) {
     var name = playerInfo.getName();
     var socket = playerInfo.getSocket();
     var roomItems = room.items || [];
-
-   
-   
     var playersInRoom = room.players || [];
 
-    //Array.prototype.push.apply(roomItems, playersInRoom);
-
-
-    var roomItemsLength = roomItems.length;
-    var playerLength = playersInRoom.length;
+    var allItems = roomItems.concat(playersInRoom);
+    var allItemCount = allItems.length;
 
     var itemKeywords;
     var findNthItem;
@@ -258,6 +252,7 @@ var findObject = function (playerInfo, room, item, event) {
                 }
 
 
+
             }  
 
 
@@ -265,7 +260,52 @@ var findObject = function (playerInfo, room, item, event) {
 
 
 
-            playerInfo.inventory.push(item);
+            playerInfo.setInventory(item);
+
+            // remove item from room
+            //save room
+            // save player!?
+        },
+        "drop": function(item) {
+
+            console.log('inside drop function');
+
+            var description = item.name;
+
+            var response = {
+                "forRoom": name + ' drops a  ' + item.name,
+                "forPlayer": 'You drop a' + item.name
+            };
+
+            if (item.type == 'object') {
+
+                // change a to an if item.name starts with a vowel a,e,i,o,u 
+                // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                    response.forRoom = name + ' drops an ' + item.name;
+                    response.forPlayer = 'You drop an ' + item.name;
+
+                } else {
+
+                    response.forRoom = name + ' drop a ' + item.name;
+                    response.forPlayer = 'You drop a ' + item.name;
+                }
+
+
+
+            }  
+
+
+            modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+
+
+            playerInfo.setInventory(item);
 
             // remove item from room
             //save room
@@ -274,27 +314,51 @@ var findObject = function (playerInfo, room, item, event) {
     }
 
 
+    var itemLocation = {
+        room: function () { roomItems.splice(i, 1); },
+        inv: function () { roomItems.splice(i, 1); }
+    };
 
-    for (var i = 0; i < roomItemsLength; i++) {
+
+    for (var i = 0; i < allItemCount; i++) {
 
         if (found == false) {
-            itemKeywords = roomItems[i].keywords;
-
-           // console.log("roomItems" + itemKeywords)
+            itemKeywords = allItems[i].keywords;
                
             if (multi && itemKeywords.indexOf(item) > -1) {
 
-                if (findNthItem == i -1) {
+                if (findNthItem == i - 1) {
 
-                    eventLookUp[event](roomItems[i]);
+                    if (event != 'get') {
+                        eventLookUp[event](allItems[i]);
+                    } else {                     
+
+                        itemLocation[allItems[i].location]();
+
+                        eventLookUp[event](allItems[i]);
+                    }
+
+                  
 
                     found = true;
 
                 }
 
             } else if (multi == false && itemKeywords.indexOf(item) > -1) {
-    
-                eventLookUp[event](roomItems[i]);
+
+                if (event != 'get') {
+                    eventLookUp[event](allItems[i]);
+                } else if (event == 'get') {
+                    //room only
+                    itemLocation[allItems[i].location]();
+
+                    eventLookUp[event](allItems[i]);
+                }
+                else if (event == 'drop') {
+                    itemLocation[allItems[i].location]();
+
+                    eventLookUp[event](allItems[i]);
+                }
 
                 found = true;
 
@@ -304,36 +368,7 @@ var findObject = function (playerInfo, room, item, event) {
 
     };
 
-  //  console.log(playerLength)
-    for (var y = 0; y < playerLength; y++) {
-
-        if (found == false) {
-            itemKeywords = playersInRoom[y].keywords;
-
-         //   console.log("players" + itemKeywords)
-
-            if (multi && itemKeywords.indexOf(item) > -1) {
-
-                if (findNthItem == y - 1) {
-
-                    eventLookUp[event](playersInRoom[y]);
-
-                    found = true;
-
-                }
-
-            } else if (multi == false && itemKeywords.indexOf(item) > -1) {
-
-                eventLookUp[event](playersInRoom[y]);
-
-                found = true;
-
-            }
-
-        }
-
-    }
-
+ 
 
     //another for loop but for players and inventory if it's not found in room?
 

@@ -143,7 +143,7 @@
 
       playersInRoom.forEach(function (player) {
 
-          console.log(player)
+          console.log("players " + player.length)
 
           var playerName = player.name;
           var currentPlayerName = currentPlayer.getName();

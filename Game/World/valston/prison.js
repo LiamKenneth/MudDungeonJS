@@ -29,6 +29,7 @@ exports.prison = {
         players: [],
         items: [{
             type: 'object',
+            location: 'room',
             keywords: ['apple', 'app'],
             name: 'Apple',
             actions: {
@@ -42,6 +43,7 @@ exports.prison = {
             }
         },{
             type: 'object',
+            location: 'room',
             keywords: ['wooden', 'stool', 'woo'],
             name: 'Wooden Stool',
             actions: {
@@ -55,6 +57,7 @@ exports.prison = {
             }
         }, {
             type: 'object',
+            location: 'room',
             keywords: ['sword', 'swo', 'long'],
             name: 'Long Sword',
             actions: {
@@ -68,6 +71,7 @@ exports.prison = {
             }
         }, {
             type: 'object',
+            location: 'room',
             keywords: ['sword', 'swo', 'short'],
             name: 'Short Sword',
             actions: {
@@ -81,6 +85,7 @@ exports.prison = {
             }
         }, {
             type: 'object',
+            location: 'room',
             keywords: ['mace', 'mac'],
             name: 'Mace',
             actions: {
@@ -94,6 +99,7 @@ exports.prison = {
             }
         }, {
             type: 'object',
+            location: 'room',
             keywords: ['bow', 'long'],
             name: 'long bow',
             actions: {
@@ -107,6 +113,7 @@ exports.prison = {
             }
         }, {
             type: 'object',
+            location: 'room',
             keywords: ['chest', 'wooden'],
             name: 'Wooden chest',
             actions: {
@@ -120,6 +127,7 @@ exports.prison = {
             },
             items: [{
                 type: 'object',
+                location: 'container',
                 keywords: ['gold', 'coins'],
                 name: 'Gold',
                 description: {
@@ -129,6 +137,7 @@ exports.prison = {
                 count: 500
             }, {
                 type: 'object',
+                location: 'container',
                 keywords: ['potion', 'healing'],
                 name: 'Healing Potion',
                 actions: {
