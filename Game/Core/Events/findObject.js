@@ -265,9 +265,9 @@ var findObject = function (playerInfo, room, item, event) {
                 room: function () { roomItems.splice(index, 1); },
             };
 
-            itemLocation[item.location](index);
+            itemLocation.room(index);
 
-            item.location = 'inv'
+            item.location = 'inv';
 
             playerInfo.setInventory(item, 'get');
 
