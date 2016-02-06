@@ -152,12 +152,27 @@ var player = function(playerInfo) {
         this.location.areaID = areaID;
     };
 
-    this.setInventory = function(inventory) {
+    this.setInventory = function(inventory, command) {
 
-        if (typeof inventory === 'object') {
-            this.inventory.push(inventory)
+        if (typeof inventory === 'object' && command === 'get') {
+            this.inventory.push(inventory);
+        } else if (typeof inventory === 'object' && command === 'drop') {
+
+            var invLength = this.inventory.length;
+
+            for (var i = 0; i < invLength; i++) {
+
+                if (this.inventory[i] == inventory) {
+                    console.log('removed from inventory')
+                    this.inventory.splice(i, 1);
+                    break;
+                }          
+            }
+
+
         } else {
             console.log('Must insert object to inventory array');
+            
         }
 
     };

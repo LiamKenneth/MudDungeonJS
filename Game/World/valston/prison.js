@@ -169,6 +169,7 @@ exports.prison = {
                 hidden: false
             }
         },
-        players: []
+        players: [],
+        items: []
     }
 }

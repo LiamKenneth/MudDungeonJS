@@ -30,8 +30,10 @@ var findObject = function (playerInfo, room, item, event) {
     var socket = playerInfo.getSocket();
     var roomItems = room.items || [];
     var playersInRoom = room.players || [];
+    var playerInv = playerInfo.getInventory() || [];
 
-    var allItems = roomItems.concat(playersInRoom);
+  
+    var allItems = roomItems.concat(playersInRoom, playerInv);
     var allItemCount = allItems.length;
 
     var itemKeywords;
@@ -221,7 +223,7 @@ var findObject = function (playerInfo, room, item, event) {
             modules.helper.helpers.send(socket, description);
 
         },
-        "get": function(item) {
+        "get": function(item, index) {
 
             console.log('inside get function');
 
@@ -259,8 +261,15 @@ var findObject = function (playerInfo, room, item, event) {
             modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
 
 
+            var itemLocation = {
+                room: function () { roomItems.splice(index, 1); },
+            };
 
-            playerInfo.setInventory(item);
+            itemLocation[item.location](index);
+
+            item.location = 'inv'
+
+            playerInfo.setInventory(item, 'get');
 
             // remove item from room
             //save room
@@ -304,21 +313,17 @@ var findObject = function (playerInfo, room, item, event) {
             modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
 
 
+            room.items.push(item);
+            playerInfo.setInventory(item, 'drop');
 
-            playerInfo.setInventory(item);
+          
 
-            // remove item from room
+
+// remove item from room
             //save room
             // save player!?
         }
     }
-
-
-    var itemLocation = {
-        room: function () { roomItems.splice(i, 1); },
-        inv: function () { roomItems.splice(i, 1); }
-    };
-
 
     for (var i = 0; i < allItemCount; i++) {
 
@@ -329,37 +334,17 @@ var findObject = function (playerInfo, room, item, event) {
 
                 if (findNthItem == i - 1) {
 
-                    if (event != 'get') {
-                        eventLookUp[event](allItems[i]);
-                    } else {                     
-
-                        itemLocation[allItems[i].location]();
-
-                        eventLookUp[event](allItems[i]);
-                    }
-
-                  
+                   
+                    eventLookUp[event](allItems[i], i);
 
                     found = true;
 
                 }
 
             } else if (multi == false && itemKeywords.indexOf(item) > -1) {
-
-                if (event != 'get') {
-                    eventLookUp[event](allItems[i]);
-                } else if (event == 'get') {
-                    //room only
-                    itemLocation[allItems[i].location]();
-
-                    eventLookUp[event](allItems[i]);
-                }
-                else if (event == 'drop') {
-                    itemLocation[allItems[i].location]();
-
-                    eventLookUp[event](allItems[i]);
-                }
-
+ 
+                    eventLookUp[event](allItems[i], i);
+               
                 found = true;
 
             }
