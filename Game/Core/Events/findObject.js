@@ -255,21 +255,26 @@ var findObject = function (playerInfo, room, item, event) {
 
 
 
-            }  
+            }
+
+            if (item.location != 'inv') {
 
 
-            modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+                modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
 
 
-            var itemLocation = {
-                room: function () { roomItems.splice(index, 1); },
-            };
+                var itemLocation = {
+                    room: function() { roomItems.splice(index, 1); },
+                };
 
-            itemLocation.room(index);
+                itemLocation.room(index);
 
-            item.location = 'inv';
+                item.location = 'inv';
 
-            playerInfo.setInventory(item, 'get');
+                playerInfo.setInventory(item, 'get');
+            } else {
+                modules.helper.helpers.send(socket, 'Sorry you don\'t see that here');
+            }
 
             // remove item from room
             //save room
@@ -306,23 +311,31 @@ var findObject = function (playerInfo, room, item, event) {
                 }
 
 
+            }
 
-            }  
+            console.log('item location is ' + item.location)
+            if (item.location == 'inv') {
 
+                modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
 
-            modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+                item.location = 'room';
+                room.items.push(item);
+                playerInfo.setInventory(item, 'drop');
 
-
-            room.items.push(item);
-            playerInfo.setInventory(item, 'drop');
-
-          
+            } else {
+                modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to drop');
+            }
 
 
 // remove item from room
             //save room
             // save player!?
         }
+    }
+
+    if (event == 'drop') {
+        allItemCount = playerInv.length;
+        allItems = playerInv;
     }
 
     for (var i = 0; i < allItemCount; i++) {
