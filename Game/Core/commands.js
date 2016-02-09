@@ -67,8 +67,10 @@
                     //Interaction
                     l: function() { socket.emit('Look', modules.events.look.look(socket, pc, null, item)); },
                     look: function() { commandTable.l(); },
-                    "look at": function() { socket.emit('Look at', modules.events.look.look(socket, pc, 'at', item)); },
-                    'look in': function() { socket.emit('Look in', modules.events.look.look(socket, pc, 'in', item)); },
+                    "look at": function () { socket.emit('Look at', modules.events.look.look(socket, pc, 'at', item)); },
+                    "l at": function() { socket.emit('Look at', modules.events.look.look(socket, pc, 'at', item)); },
+                    'look in': function () { socket.emit('Look in', modules.events.look.look(socket, pc, 'in', item)); },
+                    'l in': function() { socket.emit('Look in', modules.events.look.look(socket, pc, 'in', item)); },
                     ex: function () { commandTable.exam(); },
                     exam: function () { socket.emit('Examine Item', modules.events.exam.exam(socket, pc, item)); },
                     examine: function () { commandTable.exam(); },

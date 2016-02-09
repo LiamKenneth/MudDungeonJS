@@ -21,6 +21,8 @@
 
     var say = function (socket, playerInfo, msg) {
 
+        msg = msg.toString();
+
         msg = msg.substr(msg.indexOf(" ") + 1).trim();
 
         var response = {
