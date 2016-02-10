@@ -18,7 +18,7 @@
       var arrLength = arr.length || 0;
 
     for(var i=0; i < arrLength; i++) {
-        if(arr[i] == val) {
+        if (arr[i].socket == val) {
             arr.splice(i, 1);
             console.log('removed')
             break;
@@ -49,11 +49,13 @@
           });
       },
 
-			  /**
+/**
   * Remove player socket from players array
   * @param player - player socket
   */
-  removePlayer: function(player) {
+	  removePlayer: function (player) {
+
+	      console.time('disconnect');
       removeByValue(players, player);
 
       try {
@@ -68,6 +70,7 @@
     } catch (e) {
         console.log("error disconecting telnet socket")
     }
+    console.timeEnd('disconnect');
   },
 
 	/**
@@ -95,11 +98,9 @@
 	 * Add player socket to players array
 	 *  @param player - player socket
 	 */
-  removePlayerFromRoom: function (player, pc, room)
-  {
+  removePlayerFromRoom: function (socket, playersInRoom) {
 
-
-  removeByValue(room.players, pc);
+      removeByValue(playersInRoom, socket);
 
 	},
   /**

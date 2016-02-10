@@ -58,7 +58,7 @@
                 console.timeEnd('addPlayer')
             }
             else {
-                socket.emit('removePlayer', modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId));
+                socket.emit('removePlayer', modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, room.players));
             }
 
 
@@ -71,8 +71,14 @@
             socket.on('close', function()
             {
                 modules.playerSetup.player.playerManager.removePlayer(socket);
-                modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
-                console.log("Player left - removed from room");
+                modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, room.players);
+                console.log("Telnet Player left - removed from room");
+            });
+
+            socket.on('disconnect', function () {
+                modules.playerSetup.player.playerManager.removePlayer(socket);
+                modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, room.players);
+                console.log("Web Player left - removed from room");
             });
 
         }

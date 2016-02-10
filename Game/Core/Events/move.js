@@ -36,7 +36,7 @@ var move = function (player, direction) {
 
             modules.events.enterRoom.enterRoom(player, direction, 'leave', room.players);
 
-            modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, player, room);
+            modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, room.players);
 
             var exits = modules.events.exits.exits(room.exits);
 
