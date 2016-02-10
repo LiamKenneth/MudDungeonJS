@@ -17,17 +17,17 @@
     };
   //  var weapons = modules.data.loadFile('./Game/Core/Items/Weapons/swords/', 'swords.json');
     var playerSetup = {
-        welcome: function(socket) {
-//              var motd = modules.data.loadFile(null, 'motd');
-//
-//               if (motd) {
-//                   modules.helper.send(socket, motd);
-//               }
+        welcome: function (socket) {
+
+              var motd = modules.data.loadFile(null, 'motd');
+               if (motd) {
+                  modules.helper.send(socket, motd);
+               }
             playerSetup.login(socket);
         },
         login: function(socket) {
             modules.helper.send(socket, "What's your name?");
-            //TODO:Check data if name does't exit create a new character
+
             socket.once('data', function(input) {
                 var name = modules.helper.cleanInput(input);
                 var response = {

@@ -39,17 +39,29 @@
        
 
             playersInRoom.forEach(function (playersInRoom) {
-
+                try {
                 var playerName = playersInRoom.getName();
-
+                
                 if (name !== playerName) {
-                    var playersSocket = playersInRoom.getSocket();
 
-                    console.log(enterMessageOther[status])
-                    modules.helper.helpers.send(playersSocket, enterMessageOther[status]);
+                  
+                        var playersSocket = playersInRoom.getSocket();
+
+                        console.log(enterMessageOther[status])
+
+                        console.log("playerSocketInRoom " + playersSocket)
+
+                        if (playersSocket != null) {
+                            modules.helper.helpers.send(playersSocket, enterMessageOther[status]);
+                        }
+                    
+
                 } else {
                     console.log(enterMessageSelf[status])
                     modules.helper.helpers.send(socket, enterMessageSelf[status]);
+                }
+                } catch (e) {
+                    console.log(playerName + " " + e)
                 }
 
             });

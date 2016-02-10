@@ -62,11 +62,9 @@
             }
 
 
-
-    //console.time('look')
+ 
             socket.emit('look', modules.events.look.look(socket, pc));
-//console.timeEnd('look')
-
+ 
             socket.emit('parseInput', modules.commands.commands.parseInput(pc));
 
 
@@ -74,8 +72,7 @@
             {
                 modules.playerSetup.player.playerManager.removePlayer(socket);
                 modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, pc, region, area, areaId);
-
-                console.log("Player left");
+                console.log("Player left - removed from room");
             });
 
         }

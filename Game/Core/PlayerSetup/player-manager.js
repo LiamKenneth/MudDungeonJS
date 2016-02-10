@@ -8,10 +8,16 @@
       }
   };
 
-  var  players = [];
+  var players = [];
+
+
 
   function removeByValue(arr, val) {
-    for(var i=0; i < arr.length; i++) {
+    
+      arr = arr || [];
+      var arrLength = arr.length || 0;
+
+    for(var i=0; i < arrLength; i++) {
         if(arr[i] == val) {
             arr.splice(i, 1);
             console.log('removed')
@@ -24,7 +30,6 @@
 
 	  loadPlayer: function(pc) {
 
-          console.log(pc.getClass())
           var socket = pc.getSocket();
 
 
@@ -35,7 +40,7 @@
               var password = input.toString().trim().toLowerCase();
 
               if (password === pc.password) {
-
+                  console.log("player count " + players.length)
                   socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(pc, null, 'load'));
               } else {
                   modules.helper.helpers.send(socket, 'Password is wrong');
@@ -49,8 +54,20 @@
   * @param player - player socket
   */
   removePlayer: function(player) {
-    removeByValue(players, player);
-    player.end();
+      removeByValue(players, player);
+
+      try {
+          player.disconnect(true);
+
+    } catch (e) {
+        console.log("error disconecting web socket")
+    }
+          
+    try {
+        player.end();
+    } catch (e) {
+        console.log("error disconecting telnet socket")
+    }
   },
 
 	/**
@@ -79,7 +96,8 @@
 	 *  @param player - player socket
 	 */
   removePlayerFromRoom: function (player, pc, room)
-	{
+  {
+
 
   removeByValue(room.players, pc);
 
