@@ -58,16 +58,18 @@ exports.prison = {
         }, {
             type: 'object',
             location: 'room',
-            keywords: ['sword', 'swo', 'long'],
-            name: 'Long Sword',
+            equipable: true,
+            slot: "head",
+            keywords: ['helm', 'hel', 'helmet'],
+            name: 'Helmet',
             actions: {
                 "sit": "sit",
                 "wield": "wield"
             },
             description: {
-                "look": "The sword shines and glows, it looks sharp",
-                "exam": "You look closely at a long sword",
-                "room": "A long Sword is here"
+                "look": "The helmet look desc",
+                "exam": "The helmet exam desc",
+                "room": "A helmet is here"
             }
         }, {
             type: 'object',

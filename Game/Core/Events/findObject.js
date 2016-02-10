@@ -330,10 +330,64 @@ var findObject = function (playerInfo, room, item, event) {
 // remove item from room
             //save room
             // save player!?
+        },
+        "wear": function(item) {
+            console.log('inside wear function');
+
+       
+            var response = {
+                "forRoom": name + ' wears a  ' + item.name,
+                "forPlayer": 'You wear a' + item.name
+            };
+
+            if (item.type == 'object') {
+
+                // change a to an if item.name starts with a vowel a,e,i,o,u 
+                // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                    response.forRoom = name + ' wears an ' + item.name;
+                    response.forPlayer = 'You wear an ' + item.name;
+
+                } else {
+
+                    response.forRoom = name + ' wears a ' + item.name;
+                    response.forPlayer = 'You wear a ' + item.name;
+                }
+
+
+            }
+
+            if (item.location == 'inv') {
+
+                if (item.equipable === true) {
+
+                    modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+                    item.location = 'equiped';
+
+                    playerInfo.setEquipment(item.slot, item.name);
+
+                } else {
+
+                    response.forRoom = name + 'tries to wear a ' + item.name;
+                    response.forPlayer = 'Sorry ' + item.name + ' cannot be worn';
+
+                    modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+                }
+
+            } else {
+                modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to wear');
+            }
         }
     }
 
-    if (event == 'drop') {
+    if (event === 'drop' || event === 'wear' || event === 'wield') {
         allItemCount = playerInv.length;
         allItems = playerInv;
     }

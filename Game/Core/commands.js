@@ -17,7 +17,9 @@
             help: r('./Events/help'),
             inventory: r('./Events/inventory'),
             get: r('./Events/get'),
-            drop: r('./Events/drop')
+            wear: r('./Events/wear'),
+            drop: r('./Events/drop'),
+            equipment: r('./Events/equipment')
         }
     };
 
@@ -84,7 +86,10 @@
                     inv: function () { commandTable.i() },
                     inventory: function () { commandTable.i() },
                     get: function () { socket.emit('Get Item', modules.events.get.get(socket, pc, item)) },
-                    drop: function () { socket.emit('Drop Item', modules.events.drop.drop(socket, pc, item)) }
+                    drop: function () { socket.emit('Drop Item', modules.events.drop.drop(socket, pc, item)) },
+                    wear: function () { socket.emit('Wear', modules.events.wear.wear(socket, pc, item)) },
+                    equipment: function () { socket.emit('equipment', modules.events.equipment.equipment(socket, pc)) },
+                    equip: function () { socket.emit('equipment', modules.events.equipment.equipment(socket, pc)) }
                 }
 
                 function processUserInput(command) {

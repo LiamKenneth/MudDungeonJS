@@ -124,6 +124,10 @@ var player = function(playerInfo) {
         return this.description;
     };
 
+    this.getEquipment = function () {
+        return this.equipment;
+    };
+
     this.getLocation = function() {
         return JSON.stringify(this.location);
     };
@@ -176,6 +180,10 @@ var player = function(playerInfo) {
         }
 
     };
+
+    this.setEquipment = function(slot, item) {
+        this.equipment[slot] = item;
+    }
 
     this.savePlayer = function(playerinfo) {
         //modules.data.savePlayer(player);
