@@ -4,7 +4,7 @@
 
     var modules = {
         data: r('./data').data,
-        helper: r('./helpers').helpers,
+        helper: r('./helpers'),
         commands: r('./commands'),
         events: {
             enterRoom: r('./Events/enterRoom'),
@@ -49,6 +49,7 @@
                 var playersInRoom = room.players;
                 console.time('enter')
                 socket.emit('enterRoom', modules.events.enterRoom.enterRoom(pc, dir, status, playersInRoom));
+               
                     console.timeEnd('enter')
             }
 
@@ -62,8 +63,12 @@
             }
 
 
- 
             socket.emit('look', modules.events.look.look(socket, pc));
+
+            //show prompt on load
+            if (status == 'load') {
+                modules.helper.helpers.send(socket, pc.getPrompt(true));
+            }
  
             socket.emit('parseInput', modules.commands.commands.parseInput(pc));
 

@@ -109,7 +109,7 @@
 
                 processUserInput(command);
 
-
+                modules.helper.helpers.send(socket, pc.getPrompt(true));
             });
 
         }

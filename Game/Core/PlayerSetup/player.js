@@ -87,6 +87,7 @@ var player = function(playerInfo) {
 
 
 
+
     //Get
 
     this.getPlayerInfo = function() {
@@ -181,7 +182,7 @@ var player = function(playerInfo) {
 
     };
 
-    this.setEquipment = function (slot, item) {
+    this.setEquipment = function(slot, item) {
 
         if (slot === 'hand') {
             if (this.equipment.leftHand === 'Nothing') {
@@ -189,13 +190,19 @@ var player = function(playerInfo) {
             } else {
                 this.equipment['rightHand'] = item;
             }
-           
-        }
-        else
-        {
+
+        } else {
             this.equipment[slot] = item;
         }
-      
+
+    };
+
+    this.getPrompt = function (showPrompt) {
+
+        if (showPrompt) {
+            return "HP: " + this.information.hitpoints + "/" + this.information.maxHitpoints + " Mana: " + this.information.mana + "/" + this.information.maxMana + " Moves: " + this.information.moves + "/" + this.information.maxMoves + " Tnl: " + this.information.experienceToNextLevel;
+        }
+
     }
 
     this.savePlayer = function(playerinfo) {

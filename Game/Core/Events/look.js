@@ -101,8 +101,10 @@
 
                 console.timeEnd('exam');
             }
+    
+    }
 
-        }
+ 
     
     exports.look = look;
 })(require);

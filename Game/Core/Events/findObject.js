@@ -436,6 +436,8 @@ var findObject = function (playerInfo, room, item, event) {
         modules.helper.helpers.send(socket, 'Sorry you don\'t see that here');
     }
 
+    
+
 }
 
     exports.findObject = findObject;
