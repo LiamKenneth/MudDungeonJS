@@ -81,7 +81,7 @@
         *
         * $$$ - Todo additions -
         *  Allow for escape codes to use actual { in conversation or examples such as \{ or {{.  Can't really have a help file or instruction until this is resolved.
-        */
+        **/
         colourify: function (text, socket) {
             var found = false;
 
