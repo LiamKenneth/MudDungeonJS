@@ -8,4 +8,5 @@ before_script:
   - npm install --save--dev chai
 script:
   - gulp test
+  - istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec
   - codecov
