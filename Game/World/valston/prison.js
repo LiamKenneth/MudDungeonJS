@@ -74,6 +74,8 @@ exports.prison = {
         }, {
             type: 'object',
             location: 'room',
+            equipable: true,
+            slot: "hand",
             keywords: ['sword', 'swo', 'short'],
             name: 'Short Sword',
             actions: {

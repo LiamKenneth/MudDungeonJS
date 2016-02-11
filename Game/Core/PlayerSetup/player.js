@@ -181,8 +181,21 @@ var player = function(playerInfo) {
 
     };
 
-    this.setEquipment = function(slot, item) {
-        this.equipment[slot] = item;
+    this.setEquipment = function (slot, item) {
+
+        if (slot === 'hand') {
+            if (this.equipment.leftHand === 'Nothing') {
+                this.equipment['leftHand'] = item;
+            } else {
+                this.equipment['rightHand'] = item;
+            }
+           
+        }
+        else
+        {
+            this.equipment[slot] = item;
+        }
+      
     }
 
     this.savePlayer = function(playerinfo) {

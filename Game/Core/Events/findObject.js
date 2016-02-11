@@ -331,7 +331,7 @@ var findObject = function (playerInfo, room, item, event) {
             //save room
             // save player!?
         },
-        "wear": function(item) {
+        "wear": function(item, index) {
             console.log('inside wear function');
 
        
@@ -367,6 +367,14 @@ var findObject = function (playerInfo, room, item, event) {
                 if (item.equipable === true) {
 
                     modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+
+                    var itemLocation = {
+                        inv: function () { playerInv.splice(index, 1); },
+                    };
+
+                    itemLocation.inv(index);
+
 
                     item.location = 'equiped';
 

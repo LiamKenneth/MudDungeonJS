@@ -88,8 +88,10 @@
                     get: function () { socket.emit('Get Item', modules.events.get.get(socket, pc, item)) },
                     drop: function () { socket.emit('Drop Item', modules.events.drop.drop(socket, pc, item)) },
                     wear: function () { socket.emit('Wear', modules.events.wear.wear(socket, pc, item)) },
+                    wield: function () { socket.emit('Wield', modules.events.wear.wear(socket, pc, item)) },
                     equipment: function () { socket.emit('equipment', modules.events.equipment.equipment(socket, pc)) },
-                    equip: function () { socket.emit('equipment', modules.events.equipment.equipment(socket, pc)) }
+                    equip: function () { socket.emit('equipment', modules.events.equipment.equipment(socket, pc)) },
+                    eq: function () { socket.emit('equipment', modules.events.equipment.equipment(socket, pc)) }
                 }
 
                 function processUserInput(command) {
