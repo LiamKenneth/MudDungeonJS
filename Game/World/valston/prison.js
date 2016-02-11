@@ -41,7 +41,7 @@ exports.prison = {
                 "exam": "You look closely at the apple and notice one half has been eaten already",
                 "room": "An apple is on the floor"
             }
-        },{
+        }, {
             type: 'object',
             location: 'room',
             keywords: ['wooden', 'stool', 'woo'],
@@ -114,6 +114,19 @@ exports.prison = {
                 "look": "You look at a bow",
                 "exam": "You look closely at a bow",
                 "room": "A long bow is here leaning against the wall"
+            }
+        }, {
+            type: 'object',
+            location: 'room',
+            keywords: ['colourized', 'whip'],
+            name: '{Wcolourized {Rwhip{x',
+            actions: {
+                "wield": "wield"
+            },
+            description: {
+                "look": "You look at a {Wcolourized {Rwhip",
+                "exam": "You look closely at a {Wcolourized {Rwhip",
+                "room": "A {Wcolourized {rwhip{x is laying carelessly on the floor"
             }
         }, {
             type: 'object',
