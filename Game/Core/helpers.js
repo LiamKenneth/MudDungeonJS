@@ -83,6 +83,9 @@
         *  Allow for escape codes to use actual { in conversation or examples such as \{ or {{.  Can't really have a help file or instruction until this is resolved.
         **/
         colourify: function (text, socket) {
+            if (text == null)
+                return '';
+
             var found = false;
 
             // Capture all instances of escape character
@@ -100,8 +103,6 @@
                         text = text.replace('{', '</span>{');
                     }
                 }
-                console.log('Text:' + text);
-
             }
 
             // Remove bleeding 

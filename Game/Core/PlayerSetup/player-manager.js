@@ -3,6 +3,7 @@
   var modules = {
       helper: require('../helpers'),
       loadPlayerLocation: require('../loadRoom').playerLocation,
+    constants: require('../constants'),
       world: {
         valston: require('../../World/valston/prison')
       }
@@ -10,14 +11,12 @@
 
   var players = [];
 
-
-
   function removeByValue(arr, val) {
     
       arr = arr || [];
       var arrLength = arr.length || 0;
 
-    for(var i=0; i < arrLength; i++) {
+    for (var i = 0; i < arrLength; i++) {
         if (arr[i].socket == val) {
             arr.splice(i, 1);
             console.log('removed')
@@ -28,10 +27,10 @@
 
   exports.playerManager = {
 
-	  loadPlayer: function(pc) {
+    loadPlayer: function (pc) {
 
           var socket = pc.getSocket();
-	      var newPlayer = pc.getPlayerInfo();
+        var newPlayer = pc.getPlayerInfo();
 
           modules.helper.helpers.send(socket, 'Whats your password');
 
@@ -42,21 +41,21 @@
               if (password === pc.password) {
                   console.log("player count " + players.length)
 
-                  exports.playerManager.each(function (player) {
+                exports.playerManager.each(function (player) {
 
-                      if (player != null) {
+                    if (player != null) {
 
-                          var loggedInPlayerInfo = player.getPlayerInfo();
-                          if (loggedInPlayerInfo.name == newPlayer.name) {
-                              var loggedInPlayerSocket = loggedInPlayerInfo.getSocket();
-                              modules.helper.helpers.send(loggedInPlayerSocket, 'You have entered the realm again from somewhere else.');
+                        var loggedInPlayerInfo = player.getPlayerInfo();
+                        if (loggedInPlayerInfo.name == newPlayer.name) {
+                            var loggedInPlayerSocket = loggedInPlayerInfo.getSocket();
+                            modules.helper.helpers.send(loggedInPlayerSocket, 'You have entered the realm again from somewhere else.');
 
-                              //save player before disconnecting? 
-                              exports.playerManager.removePlayer(loggedInPlayerSocket);
-                          }
-                      }
-                  });
-                  exports.playerManager.addPlayer(pc);
+                            //save player before disconnecting? 
+                            exports.playerManager.removePlayer(loggedInPlayerSocket);
+                        }
+                    }
+                });
+                exports.playerManager.addPlayer(pc);
                   socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(pc, null, 'load'));
               } else {
                   modules.helper.helpers.send(socket, 'Password is wrong');
@@ -93,8 +92,7 @@
 	 * Add player socket to players array
 	 *  @param player - player socket
 	 */
-  addPlayer: function (player)
-	{
+    addPlayer: function (player) {
 	 players.push(player);
 
 	},
@@ -102,8 +100,7 @@
 	 * Add player socket to players array
 	 *  @param player - player socket
 	 */
-  addPlayerToRoom: function (player, pc, region, area, areaId)
-	{
+    addPlayerToRoom: function (player, pc, region, area, areaId) {
         var room = modules['world'][region][area][areaId];
         var name = pc.getName();
 
@@ -123,8 +120,7 @@
   	 * Returns each player socket from players array
   	 * @param callback returns player sockets from array
   	 */
-   each: function (callback)
-  	{
+    each: function (callback) {
   		players.forEach(callback);
   	},
 
@@ -132,11 +128,9 @@
 	 * Broadcast a message to every player
 	 * @param string message to broadcast to everyone
 	 */
-	broadcast: function (message)
-	{
+    broadcast: function (message) {
 
-   exports.playerManager.each(function (player)
-		{
+        exports.playerManager.each(function (player) {
             modules.helper.helpers.send(player, message);
 		});
 	},
@@ -145,11 +139,9 @@
    * Broadcast a message to every player
    * @param string message to broadcast to everyone
    */
-  broadcastToRoom: function (message, playersInRoom)
-  {
+    broadcastToRoom: function (message, playersInRoom) {
 
-      playersInRoom.forEach(function(playersInRoom)
-      {
+        playersInRoom.forEach(function (playersInRoom) {
 
           var player = playersInRoom.getSocket();
           modules.helper.helpers.send(player, message);
@@ -174,7 +166,7 @@
  * 
  * ---------------------------------------------------------------------
  */
-  broadcastPlayerEvent: function(currentPlayer, playersInRoom, response) {
+    broadcastPlayerEvent: function (currentPlayer, playersInRoom, response) {
 
       playersInRoom.forEach(function (player) {
 
@@ -191,8 +183,43 @@
               modules.helper.helpers.send(currentPlayerSocket, response.forPlayer);
           }
       });
-  }
-  
+    },
 
+    /*-------------------------------------------------------------------*
+  * Broadcast a message onto a specific channel
+  * --------------------------------------------------------------------
+  * 
+  * @param Object currentPlayer - player object file
+  * @param string message - Contents of the broadcast message
+  * @param int modules.constants.channel_XXX - The channel we're broadcasting to
+  * @param Object response - containing the responses to show the user(s)
+  * Example response:
+  * response = {
+  *  forChannel: 'Kevo gossips 'hello world',
+  *  forPlayer: 'You gossip 'hello world'
+  * }
+  * ---------------------------------------------------------------------
+  */
+    broadcastToChannel: function (currentPlayer, message, channel, response) {
+        exports.playerManager.each(function (player) {
+            if (player != null) {
+                var targetPlayer = player.getPlayerInfo();
+                var targetPlayerName = player.name;
+                var currentPlayerName = currentPlayer.getName();
+                var currentPlayerSocket = currentPlayer.getSocket();
+                var targetPlayersSocket = player.getSocket();
 
+                if ((currentPlayerName !== targetPlayerName) &&
+                    ((channel == modules.constants.channel_gossip && targetPlayer.channels.gossip) ||
+                        (channel == modules.constants.channel_auction && targetPlayer.channels.auction) ||
+                        (channel == modules.constants.channel_clan && targetPlayer.channels.clan) ||
+                        (channel == modules.constants.channel_ask && targetPlayer.channels.ask) ||
+                        (channel == modules.constants.channel_newbie && targetPlayer.channels.newbie))) {
+                    modules.helper.helpers.send(targetPlayersSocket, response.forChannel);
+                } else {
+                    modules.helper.helpers.send(currentPlayerSocket, response.forPlayer);
+                }
+            }
+        });
+    }
 };
