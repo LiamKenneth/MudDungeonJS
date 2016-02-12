@@ -60,5 +60,12 @@
 	"questPoints": 0,
 	"gold": 0,
 	"silver": 0,
-	"copper": 0
+	"copper": 0,
+	"channels": {
+		"gossip": 1,
+		"auction": 1,
+		"ask": 1,
+		"newbie": 1,
+		"clan": 1
+	}
 }

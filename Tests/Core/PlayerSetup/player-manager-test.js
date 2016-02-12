@@ -13,25 +13,25 @@ var should = require('chai').should();
 
 
 
+// need to mock FS
+//  describe("load player", function() {
+//    it("should load player JSON", function() {
 
-  describe("load player", function() {
-    it("should load player JSON", function() {
-
-      var playerData = JSON.parse(modules.data.loadFile(null, 'pug.json'));
-       var PC = new modules.playerSetup.playerChar(playerData);
-      modules.playerSetup.player.loadPlayer(PC);
-      // if (playerData) {
-      //
-      //     PC.setSocket(socket);
-      //     modules.playerSetup.player.addPlayer(PC.getSocket());
-      //
-      //   }
-      //
-      // var races = modules.playerSetup.races.showRace();
-      //
-      // expect(races).to.equal('Human Elf Dwarf Gnome Halfling ');
-    });
-});
+//      var playerData = JSON.parse(modules.data.loadFile(null, 'pug.json'));
+//       var PC = new modules.playerSetup.playerChar(playerData);
+//      modules.playerSetup.player.loadPlayer(PC);
+//      // if (playerData) {
+//      //
+//      //     PC.setSocket(socket);
+//      //     modules.playerSetup.player.addPlayer(PC.getSocket());
+//      //
+//      //   }
+//      //
+//      // var races = modules.playerSetup.races.showRace();
+//      //
+//      // expect(races).to.equal('Human Elf Dwarf Gnome Halfling ');
+//    });
+//});
 
 
 

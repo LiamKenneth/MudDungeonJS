@@ -1,4 +1,4 @@
-(function(r) {
+(function (r) {
     "use strict";
     var modules = {
         data: r('./data').data,
@@ -15,20 +15,20 @@
         fs: r('fs'),
         color: r('colors')
     };
-  //  var weapons = modules.data.loadFile('./Game/Core/Items/Weapons/swords/', 'swords.json');
+    //  var weapons = modules.data.loadFile('./Game/Core/Items/Weapons/swords/', 'swords.json');
     var playerSetup = {
         welcome: function (socket) {
 
-              var motd = modules.data.loadFile(null, 'motd');
-               if (motd) {
-                  modules.helper.send(socket, motd);
-               }
+            //var motd = modules.data.loadFile(null, 'motd');
+            // if (motd) {
+            //    modules.helper.send(socket, motd);
+            // }
             playerSetup.login(socket);
         },
-        login: function(socket) {
+        login: function (socket) {
             modules.helper.send(socket, "What's your name?");
 
-            socket.once('data', function(input) {
+            socket.once('data', function (input) {
                 var name = modules.helper.cleanInput(input);
                 var response = {
                     newChar: name.toString().trim() + " You are new to this realm, would you like to create a Character?" +
@@ -44,11 +44,11 @@
                     if (playerData) {
                         var PC = new modules.playerSetup.playerChar(playerData);
                         PC.setSocket(socket);
-                        modules.playerSetup.player.addPlayer(PC.getSocket());
+
                         modules.playerSetup.player.loadPlayer(PC);
                     } else {
                         modules.helper.send(socket, response.newChar);
-                        socket.once('data', function(input) {
+                        socket.once('data', function (input) {
                             var input = input.toString().trim().toLowerCase();
                             if (modules.commands.yes(input)) {
                                 playerSetup.createCharacter(name, socket);
@@ -66,27 +66,27 @@
                 }
             });
         },
-        createCharacter: function(name, socket) {
+        createCharacter: function (name, socket) {
             // /* store player info */
             var playerInfo = new Object();
             playerInfo.name = name;
 
-            var CharOptions = function(socket, choice) {
+            var CharOptions = function (socket, choice) {
                 modules.helper.send(socket, choice.text.choice.trim());
                 if (choice.hasOwnProperty('options')) {
                     modules.helper.send(socket, choice.options.trim());
                 }
-                socket.once('data', function(input) {
+                socket.once('data', function (input) {
                     var input = input.toString().trim().toLowerCase();
                     var selected = choice.pick(input) || false;
                     if (selected !== false) {
-                        var select = function(selected) {
+                        var select = function (selected) {
                             playerInfo[choice.select] = selected;
                             //Remove listners to stop duplicate lines being sent
                             socket.removeAllListeners('data');
                             characterCreation(choice.nextChoice);
                         };
-                        var pick = function() {
+                        var pick = function () {
                             //Remove listners to stop duplicate lines being sent
                             socket.removeAllListeners('data');
                             characterCreation(choice.select);
@@ -112,7 +112,7 @@
                                 wrongChoice: 'Sorry that\'s not a race.'
                             },
                             options: modules.playerSetup.races.showRace(),
-                            pick: function(input) {
+                            pick: function (input) {
                                 return modules.playerSetup.races.chooseRace(input)
                             }
                         }
@@ -128,7 +128,7 @@
                                 wrongChoice: 'Sorry that\'s not a class'
                             },
                             options: modules.playerSetup.classes.showClass(),
-                            pick: function(input) {
+                            pick: function (input) {
                                 return modules.playerSetup.classes.chooseClass(input)
                             }
                         }
@@ -143,7 +143,7 @@
                                 choice: 'Are you a male or female?',
                                 wrongChoice: 'Sorry that\'s not a choice'
                             },
-                            pick: function(input) {
+                            pick: function (input) {
                                 return playerSetup.sex(input)
                             }
                         }
@@ -155,7 +155,7 @@
                         var stats = "str: " + playerStats.str + " dex: " + playerStats.dex + " con: " + playerStats.con +
                             " int: " + playerStats.int + " wis: " + playerStats.wis + " cha: " + playerStats.cha + " | Do you accept these stats? [Yes No]";
                         modules.helper.send(socket, stats);
-                        socket.once('data', function(input) {
+                        socket.once('data', function (input) {
                             var input = input.toString().trim().toLowerCase();
                             if (modules.commands.yes(input)) {
                                 playerInfo.str = playerStats.str;
@@ -165,6 +165,7 @@
                                 playerInfo.wis = playerStats.wis;
                                 playerInfo.cha = playerStats.cha;
                                 playerSetup.createCharacterSheet(socket, playerInfo);
+                                
                             } else {
                                 //Remove listeners to stop duplicate lines being sent
                                 socket.removeAllListeners('data');
@@ -177,7 +178,7 @@
                 }
             }
         },
-        sex: function(sex) {
+        sex: function (sex) {
             switch (sex) {
                 case 'm':
                 case 'male':
@@ -188,7 +189,7 @@
                     return false;
             }
         },
-        createCharacterSheet: function(socket, characterData) {
+        createCharacterSheet: function (socket, characterData) {
             var playerData = JSON.parse(modules.data.loadFile('Game/Core/PlayerSetup/', 'blankChar.json'));
 
             var classRoll = {
@@ -206,10 +207,10 @@
             var classDie = classRoll[characterData.class];
             var manaDie = classRoll[manaRoll];
 
-          //  console.log(classDie);
-           // console.log(manaDie);
+            //  console.log(classDie);
+            // console.log(manaDie);
             var hp = modules.helper.dice(1, 12);
-             //   hp += Math.floor((Math.random() * characterData.con) + 1);
+            //   hp += Math.floor((Math.random() * characterData.con) + 1);
 
             //var mana = modules.helper.dice(1, 10);
             //  //  mana += Math.floor((Math.random() * manaDie) + 1);
@@ -272,13 +273,14 @@
             playerData.maxWeight = parseInt(characterData.str) * 5;
             playerData.wimpy = 25;
             playerData.status = 'Standing';
-
+            playerData.channels = { gossip: 1, auction: 1, ask: 1, newbie: 1, clan: 1 };
 
             var PC = new modules.playerSetup.playerChar(playerData);
             PC.setSocket(socket);
             modules.data.savePlayer(playerData);
             console.log('player saved');
-            modules.playerSetup.player.addPlayer(socket);
+            modules.playerSetup.player.addPlayer(PC); 
+
             socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(PC));
         }
     };
