@@ -84,6 +84,13 @@ var player = function(playerInfo) {
     this.maxWeight = playerInfo.maxWeight || 0;
     this.wimpy = playerInfo.wimpy || 0;
     this.status = playerInfo.status || 0;
+    this.channels = {
+        gossip: playerInfo.channels.gossip || 1,
+        auction: playerInfo.channels.auction || 1,
+        ask: playerInfo.channels.ask || 1,
+        clan: playerInfo.channels.clan || 1,
+        newbie: playerInfo.channels.newbie || 1
+    };
 
 
 
@@ -140,6 +147,10 @@ var player = function(playerInfo) {
     };
     this.getInventory = function() {
         return this.inventory;
+    };
+
+    this.getChannels = function () {
+        return this.channels;
     };
 
     //Set
