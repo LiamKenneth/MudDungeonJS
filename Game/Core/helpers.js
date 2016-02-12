@@ -155,7 +155,7 @@
                     case 'M': codeText = 'magenta'; break;    // bright magenta
                     case 'C': codeText = 'cyan'; break;       // bright cyan
                     case 'W': codeText = 'white'; break;      // bright white / grey
-                    case 'x': default: codeText = 'initial'; break;     // default colour
+                    case 'x': default: codeText = 'inherit'; break;     // default colour
                 }
 
                 // <span style="color: COLORNAME">

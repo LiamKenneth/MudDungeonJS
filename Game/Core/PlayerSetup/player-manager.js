@@ -31,7 +31,7 @@
 	  loadPlayer: function(pc) {
 
           var socket = pc.getSocket();
-
+	      var newPlayer = pc.getPlayerInfo();
 
           modules.helper.helpers.send(socket, 'Whats your password');
 
@@ -41,6 +41,22 @@
 
               if (password === pc.password) {
                   console.log("player count " + players.length)
+
+                  exports.playerManager.each(function (player) {
+
+                      if (player != null) {
+
+                          var loggedInPlayerInfo = player.getPlayerInfo();
+                          if (loggedInPlayerInfo.name == newPlayer.name) {
+                              var loggedInPlayerSocket = loggedInPlayerInfo.getSocket();
+                              modules.helper.helpers.send(loggedInPlayerSocket, 'You have entered the realm again from somewhere else.');
+
+                              //save player before disconnecting? 
+                              exports.playerManager.removePlayer(loggedInPlayerSocket);
+                          }
+                      }
+                  });
+                  exports.playerManager.addPlayer(pc);
                   socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(pc, null, 'load'));
               } else {
                   modules.helper.helpers.send(socket, 'Password is wrong');

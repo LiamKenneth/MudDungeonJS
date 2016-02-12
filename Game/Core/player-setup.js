@@ -19,10 +19,10 @@
     var playerSetup = {
         welcome: function (socket) {
 
-              var motd = modules.data.loadFile(null, 'motd');
-               if (motd) {
-                  modules.helper.send(socket, motd);
-               }
+              //var motd = modules.data.loadFile(null, 'motd');
+              // if (motd) {
+              //    modules.helper.send(socket, motd);
+              // }
             playerSetup.login(socket);
         },
         login: function(socket) {
@@ -44,7 +44,7 @@
                     if (playerData) {
                         var PC = new modules.playerSetup.playerChar(playerData);
                         PC.setSocket(socket);
-                        modules.playerSetup.player.addPlayer(PC.getSocket());
+                   
                         modules.playerSetup.player.loadPlayer(PC);
                     } else {
                         modules.helper.send(socket, response.newChar);

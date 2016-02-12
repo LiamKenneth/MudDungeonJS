@@ -70,11 +70,11 @@
     app.listen(WebPort);
 
     function handler (req, res) {
-        fs.readFile(__dirname + '/Public/index.html',
+        fs.readFile(__dirname + '/Public/index.htm',
             function (err, data) {
                 if (err) {
                     res.writeHead(500);
-                    return res.end('Error loading index.html');
+                    return res.end('Error loading index.htm');
                 }
 
                 res.writeHead(200);
