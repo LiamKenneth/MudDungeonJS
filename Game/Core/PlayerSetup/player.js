@@ -97,7 +97,8 @@ var player = function(playerInfo) {
 
     //Get
 
-    this.getPlayerInfo = function() {
+    this.getPlayerInfo = function () {
+
         return this;
     };
     this.getInfo = function() {
@@ -208,16 +209,97 @@ var player = function(playerInfo) {
 
     };
 
-    this.getPrompt = function (showPrompt) {
+    this.getPrompt = function(showPrompt) {
 
         if (showPrompt) {
             return "HP: " + this.information.hitpoints + "/" + this.information.maxHitpoints + " Mana: " + this.information.mana + "/" + this.information.maxMana + " Moves: " + this.information.moves + "/" + this.information.maxMoves + " Tnl: " + this.information.experienceToNextLevel;
         }
 
-    }
+    };
 
-    this.savePlayer = function(playerinfo) {
-        //modules.data.savePlayer(player);
+    this.savePlayer = function () {
+
+        /* 
+         * This just feels wrong, needs to be revisited 
+         * Tried to convert the data from getPlayerInfo()
+         * to JSON but wouldn't work.
+         * This is quick dirty hack
+         */
+        var playerJSON = {
+            "socket": "",
+            "name": this.name,
+            "description": this.description,
+            "age": this.age,
+            "information": {
+                "level": this.information.level,
+                "race": this.information.race,
+                "class": this.information.class,
+                "alignment": this.information.alignment,
+                "alignmentScore": this.information.alignmentScore,
+                "experience": this.information.experience,
+                "experienceToNextLevel": this.information.experienceToNextLevel,
+                "maxHitpoints": this.information.maxHitpoints,
+                "hitpoints": this.information.hitpoints,
+                "maxMana": this.information.maxMana,
+                "mana": this.information.mana,
+                "stats": {
+                    "strength": this.information.stats.strength,
+                    "dexterity": this.information.stats.dexterity,
+                    "constitution": this.information.stats.constitution,
+                    "intelligence": this.information.stats.intelligence,
+                    "wisdom": this.information.stats.wisdom,
+                    "charisma": this.information.stats.charisma
+                }
+            },
+            "location": {
+                "region": this.location.region,
+                "area": this.location.area,
+                "areaID": this.location.areaID,
+                "coordsY": this.location.coordsY,
+                "coordsX": this.location.coordsX
+            },
+            "password": this.password,
+            "inventory": this.inventory,
+            "equipment": {
+                "floating": this.equipment.floating,
+                "light": this.equipment.light,
+                "head": this.equipment.head,
+                "leftEar": this.equipment.leftEar,
+                "rightEar": this.equipment.rightEar,
+                "neck": this.equipment.neck,
+                "cloak": this.equipment.cloak,
+                "aboutBody": this.equipment.aboutBody,
+                "body": this.equipment.body,
+                "waist": this.equipment.waist,
+                "leftSheath": this.equipment.leftSheath,
+                "rightSheath": this.equipment.rightSheath,
+                "back": this.equipment.back,
+                "leftWrist": this.equipment.leftWrist,
+                "rightWrist": this.equipment.rightWrist,
+                "leftHand": this.equipment.leftHand,
+                "rightHand": this.equipment.rightHand,
+                "leftRing": this.equipment.leftRing,
+                "rightRing": this.equipment.rightRing,
+                "legs": this.equipment.legs,
+                "feet": this.equipment.feet
+            },
+            "explored": this.explored,
+            "questPoints": this.questPoints,
+            "gold": this.gold,
+            "silver": this.silver,
+            "copper": this.copper,
+            "channels": {
+                "gossip": this.channels.gossip,
+                "auction": this.channels.auction,
+                "ask": this.channels.ask,
+                "newbie": this.channels.newbie,
+                "clan": this.channels.clan
+            }
+
+            
+    }
+    return playerJSON;
+   
     }
 
 

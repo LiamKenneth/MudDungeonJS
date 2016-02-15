@@ -100,7 +100,8 @@
                     clan: function () { socket.emit('communicate', modules.events.communication.communicate(socket, pc, modules.constants.channel_clan, input)) },
                     ask: function () { socket.emit('communicate', modules.events.communication.communicate(socket, pc, modules.constants.channel_ask, input)) },
                     auction: function () { socket.emit('communicate', modules.events.communication.communicate(socket, pc, modules.constants.channel_auction, input)) },
-                    gossip: function () { socket.emit('communicate', modules.events.communication.communicate(socket, pc, modules.constants.channel_gossip, input)) }
+                    gossip: function () { socket.emit('communicate', modules.events.communication.communicate(socket, pc, modules.constants.channel_gossip, input)) },
+                    save: function () { socket.emit('save', modules.data.savePlayer(pc, true)) }
                 }
 
                 function processUserInput(command) {

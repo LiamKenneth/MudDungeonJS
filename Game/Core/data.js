@@ -3,7 +3,8 @@
 
   var modules = {
     fs: r('fs'),
-    path: r('path')
+    path: r('path'),
+   // helper: r('./helpers').helpers
   };
 
   var dataDir = {
@@ -24,20 +25,28 @@
         return false;
       }
     },
-    savePlayer: function(player) {
+    savePlayer: function (player, manualSave) {
+        //   var playerSocket = player.getSocket();
 
-      var playerName = player.name;
-
-      try {
-        modules.fs.writeFileSync('./Data/' + playerName + '.json', JSON.stringify(player));
-
-      } catch (e) {
-        /* istanbul ignore next */
-        if (e.code === 'ENOENT') {
-          console.log('Unable to save file');
-          return 'Unable to save file';
+        if (manualSave) {
+            player = player.savePlayer();
         }
-      }
+        
+
+      //  modules.helper.send(playerSocket, "Saving Player...");
+
+        modules.fs.writeFile('./Data/' + player.name + '.json', JSON.stringify(player), function (err) {
+            if (err) {
+             //   modules.helper.helpers.send(playerSocket, "Something went wrong saving, Please inform an Immortal");
+                console.log(err);
+            }
+
+            if (manualSave) {
+               // modules.helper.helpers.send(playerSocket, "Player saved, saving is automatic when you leave the game.");
+                console.log('PLAYER SAVED');
+            }
+        });
+
     }
   };
   exports.data = data;
