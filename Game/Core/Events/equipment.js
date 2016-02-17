@@ -10,31 +10,31 @@
 
         modules.helper.helpers.send(socket, "You are wearing:");
 
-        var equipment = playerInfo.getEquipment();
+        var equip = playerInfo.getEquipment();
 
         var wearing = '';
 
-        wearing += "Floating: " + equipment.floating + "\n";
-        wearing += "Light: " + equipment.light + "\n";
-        wearing += "Head: " + equipment.head + "\n";
-        wearing += "Left ear: " + equipment.leftEar + "\n";
-        wearing += "Right ear: " + equipment.rightEar + "\n";
-        wearing += "Neck: " + equipment.neck + "\n";
-        wearing += "About body: " + equipment.aboutBody + "\n";
-        wearing += "Body: " + equipment.body + "\n";
-        wearing += "Waist: " + equipment.waist + "\n";
-        wearing += "Left sheath: " + equipment.leftSheath + "\n";
-        wearing += "Right sheath: " + equipment.rightSheath + "\n";
-        wearing += "Back: " + equipment.back + "\n";
-        wearing += "Waist: " + equipment.waist + "\n";
-        wearing += "Left wrist: " + equipment.leftWrist + "\n";
-        wearing += "Right wrist: " + equipment.rightWrist + "\n";
-        wearing += "Left hand: " + equipment.leftHand + "\n";
-        wearing += "Right hand: " + equipment.rightHand + "\n";
-        wearing += "Left ring: " + equipment.leftRing + "\n";
-        wearing += "Right ring: " + equipment.rightRing + "\n";
-        wearing += "Legs: " + equipment.legs + "\n";
-        wearing += "Feet: " + equipment.feet + "\n";
+        wearing += "Floating: " + equip.floating.name + "\n";
+        wearing += "Light: " + equip.light.name + "\n";
+        wearing += "Head: " + equip.head.name + "\n";
+        wearing += "Left ear: " + equip.leftEar.name + "\n";
+        wearing += "Right ear: " + equip.rightEar.name + "\n";
+        wearing += "Neck: " + equip.neck.name + "\n";
+        wearing += "About body: " + equip.aboutBody.name + "\n";
+        wearing += "Body: " + equip.body.name + "\n";
+        wearing += "Waist: " + equip.waist.name + "\n";
+        wearing += "Left sheath: " + equip.leftSheath.name + "\n";
+        wearing += "Right sheath: " + equip.rightSheath.name + "\n";
+        wearing += "Back: " + equip.back.name + "\n";
+        wearing += "Waist: " + equip.waist.name + "\n";
+        wearing += "Left wrist: " + equip.leftWrist.name + "\n";
+        wearing += "Right wrist: " + equip.rightWrist.name + "\n";
+        wearing += "Left hand: " + equip.leftHand.name + "\n";
+        wearing += "Right hand: " + equip.rightHand.name + "\n";
+        wearing += "Left ring: " + equip.leftRing.name + "\n";
+        wearing += "Right ring: " + equip.rightRing.name + "\n";
+        wearing += "Legs: " + equip.legs.name + "\n";
+        wearing += "Feet: " + equip.feet.name + "\n";
  
         modules.helper.helpers.send(socket, wearing);
 

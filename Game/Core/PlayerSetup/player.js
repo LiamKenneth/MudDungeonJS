@@ -194,17 +194,22 @@ var player = function(playerInfo) {
 
     };
 
-    this.setEquipment = function(slot, item) {
+    this.setEquipment = function (item, status) {
 
-        if (slot === 'hand') {
-            if (this.equipment.leftHand === 'Nothing') {
-                this.equipment['leftHand'] = item;
+        if (status !== 'remove') {
+
+            if (item.slot === 'hand') {
+                if (this.equipment.leftHand === 'Nothing') {
+                    this.equipment['leftHand'] = item;
+                } else {
+                    this.equipment['rightHand'] = item;
+                }
+
             } else {
-                this.equipment['rightHand'] = item;
+                this.equipment[item.slot] = item;
             }
-
         } else {
-            this.equipment[slot] = item;
+            this.equipment[item.slot] = 'Nothing';
         }
 
     };

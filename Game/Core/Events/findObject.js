@@ -20,425 +20,480 @@
     };
 
 
-var findObject = function (playerInfo, room, item, event) {
+    var findObject = function (playerInfo, room, item, event) {
 
-    console.log("find object " + item + "/" + event)
-
-
-     item = item.trim().toLowerCase();
-    var name = playerInfo.getName();
-    var socket = playerInfo.getSocket();
-    var roomItems = room.items || [];
-    var playersInRoom = room.players || [];
-    var playerInv = playerInfo.getInventory() || [];
-
-  
-    var allItems = roomItems.concat(playersInRoom, playerInv);
-    var allItemCount = allItems.length;
-
-    var itemKeywords;
-    var findNthItem;
-    var found = false;
-    var multi = false;
-    if (/^\d+\./.test(item)) {
-              
-        findNthItem = parseInt(item.split('.')[0], 10);
-        multi = true;
-        item = item.split('.')[1];
-    }
+        console.log("find object " + item + "/" + event)
 
 
-    var eventLookUp = {
-        "look at": function (item) {
-
-            var description = item.description.look;
-
-            var response = {
-                "forRoom": name + ' looks at a ' + item.name,
-                "forPlayer": 'You look at a ' + item.name
-            };
-
-            if (item.type == 'object') {
-
-                // change a to an if item.name starts with a vowel a,e,i,o,u 
-                // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
-
-                var itemNameStartsWith = item.name.substr(0,1).toLowerCase();
- 
-
-                if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
-
-                    response.forRoom = name + ' looks at an ' + item.name;
-                    response.forPlayer = 'You look at an ' + item.name;
-
-                } else {
-
-                    response.forRoom = name + ' looks at a ' + item.name;
-                    response.forPlayer = 'You look at a ' + item.name;
-                }
-
-                      
-            } else {
-                     
-                if (item.name == playerInfo.name || item.name == 'self') {
-                    var sex = playerInfo.sex == 'Male' ? 'himself.' : 'herself.';
-                    response.forRoom = name + ' looks at ' + sex;
-                    response.forPlayer = 'You look at yourself';
-                }
-                else {
-
-                    response.forRoom = name + ' looks at ' + item.name;
-                    response.forPlayer = 'You look at ' + item.name;
-                }
-
-                description = item.description || playerInfo.description;
-
-            };
+        item = item.trim().toLowerCase();
+        var name = playerInfo.getName();
+        var socket = playerInfo.getSocket();
+        var roomItems = room.items || [];
+        var playersInRoom = room.players || [];
+        var playerInv = playerInfo.getInventory() || [];
 
 
-            modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+        var allItems = roomItems.concat(playersInRoom, playerInv);
+        var allItemCount = allItems.length;
 
-            modules.helper.helpers.send(socket, description);
+        var itemKeywords;
+        var findNthItem;
+        var found = false;
+        var multi = false;
+        if (/^\d+\./.test(item)) {
 
-        },
-        "look in": function (item) {
-
-            var response = {
-                "forRoom": '',
-                "forPlayer": ''
-            }
-
-            //if item is a container
-            if (item.actions.container == true) {
-
-                //get container items array
-                var containerItems = item.items;
+            findNthItem = parseInt(item.split('.')[0], 10);
+            multi = true;
+            item = item.split('.')[1];
+        }
 
 
-                var containerItemCount = containerItems.length;
+        var eventLookUp = {
+            "look at": function (item) {
 
-                if (item.actions.locked == true) {
+                var description = item.description.look;
 
-                    response.forRoom = name + ' tries to open the ' + item.name + ' but it\'s locked';
-                    response.forPlayer = 'You attempt to open the ' + item.name + ' but it\'s locked';
+                var response = {
+                    "forRoom": name + ' looks at a ' + item.name,
+                    "forPlayer": 'You look at a ' + item.name
+                };
 
-                    modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+                if (item.type == 'object') {
 
-                } else {
+                    // change a to an if item.name starts with a vowel a,e,i,o,u 
+                    // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
 
-                    if (containerItemCount > 0) {
+                    var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
 
-                        response.forRoom = name + ' looks inside a ' + item.name;
-                        response.forPlayer = 'You look inside the ' + item.name + ' and see:';
 
-                        modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+                    if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
 
-                        var chestItems = '';
-
-                        for (var j = 0; j < containerItemCount; j++) {
-
-                            if (item.items[j].count > 1) {
-
-                                chestItems += item.items[j].name + ' (' + item.items[j].count + ')\r\n';
-
-                            } else {
-                                chestItems += item.items[j].name + '\r\n';
-                            }
-
-                        }
-
-                        modules.helper.helpers.send(socket, chestItems);
+                        response.forRoom = name + ' looks at an ' + item.name;
+                        response.forPlayer = 'You look at an ' + item.name;
 
                     } else {
 
-                        response.forRoom = name + ' looks inside a ' + item.name;
-                        response.forPlayer = 'You look inside the ' + item.name + ' but nothing is inside';
-
-                        modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+                        response.forRoom = name + ' looks at a ' + item.name;
+                        response.forPlayer = 'You look at a ' + item.name;
                     }
 
-                }
-
-            } else {
-                modules.helper.helpers.send(socket, "A " + item.name + " is not a container");
-
-                response.forRoom = name + ' tries to look inside a ' + item.name;
-                response.forPlayer = "A " + item.name + " is not a container";
-
-                modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
-            }
-
-        },
-        "exam": function (item) {
-
-            console.log('inside exam function')
-
-            var description = item.description.exam;
-
-            var response = {
-                "forRoom": name + ' takes a closer look at a ' + item.name,
-                "forPlayer": 'You take a closer look at a' + item.name
-            };
-
-            if (item.type == 'object') {
-
-                // change a to an if item.name starts with a vowel a,e,i,o,u 
-                // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
-
-                var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
-
-
-                if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
-
-                    response.forRoom = name + ' takes a closer look at an ' + item.name;
-                    response.forPlayer = 'You take a closer look at an ' + item.name;
 
                 } else {
 
-                    response.forRoom = name + ' takes a closer look at a ' + item.name;
-                    response.forPlayer = 'You take a closer look at a ' + item.name;
-                }
+                    if (item.name == playerInfo.name || item.name == 'self') {
+                        var sex = playerInfo.sex == 'Male' ? 'himself.' : 'herself.';
+                        response.forRoom = name + ' looks at ' + sex;
+                        response.forPlayer = 'You look at yourself';
+                    }
+                    else {
 
+                        response.forRoom = name + ' looks at ' + item.name;
+                        response.forPlayer = 'You look at ' + item.name;
+                    }
 
-            } else {
+                    description = item.description || playerInfo.description;
 
-                if (item.name == playerInfo.name || item.name == 'self') {
-                    var sex = playerInfo.sex == 'Male' ? 'himself.' : 'herself.';
-                    response.forRoom = name + ' looks at ' + sex;
-                    response.forPlayer = 'You look at yourself';
-                }
-                else {
-
-                    response.forRoom = name + ' looks at ' + item.name;
-                    response.forPlayer = 'You look at ' + item.name;
-                }
-
-                description = item.description || playerInfo.description;
-
-            };
-
-
-            modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
-
-            modules.helper.helpers.send(socket, description);
-
-        },
-        "get": function(item, index) {
-
-            console.log('inside get function');
-
-            var description = item.name;
-
-            var response = {
-                "forRoom": name + ' gets a  ' + item.name,
-                "forPlayer": 'You get a' + item.name
-            };
-
-            if (item.type == 'object') {
-
-                // change a to an if item.name starts with a vowel a,e,i,o,u 
-                // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
-
-                var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
-
-
-                if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
-
-                    response.forRoom = name + ' gets an ' + item.name;
-                    response.forPlayer = 'You get an ' + item.name;
-
-                } else {
-
-                    response.forRoom = name + ' gets a ' + item.name;
-                    response.forPlayer = 'You get a ' + item.name;
-                }
-
-
-
-            }
-
-            if (item.location != 'inv') {
-
-
-                modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
-
-
-                var itemLocation = {
-                    room: function() { roomItems.splice(index, 1); },
                 };
 
-                itemLocation.room(index);
-
-                item.location = 'inv';
-
-                playerInfo.setInventory(item, 'get');
-            } else {
-                modules.helper.helpers.send(socket, 'Sorry you don\'t see that here');
-            }
-
-            // remove item from room
-            //save room
-            // save player!?
-        },
-        "drop": function(item) {
-
-            console.log('inside drop function');
-
-            var description = item.name;
-
-            var response = {
-                "forRoom": name + ' drops a  ' + item.name,
-                "forPlayer": 'You drop a' + item.name
-            };
-
-            if (item.type == 'object') {
-
-                // change a to an if item.name starts with a vowel a,e,i,o,u 
-                // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
-
-                var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
-
-
-                if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
-
-                    response.forRoom = name + ' drops an ' + item.name;
-                    response.forPlayer = 'You drop an ' + item.name;
-
-                } else {
-
-                    response.forRoom = name + ' drop a ' + item.name;
-                    response.forPlayer = 'You drop a ' + item.name;
-                }
-
-
-            }
-
-            console.log('item location is ' + item.location)
-            if (item.location == 'inv') {
 
                 modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
 
-                item.location = 'room';
-                room.items.push(item);
-                playerInfo.setInventory(item, 'drop');
+                modules.helper.helpers.send(socket, description);
 
-            } else {
-                modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to drop');
-            }
+            },
+            "look in": function (item) {
 
+                var response = {
+                    "forRoom": '',
+                    "forPlayer": ''
+                }
 
-// remove item from room
-            //save room
-            // save player!?
-        },
-        "wear": function(item, index) {
-            console.log('inside wear function');
+                //if item is a container
+                if (item.actions.container == true) {
 
-       
-            var response = {
-                "forRoom": name + ' wears a  ' + item.name,
-                "forPlayer": 'You wear a' + item.name
-            };
-
-            if (item.type == 'object') {
-
-                // change a to an if item.name starts with a vowel a,e,i,o,u 
-                // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
-
-                var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+                    //get container items array
+                    var containerItems = item.items;
 
 
-                if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+                    var containerItemCount = containerItems.length;
 
-                    response.forRoom = name + ' wears an ' + item.name;
-                    response.forPlayer = 'You wear an ' + item.name;
+                    if (item.actions.locked == true) {
+
+                        response.forRoom = name + ' tries to open the ' + item.name + ' but it\'s locked';
+                        response.forPlayer = 'You attempt to open the ' + item.name + ' but it\'s locked';
+
+                        modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+                    } else {
+
+                        if (containerItemCount > 0) {
+
+                            response.forRoom = name + ' looks inside a ' + item.name;
+                            response.forPlayer = 'You look inside the ' + item.name + ' and see:';
+
+                            modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+                            var chestItems = '';
+
+                            for (var j = 0; j < containerItemCount; j++) {
+
+                                if (item.items[j].count > 1) {
+
+                                    chestItems += item.items[j].name + ' (' + item.items[j].count + ')\r\n';
+
+                                } else {
+                                    chestItems += item.items[j].name + '\r\n';
+                                }
+
+                            }
+
+                            modules.helper.helpers.send(socket, chestItems);
+
+                        } else {
+
+                            response.forRoom = name + ' looks inside a ' + item.name;
+                            response.forPlayer = 'You look inside the ' + item.name + ' but nothing is inside';
+
+                            modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+                        }
+
+                    }
+
+                } else {
+                    modules.helper.helpers.send(socket, "A " + item.name + " is not a container");
+
+                    response.forRoom = name + ' tries to look inside a ' + item.name;
+                    response.forPlayer = "A " + item.name + " is not a container";
+
+                    modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+                }
+
+            },
+            "exam": function (item) {
+
+                console.log('inside exam function')
+
+                var description = item.description.exam;
+
+                var response = {
+                    "forRoom": name + ' takes a closer look at a ' + item.name,
+                    "forPlayer": 'You take a closer look at a' + item.name
+                };
+
+                if (item.type == 'object') {
+
+                    // change a to an if item.name starts with a vowel a,e,i,o,u 
+                    // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                    var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                    if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                        response.forRoom = name + ' takes a closer look at an ' + item.name;
+                        response.forPlayer = 'You take a closer look at an ' + item.name;
+
+                    } else {
+
+                        response.forRoom = name + ' takes a closer look at a ' + item.name;
+                        response.forPlayer = 'You take a closer look at a ' + item.name;
+                    }
+
 
                 } else {
 
-                    response.forRoom = name + ' wears a ' + item.name;
-                    response.forPlayer = 'You wear a ' + item.name;
+                    if (item.name == playerInfo.name || item.name == 'self') {
+                        var sex = playerInfo.sex == 'Male' ? 'himself.' : 'herself.';
+                        response.forRoom = name + ' looks at ' + sex;
+                        response.forPlayer = 'You look at yourself';
+                    }
+                    else {
+
+                        response.forRoom = name + ' looks at ' + item.name;
+                        response.forPlayer = 'You look at ' + item.name;
+                    }
+
+                    description = item.description || playerInfo.description;
+
+                };
+
+
+                modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+                modules.helper.helpers.send(socket, description);
+
+            },
+            "get": function (item, index) {
+
+                console.log('inside get function');
+
+                var description = item.name;
+
+                var response = {
+                    "forRoom": name + ' gets a  ' + item.name,
+                    "forPlayer": 'You get a' + item.name
+                };
+
+                if (item.type == 'object') {
+
+                    // change a to an if item.name starts with a vowel a,e,i,o,u 
+                    // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                    var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                    if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                        response.forRoom = name + ' gets an ' + item.name;
+                        response.forPlayer = 'You get an ' + item.name;
+
+                    } else {
+
+                        response.forRoom = name + ' gets a ' + item.name;
+                        response.forPlayer = 'You get a ' + item.name;
+                    }
+
+
+
                 }
 
+                if (item.location != 'inv') {
 
-            }
-
-            if (item.location == 'inv') {
-
-                if (item.equipable === true) {
 
                     modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
 
 
                     var itemLocation = {
-                        inv: function () { playerInv.splice(index, 1); },
+                        room: function () { roomItems.splice(index, 1); },
                     };
 
-                    itemLocation.inv(index);
+                    itemLocation.room(index);
 
+                    item.location = 'inv';
 
-                    item.location = 'equiped';
-
-                    playerInfo.setEquipment(item.slot, item.name);
-
+                    playerInfo.setInventory(item, 'get');
                 } else {
+                    modules.helper.helpers.send(socket, 'Sorry you don\'t see that here');
+                }
 
-                    response.forRoom = name + 'tries to wear a ' + item.name;
-                    response.forPlayer = 'Sorry ' + item.name + ' cannot be worn';
+                // remove item from room
+                //save room
+                // save player!?
+            },
+            "drop": function (item) {
+
+                console.log('inside drop function');
+
+                var description = item.name;
+
+                var response = {
+                    "forRoom": name + ' drops a  ' + item.name,
+                    "forPlayer": 'You drop a' + item.name
+                };
+
+                if (item.type == 'object') {
+
+                    // change a to an if item.name starts with a vowel a,e,i,o,u 
+                    // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                    var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                    if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                        response.forRoom = name + ' drops an ' + item.name;
+                        response.forPlayer = 'You drop an ' + item.name;
+
+                    } else {
+
+                        response.forRoom = name + ' drop a ' + item.name;
+                        response.forPlayer = 'You drop a ' + item.name;
+                    }
+
+
+                }
+
+                console.log('item location is ' + item.location)
+                if (item.location == 'inv') {
 
                     modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
 
+                    item.location = 'room';
+                    room.items.push(item);
+                    playerInfo.setInventory(item, 'drop');
+
+                } else {
+                    modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to drop');
                 }
 
-            } else {
-                modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to wear');
+
+                // remove item from room
+                //save room
+                // save player!?
+            },
+            "wear": function (item, index) {
+                console.log('inside wear function');
+
+
+                var response = {
+                    "forRoom": name + ' wears a  ' + item.name,
+                    "forPlayer": 'You wear a' + item.name
+                };
+
+                if (item.type == 'object') {
+
+                    // change a to an if item.name starts with a vowel a,e,i,o,u 
+                    // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                    var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                    if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                        response.forRoom = name + ' wears an ' + item.name;
+                        response.forPlayer = 'You wear an ' + item.name;
+
+                    } else {
+
+                        response.forRoom = name + ' wears a ' + item.name;
+                        response.forPlayer = 'You wear a ' + item.name;
+                    }
+
+
+                }
+
+                if (item.location == 'inv') {
+
+                    if (item.equipable === true) {
+
+                        modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+
+                        var itemLocation = {
+                            inv: function () { playerInv.splice(index, 1); },
+                        };
+
+                        itemLocation.inv(index);
+
+
+                        item.location = 'equiped';
+
+                        playerInfo.setEquipment(item, 'wear');
+
+                    } else {
+
+                        response.forRoom = name + 'tries to wear a ' + item.name;
+                        response.forPlayer = 'Sorry ' + item.name + ' cannot be worn';
+
+                        modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+                    }
+
+                } else {
+                    modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to wear');
+                }
+            },
+            "remove": function (item) {
+                console.log('inside remove function');
+
+
+                var response = {
+                    "forRoom": name + ' removes a  ' + item.name,
+                    "forPlayer": 'You removes a' + item.name
+                };
+
+                if (item.type == 'object') {
+
+                    // change a to an if item.name starts with a vowel a,e,i,o,u 
+                    // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                    var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                    if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                        response.forRoom = name + ' remove an ' + item.name;
+                        response.forPlayer = 'You remove an ' + item.name;
+
+                    } else {
+
+                        response.forRoom = name + ' remove a ' + item.name;
+                        response.forPlayer = 'You remove a ' + item.name;
+                    }
+
+
+                }
+
+                if (item.location == 'equiped') {
+
+                    //check if removable? e.g cursed?
+                    //if (item.removable === true) {
+
+                    modules.playerSetup.player.playerManager.broadcastPlayerEvent(playerInfo, room.players, response);
+
+
+                    playerInv.push(item);
+
+                    item.location = 'inv';
+
+                    playerInfo.setEquipment(item, 'remove');
+
+                    //  }
+
+                } else {
+                    modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to remove');
+                }
             }
         }
-    }
 
-    if (event === 'drop' || event === 'wear' || event === 'wield') {
-        allItemCount = playerInv.length;
-        allItems = playerInv;
-    }
+        if (event === 'remove') {
+            eventLookUp.remove(item);
+        } else {
 
-    for (var i = 0; i < allItemCount; i++) {
-
-        if (found == false) {
-            itemKeywords = allItems[i].keywords;
-               
-            if (multi && itemKeywords.indexOf(item) > -1) {
-
-                if (findNthItem == i - 1) {
-
-                   
-                    eventLookUp[event](allItems[i], i);
-
-                    found = true;
-
-                }
-
-            } else if (multi == false && itemKeywords.indexOf(item) > -1) {
- 
-                    eventLookUp[event](allItems[i], i);
-               
-                found = true;
-
+            if (event === 'drop' || event === 'wear' || event === 'wield') {
+                allItemCount = playerInv.length;
+                allItems = playerInv;
             }
 
-        } 
+            for (var i = 0; i < allItemCount; i++) {
 
-    };
+                if (found == false) {
+                    itemKeywords = allItems[i].keywords;
 
- 
+                    if (multi && itemKeywords.indexOf(item) > -1) {
 
-    //another for loop but for players and inventory if it's not found in room?
+                        if (findNthItem == i - 1) {
 
-    if (!found) {
-        modules.helper.helpers.send(socket, 'Sorry you don\'t see that here');
+
+                            eventLookUp[event](allItems[i], i);
+
+                            found = true;
+
+                        }
+
+                    } else if (multi == false && itemKeywords.indexOf(item) > -1) {
+
+                        eventLookUp[event](allItems[i], i);
+
+                        found = true;
+
+                    }
+                }
+            }
+
+        };
+
+
+
+        //another for loop but for players and inventory if it's not found in room?
+
+        if (!found) {
+            modules.helper.helpers.send(socket, 'Sorry you don\'t see that here');
+        }
+
+
+
     }
-
-    
-
-}
 
     exports.findObject = findObject;
 })(require);
