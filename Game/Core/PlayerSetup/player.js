@@ -154,6 +154,28 @@ var player = function(playerInfo) {
         return this.channels;
     };
 
+    this.findEquipment = function () {
+        console.time("findEQ")
+        var eq = [];
+        //don't bother with hasOwnProperty it's too slow: 500ms processing time on RPi2
+        for (var prop in this.equipment) {
+            if (this.equipment[prop] !== 'Nothing') {
+                eq.push(this.equipment[prop]);
+            }
+        }
+
+        console.timeEnd("findEQ")
+        return eq;
+    }
+
+    this.getPrompt = function (showPrompt) {
+
+        if (showPrompt) {
+            return "HP: " + this.information.hitpoints + "/" + this.information.maxHitpoints + " Mana: " + this.information.mana + "/" + this.information.maxMana + " Moves: " + this.information.moves + "/" + this.information.maxMoves + " Tnl: " + this.information.experienceToNextLevel;
+        }
+
+    };
+
     //Set
     this.setDescription = function(description) {
         this.description = description;
@@ -194,28 +216,27 @@ var player = function(playerInfo) {
 
     };
 
-    this.setEquipment = function(slot, item) {
+    this.setEquipment = function (item, status) {
 
-        if (slot === 'hand') {
-            if (this.equipment.leftHand === 'Nothing') {
-                this.equipment['leftHand'] = item;
+        if (status !== 'remove') {
+
+            if (item.slot === 'hand') {
+                if (this.equipment.leftHand === 'Nothing') {
+                    this.equipment['leftHand'] = item;
+                } else {
+                    this.equipment['rightHand'] = item;
+                }
+
             } else {
-                this.equipment['rightHand'] = item;
+                this.equipment[item.slot] = item;
             }
-
         } else {
-            this.equipment[slot] = item;
+            this.equipment[item.slot] = 'Nothing';
         }
 
     };
 
-    this.getPrompt = function(showPrompt) {
-
-        if (showPrompt) {
-            return "HP: " + this.information.hitpoints + "/" + this.information.maxHitpoints + " Mana: " + this.information.mana + "/" + this.information.maxMana + " Moves: " + this.information.moves + "/" + this.information.maxMoves + " Tnl: " + this.information.experienceToNextLevel;
-        }
-
-    };
+  
 
     this.savePlayer = function () {
 
