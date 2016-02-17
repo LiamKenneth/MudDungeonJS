@@ -32,9 +32,13 @@
         var playersInRoom = room.players || [];
         var playerInv = playerInfo.getInventory() || [];
 
+        var eq = playerInfo.findEquipment() || [];
+        var eqCount = eq.length;
 
         var allItems = roomItems.concat(playersInRoom, playerInv);
         var allItemCount = allItems.length;
+
+        var notFoundMsg = 'Sorry you don\'t see that here';
 
         var itemKeywords;
         var findNthItem;
@@ -393,9 +397,9 @@
                     modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to wear');
                 }
             },
-            "remove": function (item) {
+            "remove": function (item, index) {
                 console.log('inside remove function');
-
+                console.log(item)
 
                 var response = {
                     "forRoom": name + ' removes a  ' + item.name,
@@ -446,13 +450,17 @@
             }
         }
 
-        if (event === 'remove') {
-            eventLookUp.remove(item);
-        } else {
-
+      
             if (event === 'drop' || event === 'wear' || event === 'wield') {
                 allItemCount = playerInv.length;
                 allItems = playerInv;
+            }
+
+            if (event === 'remove') {
+                allItemCount = eqCount;
+                allItems = eq;
+                notFoundMsg = 'Sorry you do not have that equipped';
+
             }
 
             for (var i = 0; i < allItemCount; i++) {
@@ -479,7 +487,7 @@
 
                     }
                 }
-            }
+            
 
         };
 
@@ -488,7 +496,7 @@
         //another for loop but for players and inventory if it's not found in room?
 
         if (!found) {
-            modules.helper.helpers.send(socket, 'Sorry you don\'t see that here');
+            modules.helper.helpers.send(socket, notFoundMsg);
         }
 
 
