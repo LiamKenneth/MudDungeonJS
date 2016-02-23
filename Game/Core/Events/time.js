@@ -8,17 +8,17 @@
         var settings = {
             tickCount: 0,
             tickDuration: 45000,
-            ticksInDay: 120,
+            ticksInDay: 48,
             autoSaveTick: 300000,
-            sunrise: 13,
-            morning: 26,
-            midDay: 39,
-            afternoon: 52,
-            sunset: 65,
-            moonRise: 78,
-            night: 91,
-            midNight: 104,
-            twilight: 117,
+            sunrise: 11,
+            morning: 14,
+            midDay: 24,
+            afternoon: 30,
+            sunset: 36,
+            moonRise: 40,
+            night: 42,
+            midNight: 48,
+            twilight: 8,
             hour: 0,
             minute: 0
         };
@@ -71,18 +71,24 @@
             console.log("time " + addZero(hour) + ":" + addZero(minute));
 
             //message for day/night
-            if (tickCount <= 52) {
+            if (tickCount <= 35) {
 
                 switch (true) {
-                    case (tickCount <= 13):
+                    case (tickCount <= 7):
+                        console.log("Night");
+                        break;
+                    case (tickCount <= 9):
+                        console.log("Twilight");
+                        break;
+                    case (tickCount <= 11):
                         // Emit event "Sunrise";
                         console.log("Sunrise");
                         break;
-                    case (tickCount <= 26):
+                    case (tickCount <= 23):
                         // Emit event "Morning";
                         console.log("Morning");
                         break;
-                    case (tickCount <= 39):
+                    case (tickCount === 24):
                         // Emit event "Midday";
                         console.log("Midday");
                         break;
@@ -93,25 +99,25 @@
 
             } else {
                 switch (true) {
-                    case (tickCount <= 65):
+                    case (tickCount <= 36):
                         // Emit event "Sunset";
                         console.log("Sunset");
                         break;
-                    case (tickCount <= 78):
+                    case (tickCount <= 40):
                         // Emit event "MoonRise";
                         console.log("MoonRise");
                         break;
-                    case (tickCount <= 91):
+                    case (tickCount < 48):
                         // Emit event "Night";
                         console.log("Night");
                         break;
-                    case (tickCount <= 104):
+                    case (tickCount === 48):
                         // Emit event "MidNight";
                         console.log("MidNight");
                         break;
                     default:
                         // Emit event "Twilight";
-                        console.log("Twilight");
+                        console.log("MidNight");
                 }
             }
 
@@ -166,7 +172,7 @@
              * when to reset rooms?
              * when to save world
              */
-            setTimeout(recursive, 1000);
+            setTimeout(recursive, 45000);
         }
 
         eventEmitter.on('tickTImerStart', recursive);
