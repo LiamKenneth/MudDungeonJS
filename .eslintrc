@@ -1,0 +1,29 @@
+{
+  "rules": {
+    "no-caller": 2,
+    "strict": 0,
+    "new-cap": 1,
+    "no-alert": 2,
+    "no-use-before-define": 0,
+    "no-new": 0,
+    "no-return-assign": 0,
+    "no-underscore-dangle": 0,
+    "max-len": [2, 80, 2],
+    "quotes": [2, "single"],
+    "camelcase": 1,
+    "wrap-iife": [2, "inside"],
+    "valid-typeof": 2,
+    "valid-jsdoc": [2, { "requireReturn": false }
+    ],
+    "curly": [0, "multi"]
+  },
+  "env": {
+    "es6": true
+  },
+  "ecmaFeatures": {
+    "modules": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}
