@@ -24,6 +24,23 @@
         };
 
         var recursive = function () {
+
+            eventEmitter.emit('updateTime');
+
+           // console.log(year);
+
+            /*
+             * Every 45 Seconds update player health, mana, moves
+             * Update game clock, weather, other effects,
+             * trigger npc scripts?
+             * when to reset rooms?
+             * when to save world
+             */
+            setTimeout(recursive, 5000);
+        }
+
+
+        function updateTime() {
             console.log("tick " + settings.tickCount);
             var tickCount = settings.tickCount;
             var ticksInDay = settings.ticksInDay;
@@ -60,13 +77,13 @@
                 settings.tickCount = 0;
             }
 
-           function addZero(time) {
-               if (time.toString().length === 1) {
-                   return "0" + time;
-               }
+            function addZero(time) {
+                if (time.toString().length === 1) {
+                    return "0" + time;
+                }
 
-               return time;
-           }
+                return time;
+            }
 
             console.log("time " + addZero(hour) + ":" + addZero(minute));
 
@@ -162,19 +179,9 @@
 
 
             var year = date.day + " " + getMonth(date.month) + " " + date.year + " : " + date.name;
-
-           // console.log(year);
-
-            /*
-             * Every 45 Seconds update player health, mana, moves
-             * Update game clock, weather, other effects,
-             * trigger npc scripts?
-             * when to reset rooms?
-             * when to save world
-             */
-            setTimeout(recursive, 45000);
         }
-
+         
+        eventEmitter.on('updateTime', updateTime);
         eventEmitter.on('tickTImerStart', recursive);
         eventEmitter.emit('tickTImerStart');
 
