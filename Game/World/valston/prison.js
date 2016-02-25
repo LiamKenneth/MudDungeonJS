@@ -2,6 +2,8 @@
 exports.prison = {
 
     0: {
+        clean: false,
+        modified: "", /* set date time when player intereacts with the room, see comment in time.js line 204 */
         title: "Dungeon Room",
         description: "You are surrounded by 4 walls covered in grime made of large grey" +
         "stone blocks. The stone floor is cold under your feet." +
@@ -27,6 +29,70 @@ exports.prison = {
             }
         },
         players: [],
+        mobs: [{
+            "name": "Large Rat",
+            "description": "You see a furry rat",
+            "keywords": ['rat'],
+            "information": {
+                "level": 2,
+                "race": "Rat",
+                "class": "",
+                "alignment": "Lawful Evil",
+                "alignmentScore": -200,
+                "experience": 0,
+                "experienceToNextLevel": 0,
+                "maxHitpoints": 80,
+                "hitpoints": 5,
+                "maxMana": 0,
+                "mana": 0,
+                "stats": {
+                    "strength": 5,
+                    "dexterity": 12,
+                    "constitution": 4,
+                    "intelligence": 2,
+                    "wisdom": 2,
+                    "charisma": 1
+                }
+            },
+            "location": {
+                "region": "",
+                "area": "",
+                "areaID": 0,
+                "coordsY": 0,
+                "coordsX": 0
+            },
+            "password": "",
+            "inventory": [],
+            "equipment": {
+                "floating": "Nothing",
+                "light": "Nothing",
+                "head": "Nothing",
+                "leftEar": "Nothing",
+                "rightEar": "Nothing",
+                "neck": "Nothing",
+                "cloak": "Nothing",
+                "aboutBody": "Nothing",
+                "body": "Nothing",
+                "waist": "Nothing",
+                "leftSheath": "Nothing",
+                "rightSheath": "Nothing",
+                "back": "Nothing",
+                "leftWrist": "Nothing",
+                "rightWrist": "Nothing",
+                "leftHand": "Nothing",
+                "rightHand": "Nothing",
+                "leftRing": "Nothing",
+                "rightRing": "Nothing",
+                "legs": "Nothing",
+                "feet": "Nothing"
+            },
+
+            "gold": 0,
+            "silver": 0,
+            "copper": 0,
+
+        }
+        ],
         items: [{
             type: 'object',
             location: 'room',

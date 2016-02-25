@@ -62,6 +62,14 @@
 
                 modules.helper.helpers.send(socket, displayItems);
 
+                room.mobs.forEach(function (mobsInRoom) {
+
+                    var mobName = mobsInRoom.name;
+           
+          
+                    modules.helper.helpers.send(socket, mobName + " is here.");
+                });
+
                 room.players.forEach(function(playersInRoom) {
 
                     var playerName = playersInRoom.getName();

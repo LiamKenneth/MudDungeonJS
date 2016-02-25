@@ -3,6 +3,7 @@
     var events = r('events');
     var eventEmitter = new events.EventEmitter();
     var playerManager = r('../PlayerSetup/player-manager').playerManager;
+    var helper = r('../helpers');
 
     var time = function () {
 
@@ -27,7 +28,10 @@
         var recursive = function () {
 
             eventEmitter.emit('updateTime');
-            eventEmitter.emit('updatePlayer');
+            eventEmitter.emit('updatePlayer', "hitpoints", "maxHitpoints", "constitution");
+            eventEmitter.emit('updatePlayer', "mana", "maxMana", "intelligence");
+            eventEmitter.emit('updatePlayer', "moves", "maxMoves", "dexterity");
+            eventEmitter.emit('showPromptOnTick');
 
            // console.log(year);
 
@@ -41,7 +45,22 @@
             setTimeout(recursive, 5000);
         }
 
+        /* Shows player prompt */
+        function showPromptOnTick() {
+            var player = playerManager.getPlayers;
 
+            playerManager.each(function (player) {
+
+                var socket = player.getSocket();
+                var playerPrompt = player.getPrompt(true);
+
+                helper.helpers.send(socket, playerPrompt);
+            });
+
+          
+        };
+
+        /*Update Time, Day/night cycles*/
         function updateTime() {
         
             var tickCount = settings.tickCount;
@@ -148,10 +167,16 @@
 
         }
 
-        /*
-         * Update player and mob HP,Mana,Moves
-         */
-        function updatePlayer() {
+        /**
+        Update player and mob HP,Mana,Moves.
+        @param {string} stat The stat to update
+        @param {string} maxStat The maxStat of stat to update
+        @param {string} statType The primary ability linked to stat
+        */  
+        function updatePlayer(stat, maxStat, statType) {
+            console.log(stat + " " + maxStat + " " + statType);
+
+            console.time("updatePlayer");
             var player = playerManager.getPlayers;
 
             playerManager.each(function (player) {
@@ -159,23 +184,43 @@
                 var playerInfo = player.getPlayerInfo();
                 
                 //Update Hitpoints if player/mob is hurt
-                //TODO make this a function to reuse for HP, mana and moves
-                if (playerInfo.information.hitpoints != playerInfo.information.maxHitpoints) {
+                if (playerInfo.information[stat] !== playerInfo.information[maxStat]) {
 
-                    var gain = playerInfo.information.hitpoints += playerInfo.information.stats.constitution;
+                    var gain = playerInfo.information[stat] += playerInfo.information.stats[statType];
 
-                    if (gain > playerInfo.information.maxHitpoints) {
-                        gain = playerInfo.information.maxHitpoints;
+                    if (gain > playerInfo.information[maxStat]) {
+                        gain = playerInfo.information[maxStat];
                     }
 
-                    playerInfo.information.hitpoints = gain;
+                    playerInfo.information[stat] = gain;
                 }
 
             });
+
+            console.timeEnd("updatePlayer");
         }
+
+        /*
+         * Create function to update rooms / heal mobs
+         * --------------------------------------------
+         * When player interacts with the room. (Get item, Attack mob)
+         * Set room clean status to false.
+         * This will add the room to an array.
+         * The update function will loop through this array and only update the dirty rooms.
+         * The array will check for missing items and add them back if there is no player in the room.
+         * It will also check / update mob health
+         * If there is a corpse it should be removed
+         * have a delay for when to do the update? Update if it's been 5 minutes? this should stop looping through a large amount of
+         * rooms. set a timestamp when we set dirty? then check the difference in the update?  if the timestamp >= the update time. update the room
+         * Have a flag for when room items are clean?
+         * Have flag for when mobs are clean this will stop unnecessary looping through room items so we only update mob status
+         * once all clean, remove from modified room array
+         * That should cover it!!
+         */
          
         eventEmitter.on('updateTime', updateTime);
         eventEmitter.on('updatePlayer', updatePlayer);
+        eventEmitter.on('showPromptOnTick', showPromptOnTick);
         eventEmitter.on('tickTImerStart', recursive);
         eventEmitter.emit('tickTImerStart');
 

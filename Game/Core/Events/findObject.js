@@ -30,12 +30,13 @@
         var socket = playerInfo.getSocket();
         var roomItems = room.items || [];
         var playersInRoom = room.players || [];
+        var mobsInRoom = room.mobs || [];
         var playerInv = playerInfo.getInventory() || [];
 
         var eq = playerInfo.findEquipment() || [];
         var eqCount = eq.length;
 
-        var allItems = roomItems.concat(playersInRoom, playerInv);
+        var allItems = roomItems.concat(playersInRoom, playerInv, mobsInRoom);
         var allItemCount = allItems.length;
 
         var notFoundMsg = 'Sorry you don\'t see that here';
