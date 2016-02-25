@@ -2,6 +2,7 @@
     "use strict";
     var events = r('events');
     var eventEmitter = new events.EventEmitter();
+    var playerManager = r('../PlayerSetup/player-manager').playerManager;
 
     var time = function () {
 
@@ -26,6 +27,7 @@
         var recursive = function () {
 
             eventEmitter.emit('updateTime');
+            eventEmitter.emit('updatePlayer');
 
            // console.log(year);
 
@@ -41,7 +43,7 @@
 
 
         function updateTime() {
-            console.log("tick " + settings.tickCount);
+        
             var tickCount = settings.tickCount;
             var ticksInDay = settings.ticksInDay;
 
@@ -64,16 +66,13 @@
             }
 
 
-            if (settings.hour.length === 1) {
-                settings.hour = 0 + settings.hour
-            }
             var hour = settings.hour;
             var minute = settings.minute;
 
             //increment tick
             settings.tickCount += 1;
 
-            if (settings.tickCount === 120) {
+            if (settings.tickCount === 48) {
                 settings.tickCount = 0;
             }
 
@@ -87,101 +86,96 @@
 
             console.log("time " + addZero(hour) + ":" + addZero(minute));
 
-            //message for day/night
+            //Shows message for day/night
+            //TODO: code for moon phases?
             if (tickCount <= 35) {
 
                 switch (true) {
-                    case (tickCount <= 7):
-                        console.log("Night");
+                    case (tickCount == 3):
+                        // Emit event "night";
+                        playerManager.broadcast("The moon is slowly moving west across the sky.");
                         break;
-                    case (tickCount <= 9):
-                        console.log("Twilight");
+                    case (tickCount == 9):
+                        // Emit event "Twilight";
+                        playerManager.broadcast("The moon slowly sets in the west.");
                         break;
-                    case (tickCount <= 11):
+                    case (tickCount == 11):
                         // Emit event "Sunrise";
-                        console.log("Sunrise");
+                        playerManager.broadcast("The sun slowly rises from the east.");
                         break;
-                    case (tickCount <= 23):
+                    case (tickCount == 13):
                         // Emit event "Morning";
-                        console.log("Morning");
+                        playerManager.broadcast("The sun has risen from the east, the day has begun.");
                         break;
                     case (tickCount === 24):
                         // Emit event "Midday";
-                        console.log("Midday");
+                        playerManager.broadcast("The sun is high in the sky.");
                         break;
-                    default:
+                    case (tickCount === 29):
                         // Emit event "Afternoon";
-                        console.log("Afternoon");
+                        playerManager.broadcast("The sun is slowly moving west across the sky.");
                 }
 
             } else {
                 switch (true) {
-                    case (tickCount <= 36):
+                    case (tickCount == 36):
                         // Emit event "Sunset";
-                        console.log("Sunset");
+                        playerManager.broadcast("The sun slowly sets in the west.");
                         break;
-                    case (tickCount <= 40):
+                    case (tickCount == 40):
                         // Emit event "MoonRise";
-                        console.log("MoonRise");
+                        playerManager.broadcast("The moon slowly rises in the west.");
                         break;
-                    case (tickCount < 48):
+                    case (tickCount == 43):
                         // Emit event "Night";
-                        console.log("Night");
+                        playerManager.broadcast("The moon has risen from the east, the night has begun.");
                         break;
                     case (tickCount === 48):
                         // Emit event "MidNight";
-                        console.log("MidNight");
+                        playerManager.broadcast("The moon is high in the sky.");
                         break;
-                    default:
-                        // Emit event "Twilight";
-                        console.log("MidNight");
+                  
                 }
             }
 
 
             if (tickCount === ticksInDay) {
                 //New day reset
-                settings.tickCount = 0;
+                settings.tickCount = 0; 
             }
 
+            //TODO: Date update, 
 
-            //get from JSON?
-            var date = {
-                day: 1,
-                month: 0,
-                year: 0,
-                name: "Year of the Void" // how will this change?
-            }
+        }
 
-            //change Day
-            date.day += 1;
+        /*
+         * Update player and mob HP,Mana,Moves
+         */
+        function updatePlayer() {
+            var player = playerManager.getPlayers;
 
-            //Change Month
-            if (date.day === 32) {
-                date.month += 1;
-            }
+            playerManager.each(function (player) {
 
-            //Change year
-            if (date.month === 13) {
-                date.month = 1;
-                date.year += 1;
-            }
+                var playerInfo = player.getPlayerInfo();
+                
+                //Update Hitpoints if player/mob is hurt
+                //TODO make this a function to reuse for HP, mana and moves
+                if (playerInfo.information.hitpoints != playerInfo.information.maxHitpoints) {
 
-            var getMonth = function (monthNum) {
-                var monthArray = [
-                    "January", 'February', 'March', 'April',
-                    'May', 'June', 'July', 'August', 'September',
-                    'October', 'November', 'December'
-                ];
+                    var gain = playerInfo.information.hitpoints += playerInfo.information.stats.constitution;
 
-                return monthArray[monthNum];
-            };
+                    if (gain > playerInfo.information.maxHitpoints) {
+                        gain = playerInfo.information.maxHitpoints;
+                    }
 
+                    playerInfo.information.hitpoints = gain;
+                }
 
-            var year = date.day + " " + getMonth(date.month) + " " + date.year + " : " + date.name;
+            });
         }
          
         eventEmitter.on('updateTime', updateTime);
+        eventEmitter.on('updatePlayer', updatePlayer);
         eventEmitter.on('tickTImerStart', recursive);
         eventEmitter.emit('tickTImerStart');
 
