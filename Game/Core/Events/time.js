@@ -4,6 +4,9 @@
     var eventEmitter = new events.EventEmitter();
     var playerManager = r('../PlayerSetup/player-manager').playerManager;
     var helper = r('../helpers');
+    var world = {
+        valston: r('../../World/valston/prison')
+    };
 
     var time = function () {
 
@@ -31,6 +34,7 @@
             eventEmitter.emit('updatePlayer', "hitpoints", "maxHitpoints", "constitution");
             eventEmitter.emit('updatePlayer', "mana", "maxMana", "intelligence");
             eventEmitter.emit('updatePlayer', "moves", "maxMoves", "dexterity");
+            eventEmitter.emit('updateRoom');
             eventEmitter.emit('showPromptOnTick');
 
            // console.log(year);
@@ -217,10 +221,46 @@
          * once all clean, remove from modified room array
          * That should cover it!!
          */
+
+
+        var room = [
+                world.valston.prison
+            
+        ];
+
+        var roomLength = room.length;
          
+
+        function updateRoom() {
+            console.time("updateRoom");
+            /* Searches all areas */
+            for (var i = 0; i < roomLength; i++) {
+               
+                var area = room[i];
+
+                for (var key in area) {
+                    var defaultItems = area[key].defaults.items;
+                    var defaultItemCount = defaultItems.length;
+
+                    for (var j = 0; j < defaultItemCount; j++) {
+                 
+                        if (area[key].items.indexOf(defaultItems[j].name) == -1) {
+                            area[key].items.push(defaultItems[j]);
+                        }
+                        
+                    }
+
+                }
+                 
+            }
+
+            console.timeEnd("updateRoom");
+        }
+
         eventEmitter.on('updateTime', updateTime);
         eventEmitter.on('updatePlayer', updatePlayer);
         eventEmitter.on('showPromptOnTick', showPromptOnTick);
+        eventEmitter.on('updateRoom', updateRoom);
         eventEmitter.on('tickTImerStart', recursive);
         eventEmitter.emit('tickTImerStart');
 
