@@ -3,9 +3,6 @@ node_js:
   - "4.1"
 before_install:
   - npm install -g codecov
-before_script:
-  - npm install -g gulp
-  - npm install --save--dev chai
 script:
-  - gulp test
+  - npm test
   - codecov

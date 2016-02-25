@@ -1,7 +1,7 @@
 (function (r) {
     "use strict";
     var modules = {
-        data: r('./data').data,
+        data: r('./data'),
         helper: r('./helpers').helpers,
         commands: r('./commands').commands,
         playerSetup: {

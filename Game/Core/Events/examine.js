@@ -4,7 +4,7 @@
 
     var modules = {
         helper: r('../helpers'),
-        data: r('../data').data,
+        data: r('../data'),
         room: r('../Rooms/roomFunctions'),
         playerSetup: {
             player: r('../PlayerSetup/player-manager')

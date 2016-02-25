@@ -3,7 +3,7 @@
 
     var modules = {
         helper: r('./../helpers'),
-        data: r('./../data').data,
+        data: r('./../data'),
         playerSetup: {
             player: r('./../PlayerSetup/player-manager')
         },

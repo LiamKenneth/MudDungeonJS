@@ -2,7 +2,7 @@
     "use strict";
 
     var modules = {
-        data: r('./data').data,
+        data: r('./data'),
         helper: r('./helpers'),
         fs: r('fs'),
         world: {
