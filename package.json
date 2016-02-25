@@ -5,8 +5,7 @@
   "main": "mudDungeon.js",
   "scripts": {
     "test": "gulp test",
-  "start": "gulp"
-
+    "start": "gulp"
   },
   "repository": {
     "type": "git",
@@ -37,6 +36,8 @@
   "devDependencies": {
     "chai": "*",
     "colors": "^1.1.2",
+    "eslint": "^2.2.0",
+    "eslint-config-airbnb": "^6.0.2",
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0"
   }
