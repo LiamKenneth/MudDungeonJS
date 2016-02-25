@@ -122,7 +122,16 @@
   	 */
     each: function (callback) {
   		players.forEach(callback);
-  	},
+    },
+
+   /**
+   * Broadcast a message to every player
+   * @param string message to broadcast to everyone
+   */
+    getPlayers: function () {
+
+        return players;
+    },
 
 	/**
 	 * Broadcast a message to every player
@@ -131,7 +140,9 @@
     broadcast: function (message) {
 
         exports.playerManager.each(function (player) {
-            modules.helper.helpers.send(player, message);
+
+            var socket = player.getSocket();
+            modules.helper.helpers.send(socket, message);
 		});
 	},
 

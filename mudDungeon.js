@@ -1,30 +1,23 @@
 (function (r) {
 
     "use strict";
-
+    var events = r('events');
+    var eventEmitter = new events.EventEmitter();
     var modules = {
         telnet: r('wez-telnet'),
         playerSetup: r('./Game/Core/player-setup').playerSetup,
         player: r('./Game/Core/PlayerSetup/player-manager').playerManager,
+        time: r('./Game/Core/Events/time').time
     };
 
     var telnetPort =  4000;
     var WebPort = 4001;
 
  
-    var recursive = function () {
-        console.log("Tick!");
 
-        /*
-         * Every 45 Seconds update player health, mana, moves
-         * Update game clock, weather, other effects,
-         * trigger npc scripts?
-         * when to reset rooms?
-         * when to save world
-         */
-        setTimeout(recursive, 45000);
-    }
-    recursive();
+    eventEmitter.on('updateTime', modules.time);
+    eventEmitter.emit('updateTime');
+
 
     /*
      Create the telnet server
