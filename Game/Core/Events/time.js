@@ -244,7 +244,7 @@
 
                     for (var j = 0; j < defaultItemCount; j++) {
                  
-                        if (area[key].items.indexOf(defaultItems[j].name) == -1) {
+                        if (area[key].items.indexOf(defaultItems[j]) == -1) {
                             area[key].items.push(defaultItems[j]);
                         }
                         
