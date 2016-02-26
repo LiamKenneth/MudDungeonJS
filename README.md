@@ -1,5 +1,7 @@
 # MudDungeonJS
 
+[![Join the chat at https://gitter.im/LiamKenneth/MudDungeonJS](https://badges.gitter.im/LiamKenneth/MudDungeonJS.svg)](https://gitter.im/LiamKenneth/MudDungeonJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![codecov.io](https://codecov.io/github/LiamKenneth/MudDungeonJS/coverage.svg?branch=master)](https://codecov.io/github/LiamKenneth/MudDungeonJS?branch=master)
 
 ![Alt text](http://i.imgur.com/k3Kp2OY.png "Javascript Mud Codebase")
