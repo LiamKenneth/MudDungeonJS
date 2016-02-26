@@ -1,8 +1,8 @@
 # MudDungeonJS
 
-[![Join the chat at https://gitter.im/LiamKenneth/MudDungeonJS](https://badges.gitter.im/LiamKenneth/MudDungeonJS.svg)](https://gitter.im/LiamKenneth/MudDungeonJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+A JavaScript MUD codebase running on Node.js
 
-[![codecov.io](https://codecov.io/github/LiamKenneth/MudDungeonJS/coverage.svg?branch=master)](https://codecov.io/github/LiamKenneth/MudDungeonJS?branch=master)
+[![Join the chat at https://gitter.im/LiamKenneth/MudDungeonJS](https://badges.gitter.im/LiamKenneth/MudDungeonJS.svg)](https://gitter.im/LiamKenneth/MudDungeonJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![codecov.io](https://codecov.io/github/LiamKenneth/MudDungeonJS/coverage.svg?branch=master)](https://codecov.io/github/LiamKenneth/MudDungeonJS?branch=master)
 
 ![Alt text](http://i.imgur.com/k3Kp2OY.png "Javascript Mud Codebase")
 
@@ -15,7 +15,9 @@ Due to ES6 use this requires Node version >= 4.2.6
 - Download the project
 - Enter npm install
 - Enter gulp to start the project
-- go to 127.0.0.1:4000 in a mud client or http://localhost:4001 in your browser
+- Go to 127.0.0.1:4000 in a mud client or http://localhost:4001 in your browser
+- The password for your character is 123
+- ^ until the ability of setting a password is added.
 
 #Testing
 - Enter gulp test to run the unit tests
