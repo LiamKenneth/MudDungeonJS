@@ -101,6 +101,7 @@ exports.prison = {
                 keywords: ['apple', 'app'],
                 name: 'Apple',
                 actions: {
+                    "container": false,
                     "eat": true,
                     "wield": "wield"
                 },
@@ -115,6 +116,7 @@ exports.prison = {
                 keywords: ['wooden', 'stool', 'woo'],
                 name: 'Wooden Stool',
                 actions: {
+                    "container": false,
                     "sit": "sit",
                     "wield": "wield"
                 },
@@ -131,6 +133,7 @@ exports.prison = {
                 keywords: ['helm', 'hel', 'helmet'],
                 name: 'Helmet',
                 actions: {
+                    "container": false,
                     "sit": "sit",
                     "wield": "wield"
                 },
@@ -147,6 +150,7 @@ exports.prison = {
                 keywords: ['sword', 'swo', 'short'],
                 name: 'Short Sword',
                 actions: {
+                    "container": false,
                     "sit": "sit",
                     "wield": "wield"
                 },
@@ -161,6 +165,7 @@ exports.prison = {
                 keywords: ['mace', 'mac'],
                 name: 'Mace',
                 actions: {
+                    "container": false,
                     "sit": "sit",
                     "wield": "wield"
                 },
@@ -175,6 +180,7 @@ exports.prison = {
                 keywords: ['bow', 'long'],
                 name: 'long bow',
                 actions: {
+                    "container": false,
                     "sit": "sit",
                     "wield": "wield"
                 },
@@ -189,6 +195,7 @@ exports.prison = {
                 keywords: ['colourized', 'whip'],
                 name: '{Wcolourized {Rwhip{x',
                 actions: {
+                    "container": false,
                     "wield": "wield"
                 },
                 description: {

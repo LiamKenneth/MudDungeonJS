@@ -231,23 +231,61 @@
         var roomLength = room.length;
          
 
-        function updateRoom() {
+        function updateRoom(onLoad) {
             console.time("updateRoom");
+ 
             /* Searches all areas */
             for (var i = 0; i < roomLength; i++) {
                
                 var area = room[i];
 
                 for (var key in area) {
+
+                    //Items
                     var defaultItems = area[key].defaults.items;
                     var defaultItemCount = defaultItems.length;
 
+                    //Mobs
+                    var defaultMobs = area[key].defaults.mobs;
+                    var defaultMobsCount = defaultMobs.length;
+
+                    //Update Items
                     for (var j = 0; j < defaultItemCount; j++) {
                  
+                        // If an item is missing from the room, indexOf will return -1
+                        // so we then push it to the room items array
                         if (area[key].items.indexOf(defaultItems[j]) == -1) {
                             area[key].items.push(defaultItems[j]);
                         }
+
+                        //If container lets check the items
+                        if (defaultItems[j].actions.container == true) {
+                       
+                            var defaultContainerItems = defaultItems[j].defaults.items;
+                            var defaultCotainerItemsCount = defaultContainerItems.length;
+
+                            //update Container items
+                            for (var k = 0; k < defaultCotainerItemsCount; k++) {
+                                if (defaultItems[j].items.indexOf(defaultContainerItems[k]) == -1) {
+                                    defaultItems[j].items.push(defaultContainerItems[k]);
+                                }
+                            }
+                        }
                         
+                    }
+
+                    //Update Mobs
+                    for (var j = 0; j < defaultMobsCount; j++) {
+
+                        // If an item is missing from the room, indexOf will return -1
+                        // so we then push it to the room items array
+                        if (area[key].mobs.indexOf(defaultMobs[j]) == -1) {
+                            area[key].mobs.push(defaultMobs[j]);
+                        } else {
+                            // Check Mob health
+
+                        }
+
                     }
 
                 }
