@@ -25,8 +25,6 @@ Due to ES6 use this requires Node version >= 4.2.6
 #eslint
 - npm run lint
 
-Project needs more tests, i've had too much fun coding for tests! Will fix that soon.
-
 #Commands
 Currently implemented commands
 
