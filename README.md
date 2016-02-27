@@ -14,13 +14,16 @@ Due to ES6 use this requires Node version >= 4.2.6
 
 - Download the project
 - Enter npm install
-- Enter gulp to start the project
+- Enter npm start to start the project
 - Go to 127.0.0.1:4000 in a mud client or http://localhost:4001 in your browser
 - The password for your character is 123
 - ^ until the ability of setting a password is added.
 
-#Testing
-- Enter gulp test to run the unit tests
+#Testing & Coverage
+- npm test generates coverage report & run tests
+
+#eslint
+- npm run lint
 
 Project needs more tests, i've had too much fun coding for tests! Will fix that soon.
 

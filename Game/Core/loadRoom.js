@@ -3,7 +3,7 @@
     "use strict";
 
     var modules = {
-        data: r('./data').data,
+        data: r('./data'),
         helper: r('./helpers'),
         commands: r('./commands'),
         events: {

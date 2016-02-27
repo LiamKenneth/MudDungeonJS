@@ -4,8 +4,9 @@
   "description": "A mud engine built on node. using telnet and web sockets",
   "main": "mudDungeon.js",
   "scripts": {
-    "test": "gulp test",
-    "start": "gulp"
+    "lint": "eslint ./Game/**/**/*",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha spec",
+    "start": "nodemon mudDungeon.js"
   },
   "repository": {
     "type": "git",
@@ -24,9 +25,6 @@
   "dependencies": {
     "codecov.io": "^0.1.6",
     "express": "^4.13.3",
-    "gulp": "^3.9.0",
-    "gulp-env": "^0.2.0",
-    "gulp-nodemon": "^2.0.4",
     "socket.io": "^1.3.7",
     "term.js": "0.0.7",
     "websockify": "^0.7.1",
@@ -34,11 +32,17 @@
     "ws": "^0.8.1"
   },
   "devDependencies": {
-    "chai": "*",
     "colors": "^1.1.2",
     "eslint": "^2.2.0",
     "eslint-config-airbnb": "^6.0.2",
-    "gulp-istanbul": "^0.10.3",
-    "gulp-mocha": "^2.2.0"
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5",
+    "mock-fs": "^3.7.0",
+    "nock": "^7.2.2",
+    "request": "^2.69.0",
+    "require-dir": "^0.3.0",
+    "rewire": "^2.5.1",
+    "should": "^8.2.2",
+    "sinon": "^1.17.3"
   }
 }
