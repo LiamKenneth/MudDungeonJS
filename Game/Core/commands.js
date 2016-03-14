@@ -42,15 +42,23 @@
                 var str = input.toString().toLowerCase().trim();
                 //command  //preposition //item
                 //Look    //at/on/in     //sign
-                var command = str.split(' ').slice(0, 2).join(' ');
+                var command = str.split(' ').slice(0, 1).join(' ');
 
-                var item = str.split(' ').slice(2).join(' ');
+                var item = str.split(' ').slice(1).join(' ');
 
-                if (item == null || item == '' || command.startsWith('say') || command.startsWith('help') || command.startsWith('gossip') ||
-                    command.startsWith('clan') || command.startsWith('ask') || command.startsWith('auction') || command.startsWith('newbie')) { //< This looks hacky // Maybe move arguments into the command itself and only handle the single-word-command out here?
-                    //at / in not used. eg: look sword
-                    command = str.split(' ').slice(0, 1).join(' ');
-                    item = str.split(' ').slice(1).join(' ');
+                console.log("item - " + item)
+
+                //if (item == null || item == '' || command.startsWith('say') || command.startsWith('help') || command.startsWith('gossip') ||
+                //    command.startsWith('clan') || command.startsWith('ask') || command.startsWith('auction') || command.startsWith('newbie')) { //< This looks hacky // Maybe move arguments into the command itself and only handle the single-word-command out here?
+                //    //at / in not used. eg: look sword
+                //    command = str.split(' ').slice(0, 1).join(' ');
+                //    item = str.split(' ').slice(1).join(' ');
+                //}
+
+                var preposition = str.split(' ').slice(1, 2).join(' ');
+
+                if (preposition === 'in' || preposition === 'at') {
+                    item = str.split(' ').slice(2).join(' ');
                 }
 
                 console.log('Command: \'' + command + '\'');

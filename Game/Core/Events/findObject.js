@@ -22,10 +22,25 @@
 
     var findObject = function (playerInfo, room, item, event) {
 
-        console.log("find object " + item + "/" + event)
+        var container = null;
 
+       
 
         item = item.trim().toLowerCase();
+        
+        //check if item contains a container e.g get sword chest
+        // This gets the last item of a string -> item.split(" ").pop();
+
+        if (item.split(" ").length > 1) {
+ 
+            container = item.split(" ").pop();
+           // item = item.match(/"(.*)"|'(.*)'/);
+        }
+  
+
+        console.log("find object " + item + "/" + event + "/" + container);
+
+
         var name = playerInfo.getName();
         var socket = playerInfo.getSocket();
         var roomItems = room.items || [];
@@ -464,14 +479,22 @@
 
             }
 
+
+            var object = item;
+
+            if (container !== null) {
+                object = container;
+                item = item.split(' ').slice(0, 1).join(' ');
+            }
+
             for (var i = 0; i < allItemCount; i++) {
 
-                if (found == false) {
+                if (found === false) {
                     itemKeywords = allItems[i].keywords;
 
-                    if (multi && itemKeywords.indexOf(item) > -1) {
+                    if (multi && itemKeywords.indexOf(object) > -1) {
 
-                        if (findNthItem == i - 1) {
+                        if (findNthItem === i - 1) {
 
 
                             eventLookUp[event](allItems[i], i);
@@ -480,10 +503,41 @@
 
                         }
 
-                    } else if (multi == false && itemKeywords.indexOf(item) > -1) {
+                    } else if (multi === false && itemKeywords.indexOf(object) > -1) {
 
-                        eventLookUp[event](allItems[i], i);
+                        console.log(allItems[i] + "\n\r");
 
+                        if (allItems[i].actions.container === true && container !== null) {
+
+                            console.log("Is container\r\n");
+
+                            var containerItems = allItems[i].items;
+                            var containerItemsCount = containerItems.length;
+                            var containerKeywords;
+
+                            console.log("items include " + containerItems);
+
+                            for (var j = 0; j < containerItemsCount; j++) {
+
+                                containerKeywords = containerItems[j].keywords;
+
+                                console.log(containerKeywords + " find item " + item);
+
+                                if (containerKeywords.indexOf(item) > -1) {
+
+                                    console.log("found " + containerItems[j]);
+
+                                    eventLookUp[event](containerItems[j], j);
+                                    break;
+                                }
+
+                            }
+
+                        } else {
+                            eventLookUp[event](allItems[i], i);
+                        }
+                            
+                     
                         found = true;
 
                     }
