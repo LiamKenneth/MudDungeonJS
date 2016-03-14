@@ -15,14 +15,14 @@
         fs: r('fs'),
         color: r('colors')
     };
-  //  var weapons = modules.data.loadFile('./Game/Core/Items/Weapons/swords/', 'swords.json');
+
     var playerSetup = {
         welcome: function (socket) {
 
-            //var motd = modules.data.loadFile(null, 'motd');
-            // if (motd) {
-            //    modules.helper.send(socket, motd);
-            // }
+            var motd = modules.data.loadFile(null, 'motd');
+             if (motd) {
+                modules.helper.send(socket, motd);
+             }
             playerSetup.login(socket);
         },
         login: function (socket) {
@@ -207,22 +207,9 @@
             var classDie = classRoll[characterData.class];
             var manaDie = classRoll[manaRoll];
 
-          //  console.log(classDie);
-           // console.log(manaDie);
+  
             var hp = modules.helper.dice(1, 12);
-             //   hp += Math.floor((Math.random() * characterData.con) + 1);
 
-            //var mana = modules.helper.dice(1, 10);
-            //  //  mana += Math.floor((Math.random() * manaDie) + 1);
-
-            // items:
-            // {
-            //     0:
-            //      {
-            //         id: JSON.parse(weapons)[0].id,
-            //         name: JSON.parse(weapons)[0].name
-            //     },
-            // }
 
             var classXP = {
                 fighter: 2000,

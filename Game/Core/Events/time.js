@@ -258,7 +258,7 @@
                             area[key].items.push(defaultItems[j]);
                         }
 
-                        //If container lets check the items
+                        //If container, lets check the items
                         if (defaultItems[j].actions.container == true) {
                        
                             var defaultContainerItems = defaultItems[j].defaults.items;
@@ -275,14 +275,40 @@
                     }
 
                     //Update Mobs
-                    for (var j = 0; j < defaultMobsCount; j++) {
+                    for (var l = 0; l < defaultMobsCount; l++) {
 
-                        // If an item is missing from the room, indexOf will return -1
-                        // so we then push it to the room items array
-                        if (area[key].mobs.indexOf(defaultMobs[j]) == -1) {
-                            area[key].mobs.push(defaultMobs[j]);
+                   
+                        if (area[key].mobs.indexOf(defaultMobs[l]) == -1) {
+                            area[key].mobs.push(defaultMobs[l]);
                         } else {
                             // Check Mob health
+
+                            //var mob = area[key].mobs;
+                            //var mobHP = area[key].mobs.information.hitpoints;
+                            //var mobMaxHp = mob.information.maxHitpoints;
+                            //var mobMana = mob.information.mana;
+                            //var mobMaxMana = mob.information.maxMana;
+
+                            //console.log(mobHP)
+
+                            //if (mobHP != mobMaxHp || mobMana != mobMaxMana) {
+
+                            //        var gain = mob.level * 2;
+
+                            //        if (gain > mobMaxHp) {
+                            //            gain = mobMaxHp;
+                            //        }
+
+                            //    console.log(gain + " " + mobHP)
+
+                            //    mob.information.hitpoints = gain;
+
+                            //        if (gain > mobMaxMana) {
+                            //            gain = mobMaxMana;
+                            //        }
+
+                            //        mob.information.maxMana = gain;
+                            //}
 
                         }
 

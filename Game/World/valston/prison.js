@@ -44,7 +44,7 @@ exports.prison = {
                     "alignmentScore": -200,
                     "experience": 0,
                     "experienceToNextLevel": 0,
-                    "maxHitpoints": 80,
+                    "maxHitpoints": 150,
                     "hitpoints": 5,
                     "maxMana": 0,
                     "mana": 0,
