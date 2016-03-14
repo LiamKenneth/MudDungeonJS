@@ -27,7 +27,7 @@
         var room = modules.room.room.playerLocation(location);
 
         console.time('Get');
-
+        console.log("get function Item " + item)
         modules.events.findObject.findObject(playerInfo, room, item, 'get');
 
         console.timeEnd('Get');

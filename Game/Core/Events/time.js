@@ -46,7 +46,7 @@
              * when to reset rooms?
              * when to save world
              */
-            setTimeout(recursive, 5000);
+            setTimeout(recursive, 50000);
         }
 
         /* Shows player prompt */
