@@ -55,10 +55,10 @@
                 //    item = str.split(' ').slice(1).join(' ');
                 //}
 
-                var preposition = item.split(' ').slice(0, 1).join(' ');
-                console.log("preposition " + preposition)
+                var preposition = str.split(' ').slice(1, 2).join(' ');
+
                 if (preposition === 'in' || preposition === 'at') {
-                    command += " " + preposition;
+                    command = str.split(' ').slice(0, 2).join(' ');
                     item = str.split(' ').slice(2).join(' ');
                 }
 

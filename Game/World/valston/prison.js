@@ -162,6 +162,23 @@ exports.prison = {
             }, {
                 type: 'object',
                 location: 'room',
+                equipable: true,
+                slot: "hand",
+                keywords: ['sword', 'swo', 'long', 'lon', 'long sword'],
+                name: '{Rlong Sword{x',
+                actions: {
+                    "container": false,
+                    "sit": "sit",
+                    "wield": "wield"
+                },
+                description: {
+                    "look": "You look at a {Rlong Sword{x",
+                    "exam": "You look closely at a {Rlong Sword{x",
+                    "room": "A {Rlong Sword{x is here."
+                }
+            }, {
+                type: 'object',
+                location: 'room',
                 keywords: ['mace', 'mac'],
                 name: 'Mace',
                 actions: {
@@ -223,7 +240,7 @@ exports.prison = {
                         type: 'object',
                         location: 'container',
                         keywords: ['gold', 'coins'],
-                        name: 'Gold',
+                        name: '{YGold{x',
                         description: {
                             "look": "You look at gold",
                             "exam": "You look closely at some gold"
