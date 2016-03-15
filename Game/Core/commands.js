@@ -58,6 +58,7 @@
                 var preposition = str.split(' ').slice(1, 2).join(' ');
 
                 if (preposition === 'in' || preposition === 'at') {
+                    command = str.split(' ').slice(0, 2).join(' ');
                     item = str.split(' ').slice(2).join(' ');
                 }
 
