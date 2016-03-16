@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Classes', function() {
+describe('Player Setup: Class selection', function () {
   const should = require('should');
 
   const classes = require('../../../../Game/Core/PlayerSetup/classes').classes;

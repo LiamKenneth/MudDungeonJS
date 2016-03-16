@@ -15,7 +15,6 @@
     exports.races = {
 
         chooseRace: function(playerRace) {
-          console.log(playerRace)
             return raceList[playerRace] || false;
         },
 

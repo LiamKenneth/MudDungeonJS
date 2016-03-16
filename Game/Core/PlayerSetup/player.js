@@ -155,7 +155,6 @@ var player = function(playerInfo) {
     };
 
     this.findEquipment = function () {
-        console.time("findEQ")
         var eq = [];
         //don't bother with hasOwnProperty it's too slow: 500ms processing time on RPi2
         for (var prop in this.equipment) {
@@ -163,8 +162,6 @@ var player = function(playerInfo) {
                 eq.push(this.equipment[prop]);
             }
         }
-
-        console.timeEnd("findEQ")
         return eq;
     }
 

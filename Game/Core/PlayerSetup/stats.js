@@ -16,15 +16,15 @@ exports.stats = {
         var roll = [];
         var totalRoll = 0;
 
-        for(var i = 3; i--;) {
-          roll.push(modules.helper.dice(1, 6))
+        for(let i = 3; i--;) {
+            roll.push(modules.helper.dice(1, 6));
         }
 
-        for(var i = roll.length; i--;) {
+        for(let i = roll.length; i--;) {
           totalRoll += roll[i];
         }
 
-        return totalRoll + 6
+        return totalRoll + 6;
     },
     /**
      * functionComment - Sets stat for each player ability

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('data.js spec...', function() {
+describe('Core: data.js, Tests for loading and saving data', function() {
   let should = require('should'),
       sinon = require('sinon');
 
@@ -33,7 +33,7 @@ describe('data.js spec...', function() {
 
   describe('savePlayer', function () {
     before(function () {
-      this.testPlayer = require('../../../mocks/testPlayer');
+      this.testPlayer = require('../../Mock/testPlayer');
     });
 
     it('creates a new player file', function () {
