@@ -11,6 +11,110 @@ describe('Player Setup: Player Class', function () {
 
       let player = new playerClass(playerJson);
 
+      describe('Should return player Object', function () {
+
+          //Some properites omitted as they are covered in other tests
+
+          let playerObj = player.getPlayerInfo();
+
+          it('Should return player Object', function () {
+              playerObj.should.be.type('object');
+          });
+
+          it('Should return players type', function () {
+              playerObj.type.should.be.equal('player');
+          });
+
+          it('Should return players password', function () {
+              playerObj.password.should.be.equal('123');
+          });
+
+          it('Should return players explored count', function () {
+              playerObj.explored.should.be.equal(1);
+          });
+
+          it('Should return total rooms count', function () {
+              playerObj.totalRooms.should.be.equal(2);
+          });
+
+          it('Should return players questpoints', function () {
+              playerObj.questPoints.should.be.equal(0);
+          });
+
+          it('Should return players gold', function () {
+              playerObj.gold.should.be.equal(0);
+          });
+
+          it('Should return players silver', function () {
+              playerObj.silver.should.be.equal(150);
+          });
+
+          it('Should return players copper', function () {
+              playerObj.copper.should.be.equal(0);
+          });
+
+          it('Should return players hitRoll', function () {
+              playerObj.hitroll.should.be.equal(1);
+          });
+
+          it('Should return players damroll', function () {
+              playerObj.damroll.should.be.equal(1);
+          });
+
+          it('Should return players wimpy', function () {
+              playerObj.wimpy.should.be.equal(25);
+          });
+
+          it('Should return players hours', function () {
+              playerObj.hours.should.be.equal(0);
+          });
+
+          it('Should return players mkills', function () {
+              playerObj.mkills.should.be.equal(0);
+          });
+
+          it('Should return players mDeaths', function () {
+              playerObj.mDeaths.should.be.equal(0);
+          });
+
+          it('Should return players pkKills', function () {
+              playerObj.pkKills.should.be.equal(0);
+          });
+
+          it('Should return players pkDeaths', function () {
+              playerObj.pkDeaths.should.be.equal(0);
+          });
+
+
+          it('Should return players pkPoints', function () {
+              playerObj.pkPoints.should.be.equal(0);
+          });
+
+          it('Should return players weight', function () {
+              playerObj.weight.should.be.equal(0);
+          });
+
+          it('Should return players maxWeight', function () {
+              playerObj.maxWeight.should.be.equal(105);
+          });
+
+          it('Should return players status', function () {
+              playerObj.status.should.be.equal('Standing');
+          });
+         
+      });
+
+
+      
+
+     it('Should return players Keywords', function () {
+         let playerKeywords = player.getKeywords();
+
+         playerKeywords[0].should.be.equal('testPlayer');
+         playerKeywords[1].should.be.equal('self');
+     });
+
+
     it('Should return players name', function() {
         let playerName = player.getName();
 
@@ -218,6 +322,32 @@ describe('Player Setup: Player Class', function () {
         it('Should return newbie channel status', function () {
             playerChannels.newbie.should.be.equal(1);
         });
+    });
+
+    it('Should return player Prompt', function () {
+        let playerPrompt = player.getPrompt(true);
+
+        playerPrompt.should.be.equal("HP: 35/35 Mana: 100/100 Moves: 100/100 Tnl: 3000");
+
+    });
+
+    it('Should return player Equipment', function () {
+        let playerEQ = player.findEquipment();
+
+        playerEQ.should.be.Array();
+        playerEQ.should.have.lengthOf(0);
+
+    });
+
+    it('Should set player Description', function () {
+
+        player.setDescription('You see somthing special about them');
+
+        let playerDesc = player.getDescription();
+
+        playerDesc.should.be.equal('You see somthing special about them');
+   
+
     });
 
   });

@@ -101,9 +101,6 @@ var player = function(playerInfo) {
 
         return this;
     };
-    this.getInfo = function() {
-        return this.information;
-    };
 
     this.getKeywords = function() {
         return this.keywords;
