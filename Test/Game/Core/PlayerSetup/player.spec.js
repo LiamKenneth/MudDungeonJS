@@ -97,39 +97,127 @@ describe('Player Setup: Player Class', function () {
 
     });
 
-    it('Should return players information Object', function () {
+    describe('Should return players information Object', function () {
   
         let playerInfo = player.getInformation();
+
+        it('should return players level', function () {
+            playerInfo.level.should.be.equal(1);
+        });
  
-        playerInfo.level.should.be.equal(1);
-        playerInfo.race.should.be.equal('Elf');
-        playerInfo.class.should.be.equal('Mage');
+        it('should return players race', function () {
+            playerInfo.race.should.be.equal('Elf');
+        });
+
+        it('should return players class', function () {
+            playerInfo.class.should.be.equal('Mage');
+        });
+
+        it('should return players alignment', function () {
+            playerInfo.alignment.should.be.equal('Neutral');
+        });
+
+        it('should return players alignmentScore', function () {
+            playerInfo.alignmentScore.should.be.equal(0);
+        });
+
+        it('should return players alignmentScore', function () {
+            playerInfo.alignmentScore.should.be.equal(0);
+        });
+
+        it('should return players experience', function () {
+            playerInfo.experience.should.be.equal(0);
+        });
+
+        it('should return players TNL', function () {
+            playerInfo.experienceToNextLevel.should.be.equal(3000);
+        });
+
+        it('should return players max HP', function () {
+            playerInfo.maxHitpoints.should.be.equal(35);
+        });
+
+        it('should return players HP', function () {
+            playerInfo.hitpoints.should.be.equal(35);
+        });
+
+        it('should return players Mana', function () {
+            playerInfo.mana.should.be.equal(100);
+        });
+
+        it('should return players max mana', function () {
+            playerInfo.maxMana.should.be.equal(100);
+        });
+   
+        it('should return players Moves', function () {
+            playerInfo.moves.should.be.equal(100);
+        });
+
+        it('should return players max moves', function () {
+            playerInfo.maxMoves.should.be.equal(100);
+        });
+
+        it('should return players strength', function () {
+            playerInfo.stats.strength.should.be.equal(21);
+        });
+
+        it('should return players dexterity', function () {
+            playerInfo.stats.dexterity.should.be.equal(15);
+        });
+       
+        it('should return players constitution', function () {
+            playerInfo.stats.constitution.should.be.equal(14);
+        });
         
+        it('should return players intelligence', function () {
+            playerInfo.stats.intelligence.should.be.equal(13);
+        });
 
-        //this.information = {
-        //    level: playerInfo.information.level || 1,
-        //    race: playerInfo.information.race || '',
-        //    class: playerInfo.information.class || '',
-        //    alignment: playerInfo.information.alignment || 'Good',
-        //    alignmentScore: playerInfo.information.alignmentScore || 0,
-        //    experience: playerInfo.information.experience || 0,
-        //    experienceToNextLevel: playerInfo.information.experienceToNextLevel || 0,
-        //    maxHitpoints: playerInfo.information.maxHitpoints || 32,
-        //    hitpoints: playerInfo.information.hitpoints || 32,
-        //    maxMana: playerInfo.information.maxMana || 100,
-        //    mana: playerInfo.information.mana || 100,
-        //    maxMoves: playerInfo.information.maxMoves || 100,
-        //    moves: playerInfo.information.moves || 100,
-        //    stats: {
-        //        strength: playerInfo.information.stats.strength || 0,
-        //        dexterity: playerInfo.information.stats.dexterity || 0,
-        //        constitution: playerInfo.information.stats.constitution || 0,
-        //        intelligence: playerInfo.information.stats.intelligence || 0,
-        //        wisdom: playerInfo.information.stats.wisdom || 0,
-        //        charisma: playerInfo.information.stats.charisma || 0
-        //    }
+        it('should return players wisdom', function () {
+            playerInfo.stats.wisdom.should.be.equal(17);
+        });
 
+        it('should return players charisma', function () {
+            playerInfo.stats.charisma.should.be.equal(20);
+        });
+    });
 
+    it('Should return player Socket', function () {
+        let playerSocket = player.getSocket();
+
+        playerSocket.should.be.equal('');
+
+    });
+
+    it('Should return player Inventory', function () {
+        let playerInv = player.getInventory();
+
+        playerInv.should.be.an.Array();
+
+    });
+
+    describe('Should return active player Channels', function () {
+        let playerChannels = player.getChannels();
+
+        it('Should return gossip channel status', function () {
+            playerChannels.gossip.should.be.equal(1);
+        });
+
+        it('Should return auction channel status', function () {
+            playerChannels.auction.should.be.equal(1);
+        });
+
+        it('Should return ask channel status', function () {
+            playerChannels.ask.should.be.equal(1);
+        });
+
+        it('Should return clan channel status', function () {
+            playerChannels.clan.should.be.equal(1);
+        });
+
+        it('Should return newbie channel status', function () {
+            playerChannels.newbie.should.be.equal(1);
+        });
     });
 
   });
