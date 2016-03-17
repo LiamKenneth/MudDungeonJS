@@ -178,6 +178,7 @@
             }
             else {
                 socket.emit('data', { data: text });
+ 
             }
 
         }

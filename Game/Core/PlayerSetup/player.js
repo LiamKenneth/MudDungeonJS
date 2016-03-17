@@ -195,8 +195,8 @@ var player = function(playerInfo) {
 
             for (var i = 0; i < invLength; i++) {
 
-                if (this.inventory[i] == inventory) {
-                    console.log('removed from inventory')
+                if (this.inventory[i] === inventory) {
+
                     this.inventory.splice(i, 1);
                     break;
                 }          

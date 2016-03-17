@@ -156,7 +156,7 @@ describe('Player Setup: Player Class', function () {
 
         playerEq.floating.should.be.equal('Nothing');
         playerEq.light.should.be.equal('Nothing');
-        playerEq.head.should.be.equal('Nothing');
+        playerEq.head.name.should.be.equal('Helmet');
         playerEq.leftEar.should.be.equal('Nothing');
         playerEq.rightEar.should.be.equal('Nothing');
         playerEq.neck.should.be.equal('Nothing');
@@ -335,7 +335,7 @@ describe('Player Setup: Player Class', function () {
         let playerEQ = player.findEquipment();
 
         playerEQ.should.be.Array();
-        playerEQ.should.have.lengthOf(0);
+        playerEQ.should.have.lengthOf(1);
 
     });
 
@@ -349,6 +349,81 @@ describe('Player Setup: Player Class', function () {
    
 
     });
+
+    it('Should set player Socket', function () {
+
+        let fakeSocket = "{nsp:Namespace{name:'/',server:Server{nsps:[Object],_path:'/socket.io',_serveClient:true,_adapter:[Function:Adapter],_origins:'*:*',sockets:[Circular],eio:[Object],httpServer:[Object],engine:[Object]},sockets:{'/#Fifm9_K2xffnlTb7AAAB':[Circular]},connected:{'/#Fifm9_K2xffnlTb7AAAB':[Circular]},fns:[],ids:0,adapter:}}}";
+
+        player.setSocket(fakeSocket);
+
+        let playerSocket= player.getSocket();
+
+        playerSocket.should.be.equal(fakeSocket);
+
+
+    });
+
+    it('Should set player Location', function () {
+
+        let region = 'valston';
+        let area = 'prison';
+        let areaId = 1;
+
+        player.setLocation(region, area, areaId);
+
+        let playerLocation = JSON.parse(player.getLocation());
+
+        playerLocation.region.should.be.equal('valston');
+        playerLocation.area.should.be.equal('prison');
+        playerLocation.areaID.should.be.equal(1);
+        playerLocation.coordsY.should.be.equal(0);
+        playerLocation.coordsX.should.be.equal(0);
+
+
+    });
+
+    it('Should get an Item and add to inventory', function () {
+
+        let item = {
+            type: 'object',
+            location: 'room',
+            keywords: ['mace', 'mac'],
+            name: 'Mace',
+            actions: { "container": false, "sit": "sit", "wield": "wield" },
+            description: { "look": "You look at a mace", "exam": "You look closely at a mace", "room": "An iron Mace is here." }
+        };
+       
+        player.setInventory(item, 'get');
+
+        let playerInv = player.getInventory();
+
+        playerInv.should.have.length(1);
+        playerInv[0].name.should.be.equal('Mace');
+
+    });
+
+    //it('Should drop an Item and remove from inventory', function () {
+
+    //    let item = {
+    //        type: 'object',
+    //        location: 'room',
+    //        keywords: ['mace', 'mac'],
+    //        name: 'Mace',
+    //        actions: { "container": false, "sit": "sit", "wield": "wield" },
+    //        description: { "look": "You look at a mace", "exam": "You look closely at a mace", "room": "An iron Mace is here." }
+    //    };
+
+
+
+    //    player.setInventory(item, 'drop');
+    //    player.setInventory(item, 'drop');
+
+    //    let playerInv = player.getInventory();
+
+    //    playerInv.should.have.length(0);
+
+
+    //});
 
   });
  

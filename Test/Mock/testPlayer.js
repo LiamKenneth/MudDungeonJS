@@ -38,7 +38,24 @@ module.exports = {
   equipment: {
     floating: 'Nothing',
     light: 'Nothing',
-    head: 'Nothing',
+    head: {
+        type: 'object',
+        location: 'room',
+        equipable: true,
+        slot: "head",
+        keywords: ['helm', 'hel', 'helmet'],
+        name: 'Helmet',
+        actions: {
+            "container": false,
+            "sit": "sit",
+            "wield": "wield"
+        },
+        description: {
+            "look": "The helmet look desc",
+            "exam": "The helmet exam desc",
+            "room": "A helmet is here"
+        }
+    },
     leftEar: 'Nothing',
     rightEar: 'Nothing',
     neck: 'Nothing',

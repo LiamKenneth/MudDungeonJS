@@ -19,10 +19,10 @@
     var playerSetup = {
         welcome: function (socket) {
 
-            var motd = modules.data.loadFile(null, 'motd');
-             if (motd) {
-                modules.helper.send(socket, motd);
-             }
+            //var motd = modules.data.loadFile(null, 'motd');
+            // if (motd) {
+            //    modules.helper.send(socket, motd);
+            // }
             playerSetup.login(socket);
         },
         login: function (socket) {
@@ -43,6 +43,7 @@
                     var playerData = JSON.parse(modules.data.loadFile(null, name + '.json'));
                     if (playerData) {
                         var PC = new modules.playerSetup.playerChar(playerData);
+                     
                         PC.setSocket(socket);
 
                         modules.playerSetup.player.loadPlayer(PC);
