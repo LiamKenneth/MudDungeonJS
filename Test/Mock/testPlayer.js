@@ -1,5 +1,5 @@
 module.exports = {
-  socket: '',
+  socket: {'socket':'fake','send':{}},
   name: 'testPlayer',
   description: 'You see nothing special about them',
   age: 18,

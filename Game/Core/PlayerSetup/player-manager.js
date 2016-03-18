@@ -16,11 +16,12 @@
       arr = arr || [];
       var arrLength = arr.length || 0;
 
-    for (var i = 0; i < arrLength; i++) {
-        if (arr[i].socket == val) {
+    for (var i = 0; i <= arrLength; i++) {
+        if (arr[i].socket === val) {
             arr.splice(i, 1);
-            console.log('removed')
             break;
+        } else {
+            throw new Error('No such player in players array');
         }
     }
 };
@@ -70,23 +71,28 @@
   */
 	  removePlayer: function (player) {
 
-	      console.time('disconnect');
-      removeByValue(players, player);
+	      removeByValue(players, player);
 
-      try {
-          player.disconnect(true);
+	  
+	      exports.playerManager.disconnectPlayer(player);
 
-    } catch (e) {
-        console.log("error disconecting web socket")
-    }
-          
-    try {
-        player.end();
-    } catch (e) {
-        console.log("error disconecting telnet socket")
-    }
-    console.timeEnd('disconnect');
-  },
+	  },
+
+	  disconnectPlayer: function (player) {
+     
+          try {
+              player.disconnect(true);
+
+          } catch (e) {
+             // throw new Error("error disconecting web socket");
+          }
+
+          try {
+              player.end();
+          } catch (e) {
+              //throw new Error("error disconecting telnet socket");
+          }
+      },
 
 	/**
 	 * Add player socket to players array
@@ -102,7 +108,6 @@
 	 */
     addPlayerToRoom: function (player, pc, region, area, areaId) {
         var room = modules['world'][region][area][areaId];
-        var name = pc.getName();
 
 	 room.players.push(pc);
 
