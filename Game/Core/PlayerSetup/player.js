@@ -204,7 +204,7 @@ var player = function(playerInfo) {
 
 
         } else {
-            console.log('Must insert object to inventory array');
+            throw new Error ("Must insert object to inventory array");
             
         }
 

@@ -119,6 +119,7 @@ describe('Player Setup: Player Class', function () {
         let playerName = player.getName();
 
         playerName.should.be.equal('testPlayer');
+
     });
 
     it('Should return players age', function () {
@@ -382,7 +383,7 @@ describe('Player Setup: Player Class', function () {
 
     });
 
-    it('Should get an Item and add to inventory', function () {
+    it('Should get an Item and add to inventory and drop item to remove it', function () {
 
         let item = {
             type: 'object',
@@ -400,30 +401,98 @@ describe('Player Setup: Player Class', function () {
         playerInv.should.have.length(1);
         playerInv[0].name.should.be.equal('Mace');
 
+        player.setInventory(item, 'drop');
+        playerInv.should.have.length(0);
+
+    });
+ 
+
+    it('Should throw error if item is not an object', function () {
+
+        let item = "Sword";
+
+        player.setInventory.bind(item, 'get').should.throw();
+
     });
 
-    //it('Should drop an Item and remove from inventory', function () {
+    it('Should equip Item in leftHand then RightHand', function () {
 
-    //    let item = {
-    //        type: 'object',
-    //        location: 'room',
-    //        keywords: ['mace', 'mac'],
-    //        name: 'Mace',
-    //        actions: { "container": false, "sit": "sit", "wield": "wield" },
-    //        description: { "look": "You look at a mace", "exam": "You look closely at a mace", "room": "An iron Mace is here." }
-    //    };
+        let item = {
+            type: 'object',
+            location: 'room',
+            equipable: true,
+            slot: "hand",
+            keywords: ['sword', 'swo', 'short'],
+            name: 'Short Sword',
+            actions: {
+                "container": false,
+                "wield": "wield"
+            },
+            description: {
+                "look": "You look at a short sword",
+                "exam": "You look closely at a short sword",
+                "room": "A short Sword is here."
+            }
+        };
 
 
+        player.setEquipment(item, 'wear');
 
-    //    player.setInventory(item, 'drop');
-    //    player.setInventory(item, 'drop');
+        let playerEq = player.getEquipment();
 
-    //    let playerInv = player.getInventory();
+        playerEq.leftHand.name.should.be.equal('Short Sword');
 
-    //    playerInv.should.have.length(0);
+        player.setEquipment(item, 'wear');
+
+        playerEq.rightHand.name.should.be.equal('Short Sword');
 
 
-    //});
+    });
+
+    it('Should equip and unequip Item', function () {
+
+        let item = {
+            type: 'object',
+            location: 'room',
+            equipable: true,
+            slot: "head",
+            keywords: ['helm', 'hel', 'helmet'],
+            name: 'Helmet',
+            actions: {
+                "container": false,
+                "sit": "sit",
+                "wield": "wield"
+            },
+            description: {
+                "look": "The helmet look desc",
+                "exam": "The helmet exam desc",
+                "room": "A helmet is here"
+            }
+        };
+
+
+        player.setEquipment(item, 'wear');
+
+        let playerEq = player.getEquipment();
+
+        playerEq.head.name.should.be.equal('Helmet');
+
+        player.setEquipment(item, 'remove');
+
+        playerEq.head.should.be.equal('Nothing');
+
+    });
+
+
+    it('Should save player', function () {
+
+        let savePlayer = player.savePlayer();
+
+      
+        savePlayer.should.be.an.Object;
+
+    });
+ 
 
   });
  
