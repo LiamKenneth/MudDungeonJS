@@ -5,91 +5,91 @@
 var player = function(playerInfo) {
     this.type = 'player';
     this.socket = '';
-    this.name = playerInfo.name || '';
+    this.name = playerInfo.name;
     this.keywords = [playerInfo.name, 'self'];
-    this.description = playerInfo.description || 'You see nothing special about them';
-    this.age = playerInfo.age || 18;
-    this.sex = playerInfo.sex || 'Female';
+    this.description = playerInfo.description;
+    this.age = playerInfo.age;
+    this.sex = playerInfo.sex;
     this.information = {
-        level: playerInfo.information.level || 1,
-        race: playerInfo.information.race || '',
-        class: playerInfo.information.class || '',
-        alignment: playerInfo.information.alignment || 'Good',
-        alignmentScore: playerInfo.information.alignmentScore || 0,
-        experience: playerInfo.information.experience || 0,
-        experienceToNextLevel: playerInfo.information.experienceToNextLevel || 0,
-        maxHitpoints: playerInfo.information.maxHitpoints || 32,
-        hitpoints: playerInfo.information.hitpoints || 32,
-        maxMana: playerInfo.information.maxMana || 100,
-        mana: playerInfo.information.mana || 100,
-        maxMoves: playerInfo.information.maxMoves || 100,
-        moves: playerInfo.information.moves || 100,
+        level: playerInfo.information.level,
+        race: playerInfo.information.race,
+        class: playerInfo.information.class,
+        alignment: playerInfo.information.alignment,
+        alignmentScore: playerInfo.information.alignmentScore,
+        experience: playerInfo.information.experience,
+        experienceToNextLevel: playerInfo.information.experienceToNextLevel,
+        maxHitpoints: playerInfo.information.maxHitpoints,
+        hitpoints: playerInfo.information.hitpoints,
+        maxMana: playerInfo.information.maxMana,
+        mana: playerInfo.information.mana,
+        maxMoves: playerInfo.information.maxMoves,
+        moves: playerInfo.information.moves,
         stats: {
-            strength: playerInfo.information.stats.strength || 0,
-            dexterity: playerInfo.information.stats.dexterity || 0,
-            constitution: playerInfo.information.stats.constitution || 0,
-            intelligence: playerInfo.information.stats.intelligence || 0,
-            wisdom: playerInfo.information.stats.wisdom || 0,
-            charisma: playerInfo.information.stats.charisma || 0
+            strength: playerInfo.information.stats.strength,
+            dexterity: playerInfo.information.stats.dexterity,
+            constitution: playerInfo.information.stats.constitution,
+            intelligence: playerInfo.information.stats.intelligence,
+            wisdom: playerInfo.information.stats.wisdom,
+            charisma: playerInfo.information.stats.charisma
         }
     };
     this.location = {
-        region: playerInfo.location.region || '',
-        area: playerInfo.location.area || '',
-        areaID: playerInfo.location.areaID || 0,
+        region: playerInfo.location.region,
+        area: playerInfo.location.area,
+        areaID: playerInfo.location.areaID,
         coordsY: 0,
         coordsX: 0
     };
     this.password = playerInfo.password;
-    this.inventory = playerInfo.inventory || [];
+    this.inventory = playerInfo.inventory;
     this.equipment = {
-        floating: playerInfo.equipment.floating || "Nothing",
-        light: playerInfo.equipment.light || "Nothing",
-        head: playerInfo.equipment.head || "Nothing",
-        leftEar: playerInfo.equipment.leftEar || "Nothing",
-        rightEar: playerInfo.equipment.rightEar || "Nothing",
-        neck: playerInfo.equipment.neck || "Nothing",
-        cloak: playerInfo.equipment.cloak || "Nothing",
-        aboutBody: playerInfo.equipment.aboutBody || "Nothing",
-        body: playerInfo.equipment.body || "Nothing",
-        waist: playerInfo.equipment.waist || "Nothing",
-        leftSheath: playerInfo.equipment.leftSheath || "Nothing",
-        rightSheath: playerInfo.equipment.rightSheath || "Nothing",
-        back: playerInfo.equipment.back || "Nothing",
-        leftWrist: playerInfo.equipment.leftWrist || "Nothing",
-        rightWrist: playerInfo.equipment.rightWrist || "Nothing",
-        leftHand: playerInfo.equipment.leftHand || "Nothing",
-        rightHand: playerInfo.equipment.rightHand || "Nothing",
-        leftRing: playerInfo.equipment.leftRing || "Nothing",
-        rightRing: playerInfo.equipment.rightRing || "Nothing",
-        legs: playerInfo.equipment.legs || "Nothing",
-        feet: playerInfo.equipment.feet || "Nothing"
+        floating: playerInfo.equipment.floating,
+        light: playerInfo.equipment.light,
+        head: playerInfo.equipment.head,
+        leftEar: playerInfo.equipment.leftEar,
+        rightEar: playerInfo.equipment.rightEar,
+        neck: playerInfo.equipment.neck,
+        cloak: playerInfo.equipment.cloak,
+        aboutBody: playerInfo.equipment.aboutBody,
+        body: playerInfo.equipment.body,
+        waist: playerInfo.equipment.waist,
+        leftSheath: playerInfo.equipment.leftSheath,
+        rightSheath: playerInfo.equipment.rightSheath,
+        back: playerInfo.equipment.back,
+        leftWrist: playerInfo.equipment.leftWrist,
+        rightWrist: playerInfo.equipment.rightWrist,
+        leftHand: playerInfo.equipment.leftHand,
+        rightHand: playerInfo.equipment.rightHand,
+        leftRing: playerInfo.equipment.leftRing,
+        rightRing: playerInfo.equipment.rightRing,
+        legs: playerInfo.equipment.legs,
+        feet: playerInfo.equipment.feet
     };
-    this.explored = playerInfo.explored || 0;
-    this.totalRooms = playerInfo.totalRooms || 0;
+    this.explored = playerInfo.explored;
+    this.totalRooms = playerInfo.totalRooms;
     this.questPoints = 0;
-    this.gold = playerInfo.gold || 0;
-    this.silver = playerInfo.silver || 0;
-    this.copper = playerInfo.copper || 0;
-    this.hitroll = playerInfo.hitroll || 0;
-    this.damroll = playerInfo.damroll || 0;
-    this.wimpy = playerInfo.wimpy || 0;
-    this.hours = playerInfo.hours || 0;
-    this.mkills = playerInfo.mkills || 0;
-    this.mDeaths = playerInfo.mDeaths || 0;
-    this.pkKills = playerInfo.pkKills || 0;
-    this.pkDeaths = playerInfo.pkDeaths || 0;
-    this.pkPoints = playerInfo.pkPoints || 0;
-    this.weight = playerInfo.weight || 0;
-    this.maxWeight = playerInfo.maxWeight || 0;
-    this.wimpy = playerInfo.wimpy || 0;
-    this.status = playerInfo.status || 0;
+    this.gold = playerInfo.gold;
+    this.silver = playerInfo.silver;
+    this.copper = playerInfo.copper;
+    this.hitroll = playerInfo.hitroll;
+    this.damroll = playerInfo.damroll;
+    this.wimpy = playerInfo.wimpy;
+    this.hours = playerInfo.hours;
+    this.mkills = playerInfo.mkills;
+    this.mDeaths = playerInfo.mDeaths;
+    this.pkKills = playerInfo.pkKills;
+    this.pkDeaths = playerInfo.pkDeaths;
+    this.pkPoints = playerInfo.pkPoints;
+    this.weight = playerInfo.weight;
+    this.maxWeight = playerInfo.maxWeight;
+    this.wimpy = playerInfo.wimpy;
+    this.status = playerInfo.status;
     this.channels = {
-        gossip: playerInfo.channels.gossip || 1,
-        auction: playerInfo.channels.auction || 1,
-        ask: playerInfo.channels.ask || 1,
-        clan: playerInfo.channels.clan || 1,
-        newbie: playerInfo.channels.newbie || 1
+        gossip: playerInfo.channels.gossip,
+        auction: playerInfo.channels.auction,
+        ask: playerInfo.channels.ask,
+        clan: playerInfo.channels.clan,
+        newbie: playerInfo.channels.newbie
     };
 
 
