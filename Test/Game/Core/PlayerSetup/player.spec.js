@@ -129,9 +129,10 @@ describe('Player Setup: Player Class', function () {
     });
 
     it('Should return players level', function () {
-        let playerLevel= player.getLevel();
+        let playerLevel = player.getLevel();
 
         playerLevel.should.be.equal(1);
+
     });
 
     it('Should return players class', function () {

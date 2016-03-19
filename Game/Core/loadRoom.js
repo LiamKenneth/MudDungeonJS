@@ -55,7 +55,7 @@
 
             if (status != 'leave') {
                 console.time('addPlayer')
-                socket.emit('addPlayer', modules.playerSetup.player.playerManager.addPlayerToRoom(socket, pc, region, area, areaId));
+                socket.emit('addPlayer', modules.playerSetup.player.playerManager.addPlayerToRoom(pc, region, area, areaId));
                 console.timeEnd('addPlayer')
             }
             else {
