@@ -106,7 +106,7 @@
 	 * Add player socket to players array
 	 *  @param player - player socket
 	 */
-    addPlayerToRoom: function (player, pc, region, area, areaId) {
+    addPlayerToRoom: function (pc, region, area, areaId) {
         var room = modules['world'][region][area][areaId];
 
 	 room.players.push(pc);
