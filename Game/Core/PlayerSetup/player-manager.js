@@ -149,20 +149,6 @@
             var socket = player.getSocket();
             modules.helper.helpers.send(socket, message);
 		});
-	},
-
-  /**
-   * Broadcast a message to every player
-   * @param string message to broadcast to everyone
-   */
-    broadcastToRoom: function (message, playersInRoom) {
-
-        playersInRoom.forEach(function (playersInRoom) {
-
-          var player = playersInRoom.getSocket();
-          modules.helper.helpers.send(player, message);
-
-      });
 
   },
 
@@ -185,8 +171,6 @@
     broadcastPlayerEvent: function (currentPlayer, playersInRoom, response) {
 
       playersInRoom.forEach(function (player) {
-
-          console.log("players " + player.length)
 
           var playerName = player.name;
           var currentPlayerName = currentPlayer.getName();

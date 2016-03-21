@@ -1,5 +1,9 @@
 module.exports = {
-  socket: {'socket':'fake','send':{}},
+    socket: {
+        'socket': 'fake',
+        'send': function (x) { return x },
+        write: function(x) { return x }
+  },
   name: 'testPlayer',
   description: 'You see nothing special about them',
   age: 18,
