@@ -269,7 +269,7 @@
             console.log('player saved');
             modules.playerSetup.player.addPlayer(PC); 
 
-            socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(PC));
+             modules.loadPlayerLocation.loadRoom(PC, null, 'load');
         }
     };
     exports.playerSetup = playerSetup;

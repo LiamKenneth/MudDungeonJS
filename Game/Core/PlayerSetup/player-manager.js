@@ -28,8 +28,8 @@
 
   exports.playerManager = {
 
-    loadPlayer: function (pc) {
-
+      loadPlayer: function (pc) {
+ 
           var socket = pc.getSocket();
         var newPlayer = pc.getPlayerInfo();
 
@@ -57,7 +57,7 @@
                     }
                 });
                 exports.playerManager.addPlayer(pc);
-                  socket.emit('playerLocation.loadRoom', modules.loadPlayerLocation.loadRoom(pc, null, 'load'));
+                  modules.loadPlayerLocation.loadRoom(pc, null, 'load');
               } else {
                   modules.helper.helpers.send(socket, 'Password is wrong');
                   exports.playerManager.loadPlayer(socket, pc);
@@ -109,7 +109,9 @@
     addPlayerToRoom: function (pc, region, area, areaId) {
         var room = modules['world'][region][area][areaId];
 
-	 room.players.push(pc);
+        room.players.push(pc);
+
+        console.log("room COunt " + room.players.length)
 
 	},
   /**

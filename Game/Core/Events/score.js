@@ -34,14 +34,17 @@
 
         function pad(value, length, position) {
 
-            if (position == 'left') {
-               
+            if (value != null) {
+
+                if (position == 'left') {
+
                     return (value.toString().length < length) ? pad(" " + value, length, 'left') : value;
-                
-            } else if (position == 'right') {
-               
+
+                } else if (position == 'right') {
+
                     return (value.toString().length < length) ? pad(value + " ", length, 'right') : value;
-                 
+
+                }
             }
         };
 

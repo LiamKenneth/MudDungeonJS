@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint ./Game/**/**/*",
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha Test",
-    "start": "nodemon mudDungeon.js"
+    "start": "nodemon mudDungeon.js --ignore Data/"
   },
   "repository": {
     "type": "git",

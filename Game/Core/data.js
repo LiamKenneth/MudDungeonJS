@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-
+//const helper = require('./helpers');
 module.exports = {
 
   /**
@@ -26,8 +26,15 @@ module.exports = {
    * @param manualSave {boolean}
    */
   savePlayer(player, manualSave) {
-    if (manualSave) player.savePlayer();
-
-    fs.writeFile(`./Data/${player.name}.json`, JSON.stringify(player));
+      if (manualSave) {
+          player = player.savePlayer();
+         // let socket = player.getSocket();
+          fs.writeFileSync(`./Data/${player.name}.json`, JSON.stringify(player));
+//helper.send(socket, "The gods take note of your progress.")
+      } else {
+          fs.writeFileSync(`./Data/${player.name}.json`, JSON.stringify(player));
+      }
+          
+  
   },
 };

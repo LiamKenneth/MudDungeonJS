@@ -25,7 +25,10 @@
     };
     exports.playerLocation = {
 
-        loadRoom: function(pc, dir, status) {
+        loadRoom: function (pc, dir, status) {
+
+        
+     
             console.log("loadRoom");
 
             var socket = pc.getSocket();
@@ -41,12 +44,14 @@
             //console.log("areaid " + areaId)
             var room = modules['world'][region][area][areaId];
 
-           // console.log(room.players)
-
+            console.log("players in room " + room.players)
+            console.log("status is " + status)
 
 
             if (status == 'load') {
+                console.log("staus load")
                 var playersInRoom = room.players;
+                console.log(playersInRoom)
                 console.time('enter')
                 socket.emit('enterRoom', modules.events.enterRoom.enterRoom(pc, dir, status, playersInRoom));
                
@@ -54,19 +59,22 @@
             }
 
             if (status != 'leave') {
+                console.log("staus !leave")
                 console.time('addPlayer')
                 socket.emit('addPlayer', modules.playerSetup.player.playerManager.addPlayerToRoom(pc, region, area, areaId));
                 console.timeEnd('addPlayer')
             }
             else {
+                console.log("staus remove")
                 socket.emit('removePlayer', modules.playerSetup.player.playerManager.removePlayerFromRoom(socket, room.players));
             }
 
 
-            socket.emit('look', modules.events.look.look(socket, pc));
+             socket.emit('look', modules.events.look.look(socket, pc));
 
             //show prompt on load
             if (status == 'load') {
+                 console.log("staus load")
                 modules.helper.helpers.send(socket, pc.getPrompt(true));
             }
  

@@ -167,25 +167,64 @@ describe('Player Manger:', function() {
     });
 
 
-    it('Should load player JSON', () => {
+ 
 
-        // let socketio = io({ forceNew: true });
-        let player = new playerClass(playerJson);
-        let socket = {
-            write: sinon.spy(),
-            once: function(input) {
-                return input
-            }
-        };
+        //describe('loadPlayer test', function () {
 
 
-        player.setSocket(socket);
-        playerManager.loadPlayer(player);
 
+        //    let spy;
+        //    let spyWrite
 
-        // no test
+        //    before(function () {
+        //        // let socketio = io({ forceNew: true });
+        //        this.pc = new playerClass(playerJson);
+        //        let socket = {
+        //            write: sinon.spy(),
+        //            once: function(input) {
+   
+        //            }
+        //        };
 
-    });
+        //        this.pc.setSocket(socket);
+
+        //        this.socket = this.pc.getSocket();
+
+        //        // Spy on the once method 
+        //        spy = sinon.spy(this.socket, 'once');
+        //        spyWrite = sinon.spy(this.socket, 'write');
+
+        //        // Now stub pc's getSocket method so it returns our special version of the socket
+        //        sinon.stub(this.pc, 'getSocket', () => this.socket);
+
+        //        // Run the function with our special pc object
+        //        playerManager.loadPlayer(this.pc);
+        //    });
+
+        //    after(function () {
+        //        // Clean up after ourselves
+        //        this.pc.restore();
+        //        this.socket.restore();
+        //    });
+
+        //    it('calls socket.once() with a data callback', function () {
+
+        //        spy.callCount.should.be.equal(1);
+
+        //        spy.firstCall.args[0].should.be.equal('data');
+                
+        //    });
+
+        //    describe('callback', function () {
+        //        let callback = spy.firstCall.args[1];          
+
+        //        callback.callArgWith('123');
+
+        //        spyWrite.callCount.should.be.equal(1);
+
+        //    });
+
+        // });
 
 
 
