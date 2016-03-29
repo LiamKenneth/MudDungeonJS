@@ -22,6 +22,7 @@
             drop: r('./Events/drop'),
             equipment: r('./Events/equipment'),
             communication: r('./Events/communication'),
+            kill: r('./Events/kill')
         },
         constants: r('./constants')
     };
@@ -112,7 +113,8 @@
                     ask: function () { socket.emit('communicate', modules.events.communication.communicate(socket, pc, modules.constants.channel_ask, input)) },
                     auction: function () { socket.emit('communicate', modules.events.communication.communicate(socket, pc, modules.constants.channel_auction, input)) },
                     gossip: function () { socket.emit('communicate', modules.events.communication.communicate(socket, pc, modules.constants.channel_gossip, input)) },
-                    save: function () { socket.emit('save', modules.data.savePlayer(pc, true)) }
+                    save: function () { socket.emit('save', modules.data.savePlayer(pc, true)) },
+                    kill: function () { socket.emit('kill', modules.events.kill.kill.findMob(pc, item)) }
                 }
 
                 function processUserInput(command) {

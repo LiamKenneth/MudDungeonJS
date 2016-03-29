@@ -11,6 +11,7 @@
         commands: r('../commands'),
         events: {
             enterRoom: r('./enterRoom'),
+            kill: r('./kill'),
             exits: r('./findExits'),
         },
         loadPlayerLocation: r('../loadRoom'),
@@ -463,6 +464,44 @@
                 } else {
                     modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to remove');
                 }
+            },
+            "kill": function (item, index) {
+                console.log('inside kill function');
+                console.log(item)
+
+                console.log('inside get function for ' + item.name);
+
+                var description = item.name;
+
+                var response = {
+                    "forRoom": name + ' attack a  ' + item.name,
+                    "forPlayer": 'You attack a' + item.name
+                };
+
+                if (item.type == 'mob') {
+
+                    // change a to an if item.name starts with a vowel a,e,i,o,u 
+                    // EDIT: which can still be incorrect, maybe include an overide or set the action description in the item?
+
+                    var itemNameStartsWith = item.name.substr(0, 1).toLowerCase();
+
+
+                    if (itemNameStartsWith == 'a' || itemNameStartsWith == 'e' || itemNameStartsWith == 'i' || itemNameStartsWith == 'o' || itemNameStartsWith == 'u') {
+
+                        response.forRoom = name + ' attacks an ' + item.name;
+                        response.forPlayer = 'You attack an ' + item.name;
+
+                    } else {
+
+                        response.forRoom = name + ' attacks a ' + item.name;
+                        response.forPlayer = 'You attack a ' + item.name;
+                    }
+
+                }
+
+                //kill function
+                modules.events.kill.kill.initCombat(playerInfo, item);
+
             }
         }
 

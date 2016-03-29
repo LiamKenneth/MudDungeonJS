@@ -33,6 +33,7 @@ exports.prison = {
         items: [],
         defaults: {
             mobs: [{
+                "type": 'mob',
                 "name": "Large Rat",
                 "description": "You see a furry rat",
                 "keywords": ['rat'],
@@ -93,6 +94,9 @@ exports.prison = {
                 "gold": 0,
                 "silver": 0,
                 "copper": 0,
+                actions: {
+                    "container": false
+                }
 
             }],
             items: [{
