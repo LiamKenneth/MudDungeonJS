@@ -8,7 +8,7 @@ exports.stats = {
 /**
  * functionComment - Rolls stats for player abilities using the rule 3d6 + 6
  *
- * @returns number of the total of 3 dice rolls + 6
+ * @returns number of the total of 3 dice rolls
  * @example Just call rollStats() will return a sum of the dices
  */
     rollStats: function() {
@@ -24,7 +24,7 @@ exports.stats = {
           totalRoll += roll[i];
         }
 
-        return totalRoll + 6;
+        return totalRoll;
     },
     /**
      * functionComment - Sets stat for each player ability
@@ -40,7 +40,8 @@ exports.stats = {
         con: exports.stats.rollStats(),
         int: exports.stats.rollStats(),
         wis: exports.stats.rollStats(),
-        cha: exports.stats.rollStats()
+        cha: exports.stats.rollStats(),
+        luc: exports.stats.rollStats()
       }
 
       return stats;

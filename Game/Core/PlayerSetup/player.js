@@ -30,7 +30,8 @@ var player = function(playerInfo) {
             constitution: playerInfo.information.stats.constitution,
             intelligence: playerInfo.information.stats.intelligence,
             wisdom: playerInfo.information.stats.wisdom,
-            charisma: playerInfo.information.stats.charisma
+            charisma: playerInfo.information.stats.charisma,
+            luck: playerInfo.information.stats.luck
         }
     };
     this.location = {
@@ -90,7 +91,29 @@ var player = function(playerInfo) {
         ask: playerInfo.channels.ask,
         clan: playerInfo.channels.clan,
         newbie: playerInfo.channels.newbie
-    };
+    },
+    this.skills = {
+        
+    },
+    this.spells = {
+        
+    }
+
+    function skills(playerClass) {
+
+        var classSkill = {
+            "fighter": {
+                1: {
+                   "long sword": {
+                       min: 0,
+                       max: 97
+                   }
+                }
+            }
+          }
+
+        return classSkill[playerClass] || "fighter";
+    }
 
 
 
@@ -230,6 +253,8 @@ var player = function(playerInfo) {
 
     };
 
+
+    
   
 
     this.savePlayer = function () {
@@ -263,7 +288,8 @@ var player = function(playerInfo) {
                     "constitution": this.information.stats.constitution,
                     "intelligence": this.information.stats.intelligence,
                     "wisdom": this.information.stats.wisdom,
-                    "charisma": this.information.stats.charisma
+                    "charisma": this.information.stats.charisma,
+                    "luck": this.information.stats.luck
                 }
             },
             "location": {

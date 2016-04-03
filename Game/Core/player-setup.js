@@ -165,6 +165,7 @@
                                 playerInfo.int = playerStats.int;
                                 playerInfo.wis = playerStats.wis;
                                 playerInfo.cha = playerStats.cha;
+                                playerInfo.luc = playerStats.luc;
                                 playerSetup.createCharacterSheet(socket, playerInfo);
                                 
                             } else {
@@ -231,6 +232,7 @@
             playerData.information.stats.intelligence = characterData.int;
             playerData.information.stats.wisdom = characterData.wis;
             playerData.information.stats.charisma = characterData.cha;
+            playerData.information.stats.luck = characterData.luc;
             playerData.information.hitpoints = 30 + hp;
             playerData.information.maxHitpoints = 30 + hp;
             playerData.information.mana = 100; // casters all start with 100 mana
