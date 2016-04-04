@@ -56,7 +56,7 @@
 
              
                         //weapon skill + (dex / 5) + (luck / 10 ) + (lvl / 5) * (current moves / maxMoves);
-                        return (.95 + (info.stats.dexterity / 5) + (info.stats.luck / 10) + info.level) * (info.moves / info.maxMoves);
+                        return (.95 + (info.stats.dexterity / 5) + (info.stats.luck / 10)) * (info.moves / info.maxMoves);
 
                     }
 
@@ -64,7 +64,7 @@
 
                                 
                         //(dodge skill  + (dex / 5) + (luck / 10) + (lvl / 5) * (current moves / maxMoves);
-                        return (0 + (info.stats.dexterity / 5) + (info.stats.luck / 10) + info.level / 7) * (info.moves / info.maxMoves);
+                        return (0 + (info.stats.dexterity / 5) + (info.stats.luck / 10)) * (info.moves / info.maxMoves);
 
                     }
 
@@ -85,18 +85,56 @@
                     return hitChance;
                 }
 
+                var calcDamage = function(object) {
+                    //(Weapon Damage * Strength Modifier * Condition Modifier * Critical Hit Modifier) / Armor Reduction.
+                    let strength = object.information.stats.strength;
+                    let endurance = object.information.moves / object.information.maxMoves;
+                    let weaponDamage = null;
+                 
+                    //if (object.stats) {
+                    //    let minDam = object.stats.damMin;
+                    //    let maxDam = object.stats.damMax;
+                    //    weaponDamage = Math.floor(Math.random() * (maxDam - minDam + 1) + minDam);
+                    //}
+
+
+                    if (weaponDamage === null) {
+                        //no weapon
+                        weaponDamage = Math.floor(Math.random() * (1 * strength - 1 + 1) + 1);
+                    }
+
+                    return Math.floor((weaponDamage * 0.5 + strength / 100 * endurance * 1));
+
+                }
+
+                //var calcExperience = function (playerlevel, targetLevel, xpBonus ) {
+                //    return Math.floor((targetLevel / playerlevel) * 100) + xpBonus;
+                //};
+
+                var isAlive = function (object) {
+                    
+                    if (object.information.hitpoints <= 0) {
+                        return false;
+                    }
+
+                    return true;
+                }
+
 
                 setTimeout(function () {
 
                     let hitChance;
+                    let alive;
 
                     if (isPlayer) {
+                        alive = isAlive(target);
+                        if (!alive) { return;  }
 
                       hitChance = chanceToHit(playerMobObj, target);
                     } else {
-                        if (target.information.hitpoints <= 0) {
-                            return;
-                        }
+                        alive = isAlive(target);
+                        if (!alive) {return; }
+
                         hitChance = chanceToHit(target, playerMobObj);
                     }
 
@@ -104,7 +142,8 @@
 
                     if (isPlayer) {
                         let socket = playerMobObj.getSocket();
-                        modules.helper.helpers.send(socket, "Your chanceToHit " + hitChance +  " %");
+                        modules.helper.helpers.send(socket, "Your chanceToHit " + hitChance + " %");
+
                     } else {
                         let socket = playerMobObj.getSocket();
                         modules.helper.helpers.send(socket, "taret chanceToHit " + hitChance + " %");
@@ -114,9 +153,13 @@
                         //hit?
                         if (isPlayer) {
                             let socket = playerMobObj.getSocket();
-                            modules.helper.helpers.send(socket, "You stab a " + target.name);
+                            let damage = calcDamage(playerMobObj);
 
-                            target.information.hitpoints -= 1;
+                         
+
+                            modules.helper.helpers.send(socket, "You stab a " + target.name + " for " + damage + " damage");
+
+                            target.information.hitpoints -= damage;
 
                             if (target.information.hitpoints <= 0) {
                                 modules.helper.helpers.send(socket, target.name + " squeeks and dies");
@@ -126,6 +169,7 @@
 
                         } else {
                             let socket = playerMobObj.getSocket();
+
                             modules.helper.helpers.send(socket, target.name + " bites you");
                         }
 
@@ -142,7 +186,8 @@
 
                     speed = 3000;
                   
-
+                    let socket = playerMobObj.getSocket();
+                    modules.helper.helpers.send(socket, playerMobObj.getPrompt(true));
                     combatRound(playerMobObj, target, speed, isPlayer);
 
                 }, speed);
