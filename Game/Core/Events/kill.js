@@ -107,6 +107,102 @@
 
                 }
 
+                var damageText = function (damage) {
+
+                    if (damage < 25) {
+
+                        if (damage <= 4) {
+                            return '{gscratches{x';
+                        }
+                        else if (damage <= 8) {
+                            return '{Ggrazes{x';
+                        }
+                        else if (damage <= 12) {
+                            return 'hits';
+                        }
+                        else if (damage <= 16) {
+                            return 'injures';
+                        }
+                        else if (damage <= 20) {
+                            return 'wounds';
+                        }
+                        else if (damage <= 24) {
+                            return 'mauls';
+                        }
+
+                    } else {
+
+                        if (damage <= 24) {
+                            return 'decimates';
+                        }
+                        else if (damage <= 28) {
+                            return 'devastates';
+                        }
+                        else if (damage <= 32) {
+                            return 'maims';
+                        }
+                        else if (damage <= 36) {
+                            return 'MUTILATES';
+                        }
+                        else if (damage <= 40) {
+                            return 'DISEMBOWELS';
+                        }
+                        else if (damage <= 48) {
+                            return 'MASSACRES';
+                        }
+                        else if (damage <= 100) {
+                            return '*** DEMOLISHES ***';
+                        } else {
+                            return '*** ANNIHILATES ***';
+                        }
+                    }
+ 
+                }
+
+                var healthText = function (hp, maxHp) {
+
+                    let hpPercent = (hp / maxHp) * 100;
+
+                    if (hpPercent >= 100) {
+
+                        if (hpPercent >= 100) {
+                            return 'is in perfect health.';
+                        }
+                        else if (hpPercent >= 90) {
+                            return 'is slightly scratched.';
+                        }
+                        else if (hpPercent >= 80) {
+                            return 'has a few bruises.';
+                        }
+                        else if (hpPercent >= 70) {
+                            return 'has some cuts.';
+                        }
+                        else if (hpPercent >= 60) {
+                            return 'has several wounds.';
+                        }
+                        else if (hpPercent >= 50) {
+                            return 'has many nasty wounds.';
+                        }
+  
+                    } else {
+                        if (hpPercent >= 40) {
+                            return 'is bleeding freely.';
+                        }
+                        else if (hpPercent >= 30) {
+                            return 'is covered in blood.';
+                        }
+                        else if (hpPercent >= 20) {
+                            return 'is leaking guts.';
+                        }
+                        else if (hpPercent >= 10) {
+                            return 'is almost dead.';
+                        } else {
+                            return "is DYING";
+                        }
+                    }
+                  
+                }
+
                 var calcExperience = function (playerlevel, targetLevel, xpBonus) {
 
                     let xpMod = (targetLevel - playerlevel) * 100;
@@ -164,9 +260,12 @@
 
                          
 
-                            modules.helper.helpers.send(socket, "You stab a " + target.name + " for " + damage + " damage");
-
+                            modules.helper.helpers.send(socket, "{WYour stab " + damageText(damage) + "{W a " + target.name + ". {R[" + damage + "]{x");
+                           
                             target.information.hitpoints -= damage;
+
+                            modules.helper.helpers.send(socket, "{WA " + target.name + " " + healthText(target.information.hitpoints, target.information.maxHitpoints));
+
 
                             if (target.information.hitpoints <= 0) {
                                 modules.helper.helpers.send(socket, target.name + " squeeks and dies");
@@ -176,8 +275,12 @@
 
                         } else {
                             let socket = playerMobObj.getSocket();
+                            let damage = calcDamage(target);
 
                             modules.helper.helpers.send(socket, target.name + " bites you");
+                            modules.helper.helpers.send(socket, "{WA" + target.name + " bite " + damageText(damage) + "you. {R[" + damage + "]{x");
+
+                            modules.helper.helpers.send(socket, "{WYour " + healthText(playerMobObj.information.hitpoints, playerMobObj.information.maxHitpoints));
                         }
 
                     } else {
