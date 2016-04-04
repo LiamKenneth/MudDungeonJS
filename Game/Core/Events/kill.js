@@ -107,9 +107,16 @@
 
                 }
 
-                //var calcExperience = function (playerlevel, targetLevel, xpBonus ) {
-                //    return Math.floor((targetLevel / playerlevel) * 100) + xpBonus;
-                //};
+                var calcExperience = function (playerlevel, targetLevel, xpBonus) {
+
+                    let xpMod = (targetLevel - playerlevel) * 100;
+
+                    if (xpMod < 0) {
+                        xpMod = 100;
+                    }  
+
+                    return Math.floor((targetLevel / playerlevel) * xpMod) + xpBonus;
+                };
 
                 var isAlive = function (object) {
                     
@@ -163,7 +170,7 @@
 
                             if (target.information.hitpoints <= 0) {
                                 modules.helper.helpers.send(socket, target.name + " squeeks and dies");
-                                modules.helper.helpers.send(socket, "You killed a rat and gained 100 experience");
+                                modules.helper.helpers.send(socket, "You killed a rat and gained " + calcExperience(playerMobObj.information.level, target.information.level, 0) + " experience");
                                 return;
                             }
 

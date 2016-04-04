@@ -38,7 +38,7 @@ exports.prison = {
                 "description": "You see a furry rat",
                 "keywords": ['rat'],
                 "information": {
-                    "level": 5,
+                    "level": 3,
                     "race": "Rat",
                     "class": "",
                     "alignment": "Lawful Evil",
@@ -46,11 +46,11 @@ exports.prison = {
                     "experience": 0,
                     "experienceToNextLevel": 0,
                     "maxHitpoints": 150,
-                    "hitpoints": 60,
+                    "hitpoints": 12,
                     "maxMana": 0,
                     "mana": 0,
-                    "maxMoves": 80,
-                    "moves": 80,
+                    "maxMoves": 10,
+                    "moves": 10,
                     "stats": {
                         "strength": 15,
                         "dexterity": 4,
@@ -58,7 +58,7 @@ exports.prison = {
                         "intelligence": 2,
                         "wisdom": 2,
                         "charisma": 1,
-                        "luck": 12
+                        "luck": 5
                     }
                 },
                 "location": {
