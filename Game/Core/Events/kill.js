@@ -46,7 +46,13 @@
             //combat speed will not be hard coded just testing
             // spells like slow and haste will need to change the speed also,
 
-            
+            //TODO ChanceToHit formula doesn't work very well
+            //TODO HealthText needs rewording for player
+            //TODO Use victim socket during fight if PK
+            //TODO Player damage and death
+            //TODO damage + Weapon equipped stats
+            //TODO improve prompt styling
+            //Refactors
 
             function combatRound(playerMobObj, target, speed, isPlayer) {
 
@@ -56,7 +62,7 @@
 
              
                         //weapon skill + (dex / 5) + (luck / 10 ) + (lvl / 5) * (current moves / maxMoves);
-                        return (.95 + (info.stats.dexterity / 5) + (info.stats.luck / 10)) * (info.moves / info.maxMoves);
+                        return (.95 + (info.stats.dexterity / 5 * 100) + (info.stats.luck / 10 * 100)) * (info.moves / info.maxMoves);
 
                     }
 
@@ -64,7 +70,7 @@
 
                                 
                         //(dodge skill  + (dex / 5) + (luck / 10) + (lvl / 5) * (current moves / maxMoves);
-                        return (0 + (info.stats.dexterity / 5) + (info.stats.luck / 10)) * (info.moves / info.maxMoves);
+                        return (.95 + (info.stats.dexterity / 5 * 100) + (info.stats.luck / 10 * 100)) * (info.moves / info.maxMoves);
 
                     }
 
@@ -207,7 +213,7 @@
 
                     let xpMod = (targetLevel - playerlevel) * 100;
 
-                    if (xpMod < 0) {
+                    if (xpMod <= 0) {
                         xpMod = 100;
                     }  
 
@@ -252,6 +258,7 @@
                         modules.helper.helpers.send(socket, "taret chanceToHit " + hitChance + " %");
                     }
 
+                    //Put this in a function & refactor
                     if (hitChance >= chance) {
                         //hit?
                         if (isPlayer) {

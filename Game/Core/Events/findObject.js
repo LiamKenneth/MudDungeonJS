@@ -593,13 +593,58 @@
 
                                 console.log(allItems[i] + "\n\r");
 
-                                if (allItems[i].actions.container === true && container !== null) {
+                                if (container !== null) {
+    
+                                
+                                if (allItems[i].actions.container === true) {
+
+                                        console.log("Is container\r\n");
+
+                                        containerItems = allItems[i].items;
+                                        containerItemsCount = containerItems.length;
+
+
+                                        console.log("items include " + containerItems);
+
+                                        for (let j = 0; j < containerItemsCount; j++) {
+
+                                            containerKeywords = containerItems[j].keywords;
+
+                                            console.log(containerKeywords + " find item " + item);
+
+                                            if (containerKeywords.indexOf(item) > -1) {
+
+                                                console.log("found " + containerItems[j]);
+
+                                                eventLookUp[event](containerItems[j], j);
+                                                break;
+                                            }
+
+                                        }
+                                    }
+
+                                } else {
+
+                                    eventLookUp[event](allItems[i], i);
+                                }
+
+                                found = true;
+
+                            }
+
+                        } else if (multi === false && itemKeywords.indexOf(object) > -1 || object === 'all') {
+
+                            console.log(allItems[i] + "\n\r");
+
+                            if (container !== null) {
+
+
+                                if (allItems[i].actions.container === true) {
 
                                     console.log("Is container\r\n");
 
                                     containerItems = allItems[i].items;
                                     containerItemsCount = containerItems.length;
-
 
                                     console.log("items include " + containerItems);
 
@@ -619,44 +664,7 @@
 
                                     }
 
-                                } else {
-
-                                    eventLookUp[event](allItems[i], i);
                                 }
-
-                                found = true;
-
-                            }
-
-                        } else if (multi === false && itemKeywords.indexOf(object) > -1 || object === 'all') {
-
-                            console.log(allItems[i] + "\n\r");
-
-                            if (allItems[i].actions.container === true && container !== null) {
-
-                                console.log("Is container\r\n");
-
-                                containerItems = allItems[i].items;
-                                containerItemsCount = containerItems.length;
-
-                                console.log("items include " + containerItems);
-
-                                for (let j = 0; j < containerItemsCount; j++) {
-
-                                    containerKeywords = containerItems[j].keywords;
-
-                                    console.log(containerKeywords + " find item " + item);
-
-                                    if (containerKeywords.indexOf(item) > -1) {
-
-                                        console.log("found " + containerItems[j]);
-
-                                        eventLookUp[event](containerItems[j], j);
-                                        break;
-                                    }
-
-                                }
-
                             } else {
                                 eventLookUp[event](allItems[i], i);
                             }

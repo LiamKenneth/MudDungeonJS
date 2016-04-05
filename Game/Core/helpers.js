@@ -174,7 +174,7 @@
 
             //A hack, not sure what nsp is. socket.io returns it though
             if (!socket.nsp) {
-                socket.write(text + '\r\n\r\n');
+                socket.write( text + '\r\n\r\n');
             }
             else {
                 socket.emit('data', { data: text });
