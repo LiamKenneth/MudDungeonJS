@@ -223,6 +223,82 @@
                     return true;
                 }
 
+                var fight = function(attackerObj, defenderObj, isAttacker, isNamedMob) {
+                    var hitChance = 0;
+                    var chance = 0;
+                    var attacker = {
+                        obj: attackerObj,
+                        isAlive: true,
+                        socket: function() {
+                            if (typeof attacker.obj.getSocket === "function") {
+                                return attacker.obj.getSocket();
+                            }
+                        }
+                    };
+                    var defender = {
+                        obj: defenderObj,
+                        isAlive: true,
+                        socket: function () {
+                            if (typeof defender.obj.getSocket === "function") {
+                                return defender.obj.getSocket();
+                            }
+                        }
+                    };
+
+                    //Check if attacker or defender is alive
+                    attacker.isAlive = isAlive(attacker.obj);
+                    defender.isAlive = isAlive(defender.obj);
+
+                    if (!attacker.isAlive || !defender.isAlive) {
+                        //end fight
+                        return;
+                    }
+
+                    //Check hitchance for attacker and defender
+                    hitChance = chanceToHit(attacker.obj, defender.obj);
+                    
+                    //Roll chance for attacker and defender
+                    chance = modules.helper.helpers.dice(1, 100);
+
+                    if (hitChance >= chance) {
+                        var attackerSocket = attacker.socket();
+                        if (isAttacker) {
+                            let damage = calcDamage(attackerObj);
+
+                           
+
+
+                            modules.helper.helpers.send(attackerSocket, "{WYour stab " + damageText(damage) + "{W a " + defenderObj.name + ". {R[" + damage + "]{x");
+                            modules.helper.helpers.send(attackerSocket, "{WA " + defenderObj.name + " " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
+
+                            //check defender
+                                if (defenderObj.information.hitpoints <= 0) {
+                                    modules.helper.helpers.send(socket, defenderObj.name + " squeeks and dies");
+                                    modules.helper.helpers.send(socket, "You killed a rat and gained " + calcExperience(attackerObj.information.level, defenderObj.information.level, 0) + " experience");
+                                    return;
+                                }
+                            
+                            //tell defender they are getting hit
+                            if (typeof defenderObj.getSocket === "function") {
+                                let defenderSocket = defenderObj.getSocket();
+
+                                modules.helper.helpers.send(defenderSocket, attackerObj.name + " bites you");
+                                modules.helper.helpers.send(defenderSocket, "{WA" + attackerObj.name + " bite " + damageText(damage) + "you. {R[" + damage + "]{x");
+
+                                modules.helper.helpers.send(defenderSocket, "{WYour " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
+
+                            }
+
+                            defenderObj.information.hitpoints -= damage;
+
+
+                        }
+
+                    }
+
+
+                }
+
                 // refactor!
                 setTimeout(function () {
 
@@ -232,6 +308,7 @@
                     //if two players are fighting, fight needs to end for both players.
                     if (isPlayer) {
                         alive = isAlive(defenderObj);
+                      
                         if (!alive) { return;  }
 
                       hitChance = chanceToHit(attackerObj, defenderObj);
