@@ -202,6 +202,17 @@
                     }
                   
                 }
+ 
+                var anOra = function(name) {
+                    if (name == 'a' || name == 'e' || name == 'i' || name == 'o' || name == 'u') {
+
+                        return 'an';
+
+                    } else {
+
+                        return 'a';
+                    }
+                }
 
                 var calcExperience = function (attackerLevel, defenderLevel, xpBonus) {
 
@@ -244,6 +255,15 @@
                             }
                         }
                     };
+                    var attackerSocket = attacker.socket();
+                    var defenderSocket = defender.socket();
+                    var attackerNameStartsWith = attacker.obj.name.substr(0, 1).toLowerCase();
+                    var defenderNameStartsWith = defender.obj.name.substr(0, 1).toLowerCase();
+                    var response = {
+                        forRoom: "",
+                        forAttacker: "",
+                        forDefender: ""
+                    }
 
                     //Check if attacker or defender is alive
                     attacker.isAlive = isAlive(attacker.obj);
@@ -261,40 +281,67 @@
                     chance = modules.helper.helpers.dice(1, 100);
 
                     if (hitChance >= chance) {
-                        var attackerSocket = attacker.socket();
+
                         if (isAttacker) {
-                            let damage = calcDamage(attackerObj);
-
-                           
+                            let damage = calcDamage(attacker.obj);
 
 
-                            modules.helper.helpers.send(attackerSocket, "{WYour stab " + damageText(damage) + "{W a " + defenderObj.name + ". {R[" + damage + "]{x");
-                            modules.helper.helpers.send(attackerSocket, "{WA " + defenderObj.name + " " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
+                            if (!isNamedMob) {
+
+                                response.forRoom = attacker.obj.name + ' stabs' + anOra(defender.obj.name) + defender.obj.name;
+                                response.forAttacker = anOra(defender.obj.name) + ' ' + defender.obj.name;
+                                response.forDefender = anOra(attacker.obj.name) + ' ' + attacker.obj.name;
+
+                            } else {
+                                //Named mobbed or PK
+                                response.forRoom = attacker.obj.name + ' stabs ' + defender.obj.name;
+                                response.forAttacker = defender.obj.name;
+                            }
+
+                            modules.helper.helpers.send(attackerSocket, "{WYour stab " + damageText(damage) + "{W " + response.forAttacker + ". {R[" + damage + "]{x");
+                            modules.helper.helpers.send(attackerSocket, "{W " + response.forAttacker + " " + healthText(defender.obj.information.hitpoints, defender.obj.information.maxHitpoints));
 
                             //check defender
-                                if (defenderObj.information.hitpoints <= 0) {
-                                    modules.helper.helpers.send(socket, defenderObj.name + " squeeks and dies");
-                                    modules.helper.helpers.send(socket, "You killed a rat and gained " + calcExperience(attackerObj.information.level, defenderObj.information.level, 0) + " experience");
-                                    return;
-                                }
-                            
-                            //tell defender they are getting hit
-                            if (typeof defenderObj.getSocket === "function") {
-                                let defenderSocket = defenderObj.getSocket();
-
-                                modules.helper.helpers.send(defenderSocket, attackerObj.name + " bites you");
-                                modules.helper.helpers.send(defenderSocket, "{WA" + attackerObj.name + " bite " + damageText(damage) + "you. {R[" + damage + "]{x");
-
-                                modules.helper.helpers.send(defenderSocket, "{WYour " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
-
+                            if (defender.obj.information.hitpoints <= 0) {
+                                modules.helper.helpers.send(attackerSocket, defender.obj.name + " squeeks and dies");
+                                modules.helper.helpers.send(attackerSocket, "You killed " + response.forAttacker + " and gained " + calcExperience(attacker.obj.information.level, defender.obj.information.level, 0) + " experience");
+                                return;
                             }
+
+                            //tell defender they are getting hit
+
+
+                            modules.helper.helpers.send(defenderSocket, response.forDefender + " " + attacker.obj.name + " stabs you");
+                            modules.helper.helpers.send(defenderSocket, "{W" + attacker.obj.name + " stabs " + damageText(damage) + "you. {R[" + damage + "]{x");
+
+                            modules.helper.helpers.send(defenderSocket, "{WYour " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
+
 
                             defenderObj.information.hitpoints -= damage;
 
 
                         }
 
-                    }
+                    } else {
+                        //miss
+
+                        if (isAttacker) {
+
+                           
+                                modules.helper.helpers.send(attackerSocket, "You miss " + anOra(defenderObj.name) + " " + defenderObj.name);
+
+                                modules.helper.helpers.send(defenderSocket, anOra(defenderObj.name) + " " +  attackerObj.name + " misses you.");
+                            
+
+                        } else {
+                            
+                                modules.helper.helpers.send(attackerSocket, defenderObj.name + " misses you");
+ 
+                                modules.helper.helpers.send(defenderSocket, "You miss " + anOra(attackerObj.name) + " " + attackerObj.name););
+                            }
+                        }
+                    
+ 
 
 
                 }
