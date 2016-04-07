@@ -33,6 +33,7 @@ exports.prison = {
         items: [],
         defaults: {
             mobs: [{
+                "socket": null,
                 "type": 'mob',
                 "name": "Large Rat",
                 "description": "You see a furry rat",

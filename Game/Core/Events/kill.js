@@ -30,7 +30,7 @@
             modules.events.findObject.findObject(playerInfo, room, target, 'kill');
 
         },
-        combatTimer: function(time) {
+        combatTimer: function(time) {attackerObj
             return time || 1200;
         },
         combatRound: function (playerInfo, target, time, type) {
@@ -48,7 +48,7 @@
 
             
 
-            function combatRound(playerMobObj, target, speed, isPlayer) {
+            function combatRound(attackerObj, defenderObj, speed, isPlayer) {
 
                 var chanceToHit = function(attackerObject, defenderObject) {
 
@@ -203,15 +203,15 @@
                   
                 }
 
-                var calcExperience = function (playerlevel, targetLevel, xpBonus) {
+                var calcExperience = function (attackerLevel, defenderLevel, xpBonus) {
 
-                    let xpMod = (targetLevel - playerlevel) * 100;
+                    let xpMod = (defenderLevel - attackerLevel) * 100;
 
                     if (xpMod < 0) {
                         xpMod = 100;
                     }  
 
-                    return Math.floor((targetLevel / playerlevel) * xpMod) + xpBonus;
+                    return Math.floor((defenderLevel / attackerLevel) * xpMod) + xpBonus;
                 };
 
                 var isAlive = function (object) {
@@ -223,82 +223,150 @@
                     return true;
                 }
 
-
+                // refactor!
                 setTimeout(function () {
 
                     let hitChance;
                     let alive;
 
+                    //if two players are fighting, fight needs to end for both players.
                     if (isPlayer) {
-                        alive = isAlive(target);
+                        alive = isAlive(defenderObj);
                         if (!alive) { return;  }
 
-                      hitChance = chanceToHit(playerMobObj, target);
+                      hitChance = chanceToHit(attackerObj, defenderObj);
                     } else {
-                        alive = isAlive(target);
+                        alive = isAlive(attackerObj);
                         if (!alive) {return; }
 
-                        hitChance = chanceToHit(target, playerMobObj);
+                        hitChance = chanceToHit(defenderObj, attackerObj);
                     }
 
                     let chance =  modules.helper.helpers.dice(1, 100);
 
                     if (isPlayer) {
-                        let socket = playerMobObj.getSocket();
+                        let socket = attackerObj.getSocket();
                         modules.helper.helpers.send(socket, "Your chanceToHit " + hitChance + " %");
 
                     } else {
-                        let socket = playerMobObj.getSocket();
+                        let socket = attackerObj.getSocket();
                         modules.helper.helpers.send(socket, "taret chanceToHit " + hitChance + " %");
                     }
 
                     if (hitChance >= chance) {
                         //hit?
                         if (isPlayer) {
-                            let socket = playerMobObj.getSocket();
-                            let damage = calcDamage(playerMobObj);
 
-                         
+                            let damage = calcDamage(attackerObj);
 
-                            modules.helper.helpers.send(socket, "{WYour stab " + damageText(damage) + "{W a " + target.name + ". {R[" + damage + "]{x");
-                           
-                            target.information.hitpoints -= damage;
-
-                            modules.helper.helpers.send(socket, "{WA " + target.name + " " + healthText(target.information.hitpoints, target.information.maxHitpoints));
+                            if (typeof attackerObj.getSocket === "function") {
+                                let socket = attackerObj.getSocket();
 
 
-                            if (target.information.hitpoints <= 0) {
-                                modules.helper.helpers.send(socket, target.name + " squeeks and dies");
-                                modules.helper.helpers.send(socket, "You killed a rat and gained " + calcExperience(playerMobObj.information.level, target.information.level, 0) + " experience");
-                                return;
+                                modules.helper.helpers.send(socket, "{WYour stab " + damageText(damage) + "{W a " + defenderObj.name + ". {R[" + damage + "]{x");
+
+                            
+
+                                modules.helper.helpers.send(socket, "{WA " + defenderObj.name + " " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
+
+
+                                if (defenderObj.information.hitpoints <= 0) {
+                                    modules.helper.helpers.send(socket, defenderObj.name + " squeeks and dies");
+                                    modules.helper.helpers.send(socket, "You killed a rat and gained " + calcExperience(attackerObj.information.level, defenderObj.information.level, 0) + " experience");
+                                    return;
+                                }
                             }
 
+                            if (typeof defenderObj.getSocket === "function") {
+                                let defenderSocket = defenderObj.getSocket();
+
+                                modules.helper.helpers.send(defenderSocket, attackerObj.name + " bites you");
+                                modules.helper.helpers.send(defenderSocket, "{WA" + attackerObj.name + " bite " + damageText(damage) + "you. {R[" + damage + "]{x");
+
+                                modules.helper.helpers.send(defenderSocket, "{WYour " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
+
+                            }
+
+                            defenderObj.information.hitpoints -= damage;
+
+
+                       
+
                         } else {
-                            let socket = playerMobObj.getSocket();
-                            let damage = calcDamage(target);
+                            let damage = calcDamage(defenderObj);
+                            if (typeof attackerObj.getSocket === "function") {
+                                let attackerSocket = attackerObj.getSocket();
 
-                            modules.helper.helpers.send(socket, target.name + " bites you");
-                            modules.helper.helpers.send(socket, "{WA" + target.name + " bite " + damageText(damage) + "you. {R[" + damage + "]{x");
+                                modules.helper.helpers.send(attackerSocket, defenderObj.name + " bites you");
+                                modules.helper.helpers.send(attackerSocket, "{WA" + defenderObj.name + " bite " + damageText(damage) + "you. {R[" + damage + "]{x");
 
-                            modules.helper.helpers.send(socket, "{WYour " + healthText(playerMobObj.information.hitpoints, playerMobObj.information.maxHitpoints));
+                                modules.helper.helpers.send(attackerSocket, "{WYour " + healthText(attackerObj.information.hitpoints, attackerObj.information.maxHitpoints));
+
+                            }
+
+                            if (typeof defenderObj.getSocket === "function") {
+                                let defenderSocket = defenderObj.getSocket();
+                               
+
+
+                                modules.helper.helpers.send(defenderSocket, "{WYour stab " + damageText(damage) + "{W a " + attackerObj.name + ". {R[" + damage + "]{x");
+
+                               
+
+                                modules.helper.helpers.send(defenderSocket, "{WA " + attackerObj.name + " " + healthText(attackerObj.information.hitpoints, attackerObj.information.maxHitpoints));
+
+
+                                if (attackerObj.information.hitpoints <= 0) {
+                                    modules.helper.helpers.send(defenderSocket, attackerObj.name + " squeeks and dies");
+                                    modules.helper.helpers.send(defenderSocket, "You killed a rat and gained " + calcExperience(attackerObj.information.level, attackerObj.information.level, 0) + " experience");
+                                    return;
+                                }
+                            }
+
+                            attackerObj.information.hitpoints -= damage;
                         }
 
                     } else {
                         //miss?
                         if (isPlayer) {
-                            let socket = playerMobObj.getSocket();
-                            modules.helper.helpers.send(socket, "You miss a " + target.name);
+
+                            if (typeof attackerObj.getSocket === "function") {
+                                let socket = attackerObj.getSocket();
+                                modules.helper.helpers.send(socket, "You miss a " + defenderObj.name);
+                            }
+
+                            if (typeof defenderObj.getSocket === "function") {
+                                let defenderSocket = defenderObj.getSocket();
+                                modules.helper.helpers.send(defenderSocket, "You miss a " + attackerObj.name);
+                            }
+
                         } else {
-                            let socket = playerMobObj.getSocket();
-                            modules.helper.helpers.send(socket, target.name + " misses you");
+
+                            if (typeof attackerObj.getSocket === "function") {
+                                let socket = attackerObj.getSocket();
+                                modules.helper.helpers.send(socket, defenderObj.name + " misses you");
+                            }
+
+                            if (typeof defenderObj.getSocket === "function") {
+                                let defenderSocket = defenderObj.getSocket();
+                                modules.helper.helpers.send(defenderSocket, attackerObj.name + " misses you");
+                            }
                         }
                     }
 
                     speed = 3000;
-                  
-                    let socket = playerMobObj.getSocket();
-                    modules.helper.helpers.send(socket, playerMobObj.getPrompt(true));
-                    combatRound(playerMobObj, target, speed, isPlayer);
+
+                    if (typeof attackerObj.getSocket === "function") {
+                        let socket = attackerObj.getSocket();
+                        modules.helper.helpers.send(socket, attackerObj.getPrompt(true));
+
+                    }
+
+                    if (typeof defenderObj.getSocket === "function") {
+                        let defenderSocket = defenderObj.getSocket();
+                        modules.helper.helpers.send(defenderSocket, defenderObj.getPrompt(true));
+                    }
+                    combatRound(attackerObj, defenderObj, speed, isPlayer);
 
                 }, speed);
             }

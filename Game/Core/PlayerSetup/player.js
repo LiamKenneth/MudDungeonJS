@@ -97,6 +97,9 @@ var player = function(playerInfo) {
     },
     this.spells = {
         
+    },
+    this.actions = {
+        container: false
     }
 
     function skills(playerClass) {
@@ -335,6 +338,9 @@ var player = function(playerInfo) {
                 "ask": this.channels.ask,
                 "newbie": this.channels.newbie,
                 "clan": this.channels.clan
+            },
+            actions: {
+                "container": false
             }
 
             

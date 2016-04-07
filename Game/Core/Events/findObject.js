@@ -630,7 +630,7 @@
 
                         } else if (multi === false && itemKeywords.indexOf(object) > -1 || object === 'all') {
 
-                            console.log(allItems[i] + "\n\r");
+                            
 
                             if (allItems[i].actions.container === true && container !== null) {
 
