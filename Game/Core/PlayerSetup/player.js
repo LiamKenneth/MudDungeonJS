@@ -191,7 +191,7 @@ var player = function(playerInfo) {
     this.getPrompt = function (showPrompt) {
 
         if (showPrompt) {
-            return "HP: " + this.information.hitpoints + "/" + this.information.maxHitpoints + " Mana: " + this.information.mana + "/" + this.information.maxMana + " Moves: " + this.information.moves + "/" + this.information.maxMoves + " Tnl: " + this.information.experienceToNextLevel;
+            return "{RHP{x: " + this.information.hitpoints + "{R/{x" + this.information.maxHitpoints + " {BMana{x: " + this.information.mana + "{B/{x" + this.information.maxMana + " {GMoves{x: " + this.information.moves + "{G/{x" + this.information.maxMoves + " {WTnl{x: " + this.information.experienceToNextLevel;
         }
 
     };

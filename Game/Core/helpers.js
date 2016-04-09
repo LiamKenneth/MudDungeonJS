@@ -170,17 +170,27 @@
          * @example helpers.send(socket, 'hello');
          */
         send: function (socket, text) {
-            text = helpers.colourify(text, socket);
 
-            //A hack, not sure what nsp is. socket.io returns it though
-            if (!socket.nsp) {
-                socket.write(text + '\r\n\r\n');
-            }
-            else {
-                socket.emit('data', { data: text });
- 
-            }
+            
+            try {
 
+
+            if (typeof socket !== 'undefined') {
+
+                    text = helpers.colourify(text, socket);
+
+                    //A hack, not sure what nsp is. socket.io returns it though
+                    if (!socket.nsp) {
+                        socket.write(text + '\r\n\r\n');
+                    } else {
+                        socket.emit('data', { data: text });
+
+                    }
+               
+            }
+            } catch (e) {
+                console.log(e);
+            }
         }
     };
     exports.helpers = helpers;

@@ -1,4 +1,4 @@
-﻿(function (r) {
+﻿(function(r) {
     "use strict";
 
     var modules = {
@@ -20,494 +20,392 @@
         },
     };
 
-    var kill = {
+        var kill = {
+            findMob: function(playerInfo, target) {
 
-        findMob: function (playerInfo, target) {
+                var location = JSON.parse(playerInfo.getLocation());
+                var room = modules.room.room.playerLocation(location);
 
-            var location = JSON.parse(playerInfo.getLocation());
-            var room = modules.room.room.playerLocation(location);
+                modules.events.findObject.findObject(playerInfo, room, target, 'kill');
 
-            modules.events.findObject.findObject(playerInfo, room, target, 'kill');
+            },
+            combatTimer: function(time) {
+                attackerObj
+                return time || 1200;
+            },
+            combatRound: function(playerInfo, target, time, type) {
+                return setInterval(function() {
 
-        },
-        combatTimer: function(time) {attackerObj
-            return time || 1200;
-        },
-        combatRound: function (playerInfo, target, time, type) {
-            return setInterval(function () {
-          
-                kill.startCombat(playerInfo, target, type);
-             
-            }, time);
-        },
+                    kill.startCombat(playerInfo, target, type);
 
-        initCombat: function (playerInfo, target) {
-            //better way to do this?
-            //combat speed will not be hard coded just testing
-            // spells like slow and haste will need to change the speed also,
+                }, time);
+            },
 
-            
+            initCombat: function (attackerObj, defenderObj) {
+                //better way to do this?
+                //combat speed will not be hard coded just testing
+                // spells like slow and haste will need to change the speed also,
 
-            function combatRound(attackerObj, defenderObj, speed, isPlayer) {
 
-                var chanceToHit = function(attackerObject, defenderObject) {
+                function combatRound(attackerObj, defenderObj, speed, isPlayer, isAttacker, isNamedMob) {
 
-                    function hitRate(info) {
+                    var chanceToHit = function(attackerObject, defenderObject) {
 
-             
-                        //weapon skill + (dex / 5) + (luck / 10 ) + (lvl / 5) * (current moves / maxMoves);
-                        return (.95 + (info.stats.dexterity / 5) + (info.stats.luck / 10)) * (info.moves / info.maxMoves);
+                        function hitRate(info) {
+
+
+                            //weapon skill + (dex / 5) + (luck / 10 ) + (lvl / 5) * (current moves / maxMoves);
+                            return (.95 + (info.stats.dexterity / 5) + (info.stats.luck / 10)) * (info.moves / info.maxMoves);
+
+                        }
+
+                        function dodge(info) {
+
+
+                            //(dodge skill  + (dex / 5) + (luck / 10) + (lvl / 5) * (current moves / maxMoves);
+                            return (0 + (info.stats.dexterity / 5) + (info.stats.luck / 10)) * (info.moves / info.maxMoves);
+
+                        }
+
+                        let hitChance = Math.floor(hitRate(attackerObject.information) * 100) - Math.floor(dodge(defenderObject.information) * 100);
+
+                        console.log("hitRate " + hitRate(attackerObject.information))
+                        console.log("dodge " + dodge(defenderObject.information))
+                        console.log("hitChance " + hitChance)
+
+                        if (hitChance >= 100) {
+                            return 95;
+                        } else if (hitChance <= 0) {
+
+                            return 5;
+                        }
+
+                        return hitChance;
+                    }
+
+                    var calcDamage = function(object) {
+                        //(Weapon Damage * Strength Modifier * Condition Modifier * Critical Hit Modifier) / Armor Reduction.
+                        let strength = object.information.stats.strength;
+                        let endurance = object.information.moves / object.information.maxMoves;
+                        let weaponDamage = null;
+
+                        //if (object.stats) {
+                        //    let minDam = object.stats.damMin;
+                        //    let maxDam = object.stats.damMax;
+                        //    weaponDamage = Math.floor(Math.random() * (maxDam - minDam + 1) + minDam);
+                        //}
+
+
+                        if (weaponDamage === null) {
+                            //no weapon
+                            weaponDamage = Math.floor(Math.random() * (1 * strength - 1 + 1) + 1);
+                        }
+
+                        return Math.floor((weaponDamage * 0.5 + strength / 100 * endurance * 1));
 
                     }
 
-                    function dodge(info) {
+                    var damageText = function(damage) {
 
-                                
-                        //(dodge skill  + (dex / 5) + (luck / 10) + (lvl / 5) * (current moves / maxMoves);
-                        return (0 + (info.stats.dexterity / 5) + (info.stats.luck / 10)) * (info.moves / info.maxMoves);
+                        if (damage < 25) {
 
-                    }
+                            if (damage <= 4) {
+                                return '{gscratches{x';
+                            } else if (damage <= 8) {
+                                return '{Ggrazes{x';
+                            } else if (damage <= 12) {
+                                return 'hits';
+                            } else if (damage <= 16) {
+                                return 'injures';
+                            } else if (damage <= 20) {
+                                return 'wounds';
+                            } else if (damage <= 24) {
+                                return 'mauls';
+                            }
 
-                    let hitChance = Math.floor(hitRate(attackerObject.information) * 100) - Math.floor(dodge(defenderObject.information) * 100);
-
-                    console.log("hitRate " + hitRate(attackerObject.information))
-                    console.log("dodge " + dodge(defenderObject.information))
-                    console.log("hitChance " + hitChance)
-
-                    if (hitChance >= 100) {
-                       return 95;
-                    }
-                    else if (hitChance <= 0) {
-
-                        return 5;
-                    }
-
-                    return hitChance;
-                }
-
-                var calcDamage = function(object) {
-                    //(Weapon Damage * Strength Modifier * Condition Modifier * Critical Hit Modifier) / Armor Reduction.
-                    let strength = object.information.stats.strength;
-                    let endurance = object.information.moves / object.information.maxMoves;
-                    let weaponDamage = null;
-                 
-                    //if (object.stats) {
-                    //    let minDam = object.stats.damMin;
-                    //    let maxDam = object.stats.damMax;
-                    //    weaponDamage = Math.floor(Math.random() * (maxDam - minDam + 1) + minDam);
-                    //}
-
-
-                    if (weaponDamage === null) {
-                        //no weapon
-                        weaponDamage = Math.floor(Math.random() * (1 * strength - 1 + 1) + 1);
-                    }
-
-                    return Math.floor((weaponDamage * 0.5 + strength / 100 * endurance * 1));
-
-                }
-
-                var damageText = function (damage) {
-
-                    if (damage < 25) {
-
-                        if (damage <= 4) {
-                            return '{gscratches{x';
-                        }
-                        else if (damage <= 8) {
-                            return '{Ggrazes{x';
-                        }
-                        else if (damage <= 12) {
-                            return 'hits';
-                        }
-                        else if (damage <= 16) {
-                            return 'injures';
-                        }
-                        else if (damage <= 20) {
-                            return 'wounds';
-                        }
-                        else if (damage <= 24) {
-                            return 'mauls';
-                        }
-
-                    } else {
-
-                        if (damage <= 24) {
-                            return 'decimates';
-                        }
-                        else if (damage <= 28) {
-                            return 'devastates';
-                        }
-                        else if (damage <= 32) {
-                            return 'maims';
-                        }
-                        else if (damage <= 36) {
-                            return 'MUTILATES';
-                        }
-                        else if (damage <= 40) {
-                            return 'DISEMBOWELS';
-                        }
-                        else if (damage <= 48) {
-                            return 'MASSACRES';
-                        }
-                        else if (damage <= 100) {
-                            return '*** DEMOLISHES ***';
                         } else {
-                            return '*** ANNIHILATES ***';
+
+                            if (damage <= 24) {
+                                return 'decimates';
+                            } else if (damage <= 28) {
+                                return 'devastates';
+                            } else if (damage <= 32) {
+                                return 'maims';
+                            } else if (damage <= 36) {
+                                return 'MUTILATES';
+                            } else if (damage <= 40) {
+                                return 'DISEMBOWELS';
+                            } else if (damage <= 48) {
+                                return 'MASSACRES';
+                            } else if (damage <= 100) {
+                                return '*** DEMOLISHES ***';
+                            } else {
+                                return '*** ANNIHILATES ***';
+                            }
                         }
+
                     }
- 
-                }
 
-                var healthText = function (hp, maxHp) {
+                    var healthText = function(hp, maxHp) {
 
-                    let hpPercent = (hp / maxHp) * 100;
-
-                    if (hpPercent >= 100) {
+                        let hpPercent = (hp / maxHp) * 100;
 
                         if (hpPercent >= 100) {
-                            return 'is in perfect health.';
-                        }
-                        else if (hpPercent >= 90) {
-                            return 'is slightly scratched.';
-                        }
-                        else if (hpPercent >= 80) {
-                            return 'has a few bruises.';
-                        }
-                        else if (hpPercent >= 70) {
-                            return 'has some cuts.';
-                        }
-                        else if (hpPercent >= 60) {
-                            return 'has several wounds.';
-                        }
-                        else if (hpPercent >= 50) {
-                            return 'has many nasty wounds.';
-                        }
-  
-                    } else {
-                        if (hpPercent >= 40) {
-                            return 'is bleeding freely.';
-                        }
-                        else if (hpPercent >= 30) {
-                            return 'is covered in blood.';
-                        }
-                        else if (hpPercent >= 20) {
-                            return 'is leaking guts.';
-                        }
-                        else if (hpPercent >= 10) {
-                            return 'is almost dead.';
+
+                            if (hpPercent >= 100) {
+                                return 'is in perfect health.';
+                            } else if (hpPercent >= 90) {
+                                return 'is slightly scratched.';
+                            } else if (hpPercent >= 80) {
+                                return 'has a few bruises.';
+                            } else if (hpPercent >= 70) {
+                                return 'has some cuts.';
+                            } else if (hpPercent >= 60) {
+                                return 'has several wounds.';
+                            } else if (hpPercent >= 50) {
+                                return 'has many nasty wounds.';
+                            }
+
                         } else {
-                            return "is DYING";
-                        }
-                    }
-                  
-                }
- 
-                var anOra = function(name) {
-                    if (name == 'a' || name == 'e' || name == 'i' || name == 'o' || name == 'u') {
-
-                        return 'an';
-
-                    } else {
-
-                        return 'a';
-                    }
-                }
-
-                var calcExperience = function (attackerLevel, defenderLevel, xpBonus) {
-
-                    let xpMod = (defenderLevel - attackerLevel) * 100;
-
-                    if (xpMod < 0) {
-                        xpMod = 100;
-                    }  
-
-                    return Math.floor((defenderLevel / attackerLevel) * xpMod) + xpBonus;
-                };
-
-                var isAlive = function (object) {
-                    
-                    if (object.information.hitpoints <= 0) {
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                var fight = function(attackerObj, defenderObj, isAttacker, isNamedMob) {
-                    var hitChance = 0;
-                    var chance = 0;
-                    var attacker = {
-                        obj: attackerObj,
-                        isAlive: true,
-                        socket: function() {
-                            if (typeof attacker.obj.getSocket === "function") {
-                                return attacker.obj.getSocket();
-                            }
-                        }
-                    };
-                    var defender = {
-                        obj: defenderObj,
-                        isAlive: true,
-                        socket: function () {
-                            if (typeof defender.obj.getSocket === "function") {
-                                return defender.obj.getSocket();
-                            }
-                        }
-                    };
-                    var attackerSocket = attacker.socket();
-                    var defenderSocket = defender.socket();
-                    var attackerNameStartsWith = attacker.obj.name.substr(0, 1).toLowerCase();
-                    var defenderNameStartsWith = defender.obj.name.substr(0, 1).toLowerCase();
-                    var response = {
-                        forRoom: "",
-                        forAttacker: "",
-                        forDefender: ""
-                    }
-
-                    //Check if attacker or defender is alive
-                    attacker.isAlive = isAlive(attacker.obj);
-                    defender.isAlive = isAlive(defender.obj);
-
-                    if (!attacker.isAlive || !defender.isAlive) {
-                        //end fight
-                        return;
-                    }
-
-                    //Check hitchance for attacker and defender
-                    hitChance = chanceToHit(attacker.obj, defender.obj);
-                    
-                    //Roll chance for attacker and defender
-                    chance = modules.helper.helpers.dice(1, 100);
-
-                    if (hitChance >= chance) {
-
-                        if (isAttacker) {
-                            let damage = calcDamage(attacker.obj);
-
-
-                            if (!isNamedMob) {
-
-                                response.forRoom = attacker.obj.name + ' stabs' + anOra(defender.obj.name) + defender.obj.name;
-                                response.forAttacker = anOra(defender.obj.name) + ' ' + defender.obj.name;
-                                response.forDefender = anOra(attacker.obj.name) + ' ' + attacker.obj.name;
-
+                            if (hpPercent >= 40) {
+                                return 'is bleeding freely.';
+                            } else if (hpPercent >= 30) {
+                                return 'is covered in blood.';
+                            } else if (hpPercent >= 20) {
+                                return 'is leaking guts.';
+                            } else if (hpPercent >= 10) {
+                                return 'is almost dead.';
                             } else {
-                                //Named mobbed or PK
-                                response.forRoom = attacker.obj.name + ' stabs ' + defender.obj.name;
-                                response.forAttacker = defender.obj.name;
+                                return "is DYING";
                             }
-
-                            modules.helper.helpers.send(attackerSocket, "{WYour stab " + damageText(damage) + "{W " + response.forAttacker + ". {R[" + damage + "]{x");
-                            modules.helper.helpers.send(attackerSocket, "{W " + response.forAttacker + " " + healthText(defender.obj.information.hitpoints, defender.obj.information.maxHitpoints));
-
-                            //check defender
-                            if (defender.obj.information.hitpoints <= 0) {
-                                modules.helper.helpers.send(attackerSocket, defender.obj.name + " squeeks and dies");
-                                modules.helper.helpers.send(attackerSocket, "You killed " + response.forAttacker + " and gained " + calcExperience(attacker.obj.information.level, defender.obj.information.level, 0) + " experience");
-                                return;
-                            }
-
-                            //tell defender they are getting hit
-
-
-                            modules.helper.helpers.send(defenderSocket, response.forDefender + " " + attacker.obj.name + " stabs you");
-                            modules.helper.helpers.send(defenderSocket, "{W" + attacker.obj.name + " stabs " + damageText(damage) + "you. {R[" + damage + "]{x");
-
-                            modules.helper.helpers.send(defenderSocket, "{WYour " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
-
-
-                            defenderObj.information.hitpoints -= damage;
-
-
                         }
 
-                    } else {
-                        //miss
+                    }
 
-                        if (isAttacker) {
+                    var anOra = function(name) {
+                        if (name == 'a' || name == 'e' || name == 'i' || name == 'o' || name == 'u') {
 
-                           
-                                modules.helper.helpers.send(attackerSocket, "You miss " + anOra(defenderObj.name) + " " + defenderObj.name);
-
-                                modules.helper.helpers.send(defenderSocket, anOra(defenderObj.name) + " " +  attackerObj.name + " misses you.");
-                            
+                            return 'an';
 
                         } else {
-                            
-                                modules.helper.helpers.send(attackerSocket, defenderObj.name + " misses you");
- 
-                                modules.helper.helpers.send(defenderSocket, "You miss " + anOra(attackerObj.name) + " " + attackerObj.name););
-                            }
+
+                            return 'a';
                         }
-                    
- 
-
-
-                }
-
-                // refactor!
-                setTimeout(function () {
-
-                    let hitChance;
-                    let alive;
-
-                    //if two players are fighting, fight needs to end for both players.
-                    if (isPlayer) {
-                        alive = isAlive(defenderObj);
-                      
-                        if (!alive) { return;  }
-
-                      hitChance = chanceToHit(attackerObj, defenderObj);
-                    } else {
-                        alive = isAlive(attackerObj);
-                        if (!alive) {return; }
-
-                        hitChance = chanceToHit(defenderObj, attackerObj);
                     }
 
-                    let chance =  modules.helper.helpers.dice(1, 100);
+                    var calcExperience = function(attackerLevel, defenderLevel, xpBonus) {
 
-                    if (isPlayer) {
-                        let socket = attackerObj.getSocket();
-                        modules.helper.helpers.send(socket, "Your chanceToHit " + hitChance + " %");
+                        let xpMod = (defenderLevel - attackerLevel) * 100;
 
-                    } else {
-                        let socket = attackerObj.getSocket();
-                        modules.helper.helpers.send(socket, "taret chanceToHit " + hitChance + " %");
+                        if (xpMod < 0) {
+                            xpMod = 100;
+                        }
+
+                        return Math.floor((defenderLevel / attackerLevel) * xpMod) + xpBonus;
+                    };
+
+                    var isAlive = function(object) {
+
+                        if (object.information.hitpoints <= 0) {
+                            return false;
+                        }
+
+                        return true;
                     }
 
-                    if (hitChance >= chance) {
-                        //hit?
-                        if (isPlayer) {
-
-                            let damage = calcDamage(attackerObj);
-
-                            if (typeof attackerObj.getSocket === "function") {
-                                let socket = attackerObj.getSocket();
-
-
-                                modules.helper.helpers.send(socket, "{WYour stab " + damageText(damage) + "{W a " + defenderObj.name + ". {R[" + damage + "]{x");
-
-                            
-
-                                modules.helper.helpers.send(socket, "{WA " + defenderObj.name + " " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
-
-
-                                if (defenderObj.information.hitpoints <= 0) {
-                                    modules.helper.helpers.send(socket, defenderObj.name + " squeeks and dies");
-                                    modules.helper.helpers.send(socket, "You killed a rat and gained " + calcExperience(attackerObj.information.level, defenderObj.information.level, 0) + " experience");
-                                    return;
+                    var fight = function (attackerObj, defenderObj, isAttacker, isNamedMob, speed) {
+                        //TODO dynamic atack names based on weapon
+                        // 
+                        console.log("isAttacker " + isAttacker)
+                        speed = 3200;
+                        var hitChance = 0;
+                        var chance = 0;
+                        var attacker = {
+                            obj: attackerObj,
+                            isAlive: true,
+                            socket: function () {
+                                if (typeof attacker.obj.getSocket === "function") {
+                                    return attacker.obj.getSocket();
                                 }
                             }
+                        };
+                        var defender = {
+                            obj: defenderObj,
+                            isAlive: true,
+                            socket: function () {
+                                if (typeof defender.obj.getSocket === "function") {
+                                    return defender.obj.getSocket();
+                                }
+                            }
+                        };
+                        var attackerSocket = attacker.socket();
+                        var defenderSocket = defender.socket();
+                        var attackerNameStartsWith = attacker.obj.name.substr(0, 1).toLowerCase();
+                        var defenderNameStartsWith = defender.obj.name.substr(0, 1).toLowerCase();
+                        var response = {
+                            forRoom: "",
+                            forAttacker: "",
+                            forDefender: ""
+                        }
 
-                            if (typeof defenderObj.getSocket === "function") {
-                                let defenderSocket = defenderObj.getSocket();
+                        //Check if attacker or defender is alive
+                        attacker.isAlive = isAlive(attacker.obj);
+                        defender.isAlive = isAlive(defender.obj);
 
-                                modules.helper.helpers.send(defenderSocket, attackerObj.name + " bites you");
-                                modules.helper.helpers.send(defenderSocket, "{WA" + attackerObj.name + " bite " + damageText(damage) + "you. {R[" + damage + "]{x");
+
+                        setTimeout(function () {
+
+                      
+
+                        if (!attacker.isAlive || !defender.isAlive) {
+                            //end fight
+                            return;
+                        }
+
+                        //Check hitchance for attacker and defender
+                        hitChance = chanceToHit(attacker.obj, defender.obj);
+
+                        //Roll chance for attacker and defender
+                        chance = modules.helper.helpers.dice(1, 100);
+
+                        if (hitChance >= chance) {
+
+                            if (isAttacker) {
+                                let damage = calcDamage(attacker.obj);
+
+
+                                if (!isNamedMob) {
+
+                                    response.forRoom = attacker.obj.name + ' stabs' + anOra(defender.obj.name) + defender.obj.name;
+                                    response.forAttacker = anOra(defender.obj.name) + ' ' + defender.obj.name;
+                                    response.forDefender = anOra(attacker.obj.name) + ' ' + attacker.obj.name;
+
+                                } else {
+                                    //Named mobbed or PK
+                                    response.forRoom = attacker.obj.name + ' stabs ' + defender.obj.name;
+                                    response.forAttacker = defender.obj.name;
+                                }
+
+                                modules.helper.helpers.send(attackerSocket, "{WYour stab " + damageText(damage) + "{W " + response.forAttacker + ". {R[" + damage + "]{x");
+                                modules.helper.helpers.send(attackerSocket, "{W " + response.forAttacker + " " + healthText(defender.obj.information.hitpoints, defender.obj.information.maxHitpoints));
+
+                                //check defender
+                                defenderObj.information.hitpoints -= damage;
+
+                                if (defender.obj.information.hitpoints <= 0) {
+                                    modules.helper.helpers.send(attackerSocket, defender.obj.name + " squeeks and dies");
+                                    modules.helper.helpers.send(attackerSocket, "You killed " + response.forAttacker + " and gained " + calcExperience(attacker.obj.information.level, defender.obj.information.level, 0) + " experience");
+                                    return;
+                                }
+
+                                //tell defender they are getting hit
+
+
+                                modules.helper.helpers.send(defenderSocket, response.forDefender + " " + attacker.obj.name + " stabs you");
+                                modules.helper.helpers.send(defenderSocket, "{W" + attacker.obj.name + " stabs " + damageText(damage) + "you. {R[" + damage + "]{x");
 
                                 modules.helper.helpers.send(defenderSocket, "{WYour " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
 
-                            }
 
-                            defenderObj.information.hitpoints -= damage;
+                            } else {
+                                // defender
+                                let damage = calcDamage(defender.obj);
 
+                                if (!isNamedMob) {
 
-                       
+                                    response.forRoom = attacker.obj.name + ' stabs' + anOra(defender.obj.name) + defender.obj.name;
+                                    response.forAttacker = anOra(defender.obj.name) + ' ' + defender.obj.name;
+                                    response.forDefender = anOra(attacker.obj.name) + ' ' + attacker.obj.name;
 
-                        } else {
-                            let damage = calcDamage(defenderObj);
-                            if (typeof attackerObj.getSocket === "function") {
-                                let attackerSocket = attackerObj.getSocket();
+                                } else {
+                                    //Named mobbed or PK
+                                    response.forRoom = attacker.obj.name + ' stabs ' + defender.obj.name;
+                                    response.forAttacker = defender.obj.name;
+                                }
 
-                                modules.helper.helpers.send(attackerSocket, defenderObj.name + " bites you");
-                                modules.helper.helpers.send(attackerSocket, "{WA" + defenderObj.name + " bite " + damageText(damage) + "you. {R[" + damage + "]{x");
+                                // tell attacker they got hit
+
+                                modules.helper.helpers.send(attackerSocket, defender.obj.name + " bites you");
+                                modules.helper.helpers.send(attackerSocket, "{W" + defenderObj.name + " bites " + damageText(damage) + "you. {R[" + damage + "]{x");
 
                                 modules.helper.helpers.send(attackerSocket, "{WYour " + healthText(attackerObj.information.hitpoints, attackerObj.information.maxHitpoints));
 
-                            }
 
-                            if (typeof defenderObj.getSocket === "function") {
-                                let defenderSocket = defenderObj.getSocket();
-                               
-
-
+                                //tell defender hey got hit
                                 modules.helper.helpers.send(defenderSocket, "{WYour stab " + damageText(damage) + "{W a " + attackerObj.name + ". {R[" + damage + "]{x");
-
-                               
 
                                 modules.helper.helpers.send(defenderSocket, "{WA " + attackerObj.name + " " + healthText(attackerObj.information.hitpoints, attackerObj.information.maxHitpoints));
 
+                                attackerObj.information.hitpoints -= damage;
 
                                 if (attackerObj.information.hitpoints <= 0) {
                                     modules.helper.helpers.send(defenderSocket, attackerObj.name + " squeeks and dies");
-                                    modules.helper.helpers.send(defenderSocket, "You killed a rat and gained " + calcExperience(attackerObj.information.level, attackerObj.information.level, 0) + " experience");
+                                    modules.helper.helpers.send(defenderSocket, "You killed " + response.forAttacker + " and gained " + calcExperience(attacker.obj.information.level, defender.obj.information.level, 0) + " experience");
                                     return;
                                 }
-                            }
 
-                            attackerObj.information.hitpoints -= damage;
-                        }
-
-                    } else {
-                        //miss?
-                        if (isPlayer) {
-
-                            if (typeof attackerObj.getSocket === "function") {
-                                let socket = attackerObj.getSocket();
-                                modules.helper.helpers.send(socket, "You miss a " + defenderObj.name);
-                            }
-
-                            if (typeof defenderObj.getSocket === "function") {
-                                let defenderSocket = defenderObj.getSocket();
-                                modules.helper.helpers.send(defenderSocket, "You miss a " + attackerObj.name);
                             }
 
                         } else {
+                            //miss
 
-                            if (typeof attackerObj.getSocket === "function") {
-                                let socket = attackerObj.getSocket();
-                                modules.helper.helpers.send(socket, defenderObj.name + " misses you");
+                            if (isAttacker) {
+
+
+                                modules.helper.helpers.send(attackerSocket, "You miss " + anOra(defenderObj.name) + " " + defenderObj.name);
+
+                                modules.helper.helpers.send(defenderSocket, anOra(defenderObj.name) + " " + attackerObj.name + " misses you.");
+
+
+                            } else {
+
+                                modules.helper.helpers.send(attackerSocket, defenderObj.name + " misses you");
+
+                                modules.helper.helpers.send(defenderSocket, "You miss " + anOra(attackerObj.name) + " " + attackerObj.name);
                             }
 
-                            if (typeof defenderObj.getSocket === "function") {
-                                let defenderSocket = defenderObj.getSocket();
-                                modules.helper.helpers.send(defenderSocket, attackerObj.name + " misses you");
-                            }
+                           
                         }
+
+                        if (typeof attackerObj.getSocket === "function") {
+                            let socket = attackerObj.getSocket();
+                            modules.helper.helpers.send(socket, attackerObj.getPrompt(true));
+
+                        }
+
+                        if (typeof defenderObj.getSocket === "function") {
+                            let defenderSocket = defenderObj.getSocket();
+                            modules.helper.helpers.send(defenderSocket, defenderObj.getPrompt(true));
+                        }
+                        fight(attackerObj, defenderObj, isAttacker, isNamedMob, 1000);
+
+                        }, speed);
                     }
 
-                    speed = 3000;
+                    //attackerObj, defenderObj, isAttacker, isNamedMob, speed
+                    fight(attackerObj, defenderObj, isAttacker, isNamedMob, speed);
+                     
+                   
+                }
 
-                    if (typeof attackerObj.getSocket === "function") {
-                        let socket = attackerObj.getSocket();
-                        modules.helper.helpers.send(socket, attackerObj.getPrompt(true));
 
-                    }
+                // refactor!
+           
+                //attackerObj, defenderObj, speed, isPlayer, isAttacker, isNamedMob
 
-                    if (typeof defenderObj.getSocket === "function") {
-                        let defenderSocket = defenderObj.getSocket();
-                        modules.helper.helpers.send(defenderSocket, defenderObj.getPrompt(true));
-                    }
-                    combatRound(attackerObj, defenderObj, speed, isPlayer);
+            combatRound(attackerObj, defenderObj, 1000, true, true, true);
+            combatRound(attackerObj, defenderObj, 1200, false, false, false);
 
-                }, speed);
-            }
 
-            combatRound(playerInfo, target, 1000, true);
-            combatRound(playerInfo, target, 1200, false);
- 
 
-        
         },
-        startCombat: function (playerInfo, target, type) {
+        startCombat: function(playerInfo, target, type) {
             //don't allow disconenct if fighting?
             //todo add HP loss
             //add actually hitting
             //add dieing
-            
-           
+
+
         }
 
 
