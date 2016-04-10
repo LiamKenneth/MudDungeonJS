@@ -41,13 +41,13 @@
                 }, time);
             },
 
-            initCombat: function (attackerObj, defenderObj) {
+            initCombat: function (attackerObj, defenderObj, room) {
                 //better way to do this?
                 //combat speed will not be hard coded just testing
                 // spells like slow and haste will need to change the speed also,
 
 
-                function combatRound(attackerObj, defenderObj, speed, isPlayer, isAttacker, isNamedMob) {
+                function combatRound(attackerObj, defenderObj, speed, isPlayer, isAttacker, isNamedMob, room) {
 
                     var chanceToHit = function(attackerObject, defenderObject) {
 
@@ -146,37 +146,47 @@
 
                     }
 
-                    var healthText = function(hp, maxHp) {
+                    var healthText = function(hp, maxHp, isPlayer, mobName) {
 
                         let hpPercent = (hp / maxHp) * 100;
+                        let personYouAre;
+                        let personYou;
+
+                        if (isPlayer) {
+                            personYouAre = "You're ";
+                            personYou = "You have ";
+                        } else {
+                            personYouAre = 'is ';
+                            personYou = 'has ';
+                        }
 
                         if (hpPercent >= 100) {
 
                             if (hpPercent >= 100) {
-                                return 'is in perfect health.';
+                                return personYouAre + 'in perfect health.';
                             } else if (hpPercent >= 90) {
-                                return 'is slightly scratched.';
+                                return personYouAre + 'slightly scratched.';
                             } else if (hpPercent >= 80) {
-                                return 'has a few bruises.';
+                                return personYou + 'a few bruises.';
                             } else if (hpPercent >= 70) {
-                                return 'has some cuts.';
+                                return personYou + 'some cuts.';
                             } else if (hpPercent >= 60) {
-                                return 'has several wounds.';
+                                return personYou + 'several wounds.';
                             } else if (hpPercent >= 50) {
-                                return 'has many nasty wounds.';
+                                return personYou + 'many nasty wounds.';
                             }
 
                         } else {
                             if (hpPercent >= 40) {
-                                return 'is bleeding freely.';
+                                return personYouAre + 'bleeding freely.';
                             } else if (hpPercent >= 30) {
-                                return 'is covered in blood.';
+                                return personYouAre + 'covered in blood.';
                             } else if (hpPercent >= 20) {
-                                return 'is leaking guts.';
+                                return personYouAre + 'leaking guts.';
                             } else if (hpPercent >= 10) {
-                                return 'is almost dead.';
+                                return personYouAre + 'almost dead.';
                             } else {
-                                return "is DYING";
+                                return personYouAre+ "DYING";
                             }
                         }
 
@@ -213,18 +223,23 @@
                         return true;
                     }
 
-                    var fight = function (attackerObj, defenderObj, isAttacker, isNamedMob, speed) {
+                    var fight = function (attackerObj, defenderObj, isAttacker, isNamedMob, speed, room) {
                         //TODO dynamic atack names based on weapon
                         // 
-                        console.log("isAttacker " + isAttacker)
+                        
+                      
+ 
                         speed = 3200;
                         var hitChance = 0;
                         var chance = 0;
                         var attacker = {
                             obj: attackerObj,
                             isAlive: true,
+                            isPlayer: false,
                             socket: function () {
-                                if (typeof attacker.obj.getSocket === "function") {
+                                if (typeof attacker.obj.getSocket == "function") {
+                                    console.log("yes it is a variable")
+                                    attacker.isPlayer = true;
                                     return attacker.obj.getSocket();
                                 }
                             }
@@ -232,12 +247,32 @@
                         var defender = {
                             obj: defenderObj,
                             isAlive: true,
+                            isPlayer: false,
                             socket: function () {
-                                if (typeof defender.obj.getSocket === "function") {
+                                if (typeof defender.obj.getSocket == "function") {
+                                    defender.isPlayer = true;
                                     return defender.obj.getSocket();
                                 }
                             }
                         };
+                        var location;
+                        var playerRoom;
+
+                        if (typeof attacker.obj.getSocket == "function") {
+                            location = JSON.parse(attacker.obj.getLocation());
+                            playerRoom = modules.room.room.playerLocation(location);
+
+                          //  console.log(playerRoom.mobs[0])
+                        }
+                        else if (typeof defender.obj.getSocket == "function") {
+                            location = JSON.parse(defender.obj.getLocation());
+                            playerRoom = modules.room.room.playerLocation(location);
+                        }
+
+                        console.log("is player " + attacker.isPlayer)
+
+                        
+
                         var attackerSocket = attacker.socket();
                         var defenderSocket = defender.socket();
                         var attackerNameStartsWith = attacker.obj.name.substr(0, 1).toLowerCase();
@@ -295,16 +330,39 @@
                                 if (defender.obj.information.hitpoints <= 0) {
                                     modules.helper.helpers.send(attackerSocket, defender.obj.name + " squeeks and dies");
                                     modules.helper.helpers.send(attackerSocket, "You killed " + response.forAttacker + " and gained " + calcExperience(attacker.obj.information.level, defender.obj.information.level, 0) + " experience");
+
+                                  //  playerManager.removePlayerFromRoom(defender.obj.socket, wtfRoom?)
+                                    //Remove from MOB/Player Array
+                                    //Add corpse to items array
+
+                                    if (defender.isPlayer === false) {
+
+                                        var arr = playerRoom.mobs;
+                                        var arrLength = arr.length || 0;
+
+                                        console.log("arrayLength " + arrLength)
+
+                                        for (var i = 0; i <= arrLength; i++) {
+                                            //remove on id instead?
+                                            console.log("array obj " + arr[i].name + " defender name"  + defender.obj.name)
+                                            if (arr[i].name === defender.obj.name) {
+                                                console.log("remove rat")
+                                                arr.splice(i, 1);
+                                                console.log("rat removed")
+                                                break;
+                                            }
+                                        }
+                                    }
                                     return;
                                 }
 
                                 //tell defender they are getting hit
 
 
-                                modules.helper.helpers.send(defenderSocket, response.forDefender + " " + attacker.obj.name + " stabs you");
+                               // modules.helper.helpers.send(defenderSocket, response.forDefender + " " + attacker.obj.name + " stabs you");
                                 modules.helper.helpers.send(defenderSocket, "{W" + attacker.obj.name + " stabs " + damageText(damage) + "you. {R[" + damage + "]{x");
 
-                                modules.helper.helpers.send(defenderSocket, "{WYour " + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
+                                modules.helper.helpers.send(defenderSocket, "{WYou're" + healthText(defenderObj.information.hitpoints, defenderObj.information.maxHitpoints));
 
 
                             } else {
@@ -326,7 +384,7 @@
                                 // tell attacker they got hit
 
                                 modules.helper.helpers.send(attackerSocket, defender.obj.name + " bites you");
-                                modules.helper.helpers.send(attackerSocket, "{W" + defenderObj.name + " bites " + damageText(damage) + "you. {R[" + damage + "]{x");
+                                modules.helper.helpers.send(attackerSocket, "{W" + defenderObj.name + " bites " + damageText(damage) + " you. {R[" + damage + "]{x");
 
                                 modules.helper.helpers.send(attackerSocket, "{WYour " + healthText(attackerObj.information.hitpoints, attackerObj.information.maxHitpoints));
 
@@ -377,7 +435,7 @@
                             let defenderSocket = defenderObj.getSocket();
                             modules.helper.helpers.send(defenderSocket, defenderObj.getPrompt(true));
                         }
-                        fight(attackerObj, defenderObj, isAttacker, isNamedMob, 1000);
+                        fight(attackerObj, defenderObj, isAttacker, isNamedMob, 1000, room);
 
                         }, speed);
                     }
@@ -393,8 +451,8 @@
            
                 //attackerObj, defenderObj, speed, isPlayer, isAttacker, isNamedMob
 
-            combatRound(attackerObj, defenderObj, 1000, true, true, true);
-            combatRound(attackerObj, defenderObj, 1200, false, false, false);
+            combatRound(attackerObj, defenderObj, 1000, true, true, true, room);
+            combatRound(attackerObj, defenderObj, 1200, false, false, false, room);
 
 
 

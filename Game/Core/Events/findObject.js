@@ -465,12 +465,8 @@
                     modules.helper.helpers.send(socket, 'Sorry you don\'t have a ' + item.name + ' to remove');
                 }
             },
-            "kill": function (item, index) {
-                console.log('inside kill function');
-                console.log(item)
-
-                console.log('inside get function for ' + item.name);
-
+            "kill": function (item, room) {
+  
                 var description = item.name;
 
                 var response = {
@@ -500,7 +496,7 @@
                 }
 
                 //kill function
-                modules.events.kill.kill.initCombat(playerInfo, item);
+                modules.events.kill.kill.initCombat(playerInfo, item, room);
 
             }
         }
