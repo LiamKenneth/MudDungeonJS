@@ -31,6 +31,7 @@ exports.prison = {
         players: [],
         mobs: [],
         items: [],
+        corpses: [],
         defaults: {
             mobs: [{
                 "socket": null,

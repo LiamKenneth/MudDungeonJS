@@ -306,6 +306,10 @@
                         if (hitChance >= chance) {
 
                             if (isAttacker) {
+                                if (!attacker.isAlive || !defender.isAlive) {
+                                    //end fight
+                                    return;
+                                }
                                 let damage = calcDamage(attacker.obj);
 
 
@@ -334,25 +338,35 @@
                                   //  playerManager.removePlayerFromRoom(defender.obj.socket, wtfRoom?)
                                     //Remove from MOB/Player Array
                                     //Add corpse to items array
-
+                                    var arr;
                                     if (defender.isPlayer === false) {
 
-                                        var arr = playerRoom.mobs;
-                                        var arrLength = arr.length || 0;
+                                        arr = playerRoom.mobs;
 
-                                        console.log("arrayLength " + arrLength)
+                                    } else {
+                                        arr = playerRoom.players;
+                                    }
+                                    var arrLength = arr.length || 0;
+
 
                                         for (var i = 0; i <= arrLength; i++) {
                                             //remove on id instead?
-                                            console.log("array obj " + arr[i].name + " defender name"  + defender.obj.name)
+
                                             if (arr[i].name === defender.obj.name) {
-                                                console.log("remove rat")
+  
                                                 arr.splice(i, 1);
-                                                console.log("rat removed")
+
+                                                var corpse = {
+                                                    name: 'A corpse of a dead ' + defender.obj.name + ' is here.',
+                                                    items: defender.obj.inventory
+                                                }
+
+                                                playerRoom.corpses.push(corpse);
+   
                                                 break;
                                             }
                                         }
-                                    }
+                                   
                                     return;
                                 }
 
@@ -366,6 +380,10 @@
 
 
                             } else {
+                                if (!attacker.isAlive || !defender.isAlive) {
+                                    //end fight
+                                    return;
+                                }
                                 // defender
                                 let damage = calcDamage(defender.obj);
 

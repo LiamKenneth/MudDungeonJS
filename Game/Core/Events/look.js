@@ -53,7 +53,7 @@
 
                 if (roomItemCount > 0) {
 
-                    for (var i = 0; i < roomItemCount; i++) {
+                    for (let i = 0; i < roomItemCount; i++) {
 
                         displayItems += roomItems[i].description.room + '\r\n';
 
@@ -62,23 +62,65 @@
 
                 modules.helper.helpers.send(socket, displayItems);
 
-                room.mobs.forEach(function (mobsInRoom) {
+                var roomCorpses = room.corpses || 0;
+                var roomCorpsesCount = roomCorpses.length;
+                var displayCorpses = '';
 
-                    var mobName = mobsInRoom.name;
-           
-          
-                    modules.helper.helpers.send(socket, mobName + " is here.");
-                });
+                if (roomCorpsesCount > 0) {
 
-                room.players.forEach(function(playersInRoom) {
+                    for (let i = 0; i < roomCorpsesCount; i++) {
 
-                    var playerName = playersInRoom.getName();
-                    var playerSocket = playersInRoom.getSocket();
-                    if (name !== playerName) {
-                        modules.helper.helpers.send(socket, playerName + " is here.");
-                        modules.helper.helpers.send(playerSocket, name + ' looks around');
+                        displayCorpses += roomCorpses[i].name + '\r\n';
                     }
-                });
+                }
+
+                if (displayCorpses !== '') {
+                    modules.helper.helpers.send(socket, displayCorpses);
+                }
+
+                var roomMobs = room.mobs || 0;
+                var roomMobsCount = roomMobs.length;
+                var displayMobs = '';
+
+                if (roomMobsCount > 0) {
+
+                    for (let i = 0; i < roomMobsCount; i++) {
+
+                        displayMobs += roomMobs[i].name + ' is here.\r\n';
+
+                    }
+                }
+
+                if (displayMobs !== '') {
+                    modules.helper.helpers.send(socket, displayMobs);
+                }
+                
+
+                var roomPlayers = room.players || 0;
+                var roomPlayersCount = roomPlayers.length;
+                var displayPlayers = '';
+
+                if (roomPlayersCount > 0) {
+
+                    for (let i = 0; i < roomPlayersCount; i++) {
+
+                        var playerName = roomPlayers[i].getName();
+                        var playerSocket = roomPlayers[i].getSocket();
+
+                      
+                        if (name !== playerName) {
+                            displayPlayers += playerName + " is here.\r\n";
+                            modules.helper.helpers.send(playerSocket, name + ' looks around.\r\n');
+                        }
+
+                    }
+                }
+
+                if (displayPlayers !== '') {
+                    modules.helper.helpers.send(socket, displayPlayers);
+                }
+               
+
 
             } else if (preposition == null && item != null) {
 
