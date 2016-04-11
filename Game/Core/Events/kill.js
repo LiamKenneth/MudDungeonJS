@@ -338,7 +338,7 @@
                                   //  playerManager.removePlayerFromRoom(defender.obj.socket, wtfRoom?)
                                     //Remove from MOB/Player Array
                                     //Add corpse to items array
-                                    var arr;
+                                    let arr;
                                     if (defender.isPlayer === false) {
 
                                         arr = playerRoom.mobs;
@@ -346,7 +346,7 @@
                                     } else {
                                         arr = playerRoom.players;
                                     }
-                                    var arrLength = arr.length || 0;
+                                    let arrLength = arr.length || 0;
 
 
                                         for (var i = 0; i <= arrLength; i++) {
@@ -356,7 +356,7 @@
   
                                                 arr.splice(i, 1);
 
-                                                var corpse = {
+                                                let corpse = {
                                                     name: 'A corpse of a dead ' + defender.obj.name + ' is here.',
                                                     items: defender.obj.inventory
                                                 }
@@ -417,6 +417,37 @@
                                 if (attackerObj.information.hitpoints <= 0) {
                                     modules.helper.helpers.send(defenderSocket, attackerObj.name + " squeeks and dies");
                                     modules.helper.helpers.send(defenderSocket, "You killed " + response.forAttacker + " and gained " + calcExperience(attacker.obj.information.level, defender.obj.information.level, 0) + " experience");
+                                   
+
+                                    let arr;
+                                    if (attacker.isPlayer === false) {
+
+                                        arr = playerRoom.mobs;
+
+                                    } else {
+                                        arr = playerRoom.players;
+                                    }
+                                    let arrLength = arr.length || 0;
+
+
+                                    for (let i = 0; i <= arrLength; i++) {
+                                        //remove on id instead?
+
+                                        if (arr[i].name === attacker.obj.name) {
+
+                                            arr.splice(i, 1);
+
+                                            let corpse = {
+                                                name: 'A corpse of a dead ' + attacker.obj.name + ' is here.',
+                                                items: attacker.obj.inventory
+                                            }
+
+                                            playerRoom.corpses.push(corpse);
+
+                                            break;
+                                        }
+                                    }
+
                                     return;
                                 }
 
